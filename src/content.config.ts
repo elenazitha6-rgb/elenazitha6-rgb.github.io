@@ -23,6 +23,8 @@ const posts = defineCollection({
     /** 最近一次核对 / 修改的时间;会随时间变化的事实改完要更新它。 */
     updatedDate: z.coerce.date().optional(),
     category: z.enum(CATEGORIES),
+    /** 这篇文章讲清楚的术语(用该语言行业通用的叫法,见 CLAUDE.md 术语表);输出 DefinedTerm 结构化数据,定义取正文第一个 H2 下的第一段。 */
+    term: z.string().optional(),
     /** 关键词,5–10 个以内。 */
     tags: z.array(z.string()).default([]),
     /** 内嵌 FAQ:页面上显示、同时输出 FAQPage 结构化数据,问答必须和页面可见内容逐字一致,每篇至少 3 条。 */

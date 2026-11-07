@@ -55,6 +55,7 @@ for (const p of posts) {
   const { rel, data, locale, body } = p;
   const cjk = CJK.has(locale);
 
+  if (!data.term) warn(rel, "没有 term(这篇文章定义的术语,用于 DefinedTerm 结构化数据)");
   if (typeof data.title !== "string") err(rel, "缺少 title");
   if (typeof data.description !== "string") err(rel, "缺少 description");
   if (!CATEGORIES.includes(data.category)) err(rel, `category 必须是 ${CATEGORIES.join(" / ")}`);
@@ -71,6 +72,13 @@ for (const p of posts) {
     const max = cjk ? 34 : 62;
     if (n > max) warn(rel, `title ${n} 字符,加上品牌后缀容易超过搜索结果显示的宽度(建议 ≤ ${max})`);
   }
+  // 搜索结果里的完整标题 = 页面标题 + 品牌后缀。Bing 对过短(<55)和过长(>75)的标题都会报问题,中日文 30–50
+  if (typeof data.title === "string") {
+    const suffix = { en: " | AnboVPN Blog", zh: "｜安泊 VPN 博客", "zh-Hant": "｜安泊 VPN 部落格", ja: "｜AnboVPNブログ", ru: " | Блог AnboVPN", fa: " | وبلاگ AnboVPN", tr: " | AnboVPN Blog" }[locale];
+    const total = [...data.title].length + [...(suffix ?? "")].length;
+    const [lo, hi] = cjk ? [24, 50] : [50, 75];
+    if (total < lo || total > hi) warn(rel, `搜索结果里的完整标题 ${total} 字符,建议 ${lo}–${hi}`);
+  }
   const faq = data.faq ?? [];
   if (faq.length < 3) err(rel, `FAQ 至少 3 条,现在 ${faq.length}`);
   for (const [i, item] of faq.entries()) {
@@ -82,6 +90,16 @@ for (const p of posts) {
   const h2 = prose.match(/^## .+$/gm) ?? [];
   if (h2.length < 3) warn(rel, `H2 只有 ${h2.length} 个`);
   if (/^# /m.test(prose)) err(rel, "正文里不要用 H1(标题由 frontmatter 的 title 输出)");
+
+  // GEO:每个 H2 下面的第一段是自包含的简短回答(拉丁文 12–90 词,中日文 24–220 字),不是铺垫
+  for (const section of prose.split(/^## /m).slice(1)) {
+    const [heading, ...rest] = section.split("\n");
+    const firstPara = rest.join("\n").trim().split(/\n\s*\n/)[0] ?? "";
+    if (!firstPara || /^[|>`-]|^\d+\./.test(firstPara)) continue; // 紧跟表格 / 列表的小节不检查
+    const n = cjk ? [...firstPara.replace(/\s/g, "")].length : firstPara.split(/\s+/).length;
+    const [lo, hi] = cjk ? [24, 220] : [12, 90];
+    if (n < lo || n > hi) warn(rel, `「${heading.trim().slice(0, 40)}」下第一段 ${n} ${cjk ? "字" : "词"},建议 ${lo}–${hi}(自包含的简短回答)`);
+  }
 
   // 链接:站内文章链接要带本语言前缀;官网链接要带本语言前缀(/ip 例外)
   const prefix = locale === "en" ? "" : `/${locale}`;

@@ -3,6 +3,7 @@ title: "AI için Optimize Rotalar: Ne Sunar, Neyi Vaat Etmez?"
 description: "AI için optimize rotalar, AI hizmetleri için ayarlı rotaları konut veya ISP konut IP’siyle eşleştirir. Erişim, hız ya da kesintisiz çalışma garantisi vermez."
 pubDate: 2026-11-06T13:00:00+08:00
 category: ai
+term: "AI için optimize rotalar"
 tags: ["AI için optimize rotalar", "konut IP’si", "Özel IP", "TUN modu", "AI araçları"]
 faq:
   - q: "AI için optimize rotalar belirli bir AI hizmetiyle çalışır mı?"

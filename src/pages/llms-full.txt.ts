@@ -1,8 +1,6 @@
 import type { APIRoute } from "astro";
 import { LOCALES, LOCALE_META } from "@/i18n/config";
-import { absoluteUrl } from "@/i18n/paths";
-import { formatDate } from "@/i18n/format";
-import { getMessages } from "@/i18n/ui";
+import { postToMarkdown } from "@/lib/markdown";
 import { getAllPosts } from "@/lib/posts";
 import { SITE } from "@/site";
 
@@ -17,21 +15,9 @@ export const GET: APIRoute = async ({ site }) => {
   for (const locale of LOCALES) {
     const posts = all.filter((p) => p.locale === locale).slice(0, PER_LOCALE);
     if (posts.length === 0) continue;
-    const m = getMessages(locale);
     parts.push(`\n---\n\n# ${LOCALE_META[locale].name}\n`);
-    for (const p of posts) {
-      const faq = p.faq.length ? `\n\n## ${m.post.faq}\n\n${p.faq.map((f) => `### ${f.q}\n\n${f.a}`).join("\n\n")}` : "";
-      parts.push(
-        [
-          `\n## ${p.title}\n`,
-          `URL: ${absoluteUrl(origin, p.path)}`,
-          `${m.post.published}: ${formatDate(p.published, locale)}${p.showUpdated ? ` | ${m.post.updated}: ${formatDate(p.modified, locale)}` : ""}`,
-          `${m.categories[p.category].name}`,
-          `\n> ${p.description}\n`,
-          p.body.trim() + faq,
-        ].join("\n"),
-      );
-    }
+    // 每篇文章的标题降到 H2、正文小节降到 H3,不和语言标题冲突
+    for (const p of posts) parts.push(`\n${postToMarkdown(p, origin, { headingLevel: 2 })}`);
   }
 
   return new Response(parts.join("\n") + "\n", { headers: { "Content-Type": "text/plain; charset=utf-8" } });

@@ -2,6 +2,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { DEFAULT_LOCALE, LOCALES, LOCALE_META, isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/paths";
 import type { Category } from "@/categories";
+import { plainText } from "@/lib/markdown";
 
 export type PostEntry = CollectionEntry<"posts">;
 
@@ -13,6 +14,9 @@ export interface Post {
   title: string;
   description: string;
   category: Category;
+  /** 这篇文章定义的术语,以及它的定义(正文第一个 H2 下第一段的纯文本,页面上可见)。 */
+  term?: string;
+  termDefinition?: string;
   tags: string[];
   faq: { q: string; a: string }[];
   featured: boolean;
@@ -25,6 +29,25 @@ export interface Post {
   /** 正文原文(Markdown),llms-full.txt 用。 */
   body: string;
   path: string;
+}
+
+/**
+ * 术语定义 = 正文第一个 H2 下的第一段(答案优先的写法下它就是一句自包含的定义),取纯文本,
+ * 超过 450 字符就在句子边界截断。结构化数据里的定义必须和页面上可见的文字一致,所以不另写一份。
+ */
+export function leadDefinition(markdown: string): string | undefined {
+  const afterH2 = markdown.split(/^## .+$/m)[1];
+  const first = afterH2?.trim().split(/\n\s*\n/)[0]?.trim();
+  if (!first || /^[|>`-]|^\d+\./.test(first)) return undefined;
+  const text = plainText(first, Number.MAX_SAFE_INTEGER);
+  if (text.length <= 450) return text;
+  const sentences = text.match(/[^.!?。！？]+[.!?。！？]+\s*/g) ?? [text];
+  let out = "";
+  for (const sentence of sentences) {
+    if (out && (out + sentence).length > 450) break;
+    out += sentence;
+  }
+  return out.trim() || text.slice(0, 450);
 }
 
 const CJK = /[぀-ヿ㐀-鿿豈-﫿]/g;
@@ -62,6 +85,8 @@ function toPost(entry: PostEntry): Post | null {
     title: data.title,
     description: data.description,
     category: data.category,
+    term: data.term,
+    termDefinition: data.term ? leadDefinition(body) : undefined,
     tags: data.tags,
     faq: data.faq,
     featured: data.featured,

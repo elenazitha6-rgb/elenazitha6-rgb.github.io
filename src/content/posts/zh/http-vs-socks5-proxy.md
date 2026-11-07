@@ -3,6 +3,7 @@ title: "HTTP 代理与 SOCKS5 代理：区别与选择方法"
 description: "HTTP 代理能理解网页请求，SOCKS5 代理可以转发任意 TCP 连接。选哪种应取决于你的软件支持什么，而不是速度，因为两种协议本身都谈不上更快。下文对比两者的区别和选择方法，介绍安泊 VPN 代理 IP 的支持范围，并附可直接使用的 curl 测试命令。"
 pubDate: 2026-11-06T11:00:00+08:00
 category: proxies
+term: "SOCKS5 代理"
 tags: [HTTP 代理, SOCKS5, 代理协议, curl, 浏览器环境]
 faq:
   - q: "SOCKS5 比 HTTP 代理更快吗？"

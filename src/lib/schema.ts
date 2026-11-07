@@ -1,6 +1,7 @@
-import { LOCALE_META, type Locale } from "@/i18n/config";
+import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "@/i18n/config";
 import { absoluteUrl, localePath } from "@/i18n/paths";
 import { getMessages } from "@/i18n/ui";
+import { externalCitations, plainText } from "@/lib/markdown";
 import type { Post } from "@/lib/posts";
 import { SITE, brandNameFor } from "@/site";
 
@@ -26,6 +27,8 @@ export function organizationNode(site: URL, locale: Locale): Record<string, unkn
     logo: { "@type": "ImageObject", url: absoluteUrl(site, SITE.logo), width: 256, height: 256 },
     legalName: SITE.company.name,
     email: SITE.company.email,
+    // 把博客的发布者和官网、运营主体连成同一个实体(实体消歧对搜索引擎和答案引擎都有用)
+    sameAs: [SITE.officialUrl, SITE.company.website],
   };
 }
 
@@ -74,8 +77,25 @@ export function breadcrumbNode(site: URL, items: { name: string; path?: string }
   };
 }
 
-export function blogPostingNode(site: URL, post: Post, categoryName: string): Record<string, unknown> {
+/** 词数:拉丁文按空格分词,中日文按字数(和阅读时长同一套口径)。 */
+function countWords(markdown: string): number {
+  const text = plainText(markdown, Number.MAX_SAFE_INTEGER);
+  const cjk = (text.match(/[぀-ヿ㐀-鿿豈-﫿]/g) ?? []).length;
+  const latin = text.replace(/[぀-ヿ㐀-鿿豈-﫿]/g, " ").split(/\s+/).filter(Boolean).length;
+  return latin + cjk;
+}
+
+export function blogPostingNode(site: URL, post: Post, categoryName: string, translations: Locale[] = []): Record<string, unknown> {
   const url = absoluteUrl(site, post.path);
+  const home = absoluteUrl(site, localePath(post.locale, "/"));
+  const citations = externalCitations(post.body);
+  const others = translations.filter((l) => l !== post.locale);
+  const translationLink = (l: Locale) => ({
+    "@type": "BlogPosting",
+    "@id": `${absoluteUrl(site, `${localePath(l, "/")}posts/${post.slug}/`)}#article`,
+    url: absoluteUrl(site, `${localePath(l, "/")}posts/${post.slug}/`),
+    inLanguage: LOCALE_META[l].htmlLang,
+  });
   return {
     "@type": "BlogPosting",
     "@id": `${url}#article`,
@@ -86,14 +106,55 @@ export function blogPostingNode(site: URL, post: Post, categoryName: string): Re
     datePublished: post.published.toISOString(),
     dateModified: post.modified.toISOString(),
     inLanguage: LOCALE_META[post.locale].htmlLang,
-    image: [absoluteUrl(site, SITE.shareImage)],
+    image: [{ "@type": "ImageObject", url: absoluteUrl(site, SITE.shareImage), width: 1200, height: 630 }],
     author: { "@type": "Organization", name: brandNameFor(post.locale), url: SITE.officialUrl },
     publisher: { "@id": orgId(site) },
+    copyrightHolder: { "@id": orgId(site) },
+    isPartOf: { "@type": "Blog", "@id": `${home}#blog` },
+    // 编辑原则(怎么写、怎么核对、哪些承诺不做)就在关于页
+    publishingPrinciples: absoluteUrl(site, localePath(post.locale, "/about/")),
     articleSection: categoryName,
+    ...(post.term ? { about: { "@id": `${url}#term` } } : {}),
     keywords: post.tags.join(", "),
+    wordCount: countWords(post.body),
+    articleBody: plainText(post.body, 5000),
     isAccessibleForFree: true,
+    // 技术性说法引用的外部来源(RFC、官方文档)
+    ...(citations.length ? { citation: citations.map((c) => ({ "@type": "CreativeWork", name: c.name, url: c.url })) } : {}),
+    // 译文关系:英文是原文,其它语言版本互相挂在它下面
+    ...(post.locale === DEFAULT_LOCALE && others.length ? { workTranslation: others.map(translationLink) } : {}),
+    ...(post.locale !== DEFAULT_LOCALE && translations.includes(DEFAULT_LOCALE) ? { translationOfWork: translationLink(DEFAULT_LOCALE) } : {}),
     // 答案引擎 / 语音助手优先朗读的部分:标题和页面上的「简短回答」。
     speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", "[data-geo-summary]"] },
+  };
+}
+
+/** 专题页 = 术语集(DefinedTermSet):收录这个专题下各篇文章定义的术语。 */
+export function definedTermSetNode(site: URL, locale: Locale, hubUrl: string, hubName: string, posts: Post[]): Record<string, unknown> {
+  return {
+    "@type": "DefinedTermSet",
+    "@id": `${hubUrl}#termset`,
+    name: hubName,
+    url: hubUrl,
+    inLanguage: LOCALE_META[locale].htmlLang,
+    hasDefinedTerm: posts
+      .filter((p) => p.term)
+      .map((p) => ({ "@type": "DefinedTerm", "@id": `${absoluteUrl(site, p.path)}#term`, name: p.term, url: absoluteUrl(site, p.path) })),
+  };
+}
+
+/** 文章定义的术语:名称 + 一句自包含的定义(正文第一个 H2 下的第一段,页面上可见)+ 所属术语集(专题页)。 */
+export function definedTermNode(site: URL, post: Post, hubUrl: string, hubName: string): Record<string, unknown> | null {
+  if (!post.term || !post.termDefinition) return null;
+  const url = absoluteUrl(site, post.path);
+  return {
+    "@type": "DefinedTerm",
+    "@id": `${url}#term`,
+    name: post.term,
+    description: post.termDefinition,
+    url,
+    inLanguage: LOCALE_META[post.locale].htmlLang,
+    inDefinedTermSet: { "@type": "DefinedTermSet", "@id": `${hubUrl}#termset`, name: hubName, url: hubUrl },
   };
 }
 

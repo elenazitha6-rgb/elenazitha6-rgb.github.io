@@ -3,6 +3,7 @@ title: "Özel IP mi Paylaşımlı IP mi? Hangisine İhtiyacınız Var?"
 description: "Paylaşımlı IP’yi birçok kişi kullanır, Özel IP tek kullanıcıya atanır. Günlük kullanımda paylaşımlı, izin listeleri ve kararlı girişlerde Özel IP’yi seçin."
 pubDate: 2026-11-06T09:00:00+08:00
 category: ip-types
+term: "Özel IP"
 featured: true
 tags: ["Özel IP", "paylaşımlı IP", "statik IP", "IP izin listesi", "VPN temelleri"]
 faq:

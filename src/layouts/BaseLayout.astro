@@ -22,6 +22,8 @@ interface Props {
   /** 分享图(站内路径或绝对地址)。没有就用站点默认分享图。 */
   image?: string;
   imageAlt?: string;
+  /** `<meta name="keywords">`(Bing 等仍会参考,5–14 个为宜);文章页用文章的 tags。 */
+  keywords?: string[];
   jsonLd?: Record<string, unknown>[];
   article?: { published: Date; modified: Date; tags: string[]; section: string };
   active?: "articles" | "topics" | "about";
@@ -29,7 +31,7 @@ interface Props {
   noindex?: boolean;
 }
 
-const { locale, title, description, path, type = "website", image, imageAlt, jsonLd = [], article, active, noindex = false } = Astro.props;
+const { locale, title, description, path, type = "website", image, imageAlt, keywords = [], jsonLd = [], article, active, noindex = false } = Astro.props;
 const meta = LOCALE_META[locale];
 const m = getMessages(locale);
 const site = Astro.site!;
@@ -51,6 +53,10 @@ const languages = menuLocales.map((l) => ({
   current: l === locale,
 }));
 
+// 站长平台验证码(选填,构建时从环境变量读,见 .github/workflows/deploy.yml)
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
+
 const imageUrl = absoluteUrl(site, image ?? SITE.shareImage);
 const defaultImage = !image;
 const siteTitle = `${brandNameFor(locale)} ${m.blogName}`;
@@ -63,6 +69,10 @@ const siteTitle = `${brandNameFor(locale)} ${m.blogName}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={brandNameFor(locale) + " " + m.blogName} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
     <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
     {!noindex && <link rel="canonical" href={canonical} />}
     {!noindex && hreflangs.map((h) => <link rel="alternate" hreflang={h.lang} href={h.href} />)}

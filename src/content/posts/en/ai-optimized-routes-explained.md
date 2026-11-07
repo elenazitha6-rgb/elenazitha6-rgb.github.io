@@ -3,6 +3,7 @@ title: "AI-Optimized Routes Explained: What They Are and Aren’t"
 description: "AI-optimized routes pair AI-tuned routes with a residential or ISP residential IP exit. They don’t guarantee access, speed or uptime. Learn what to expect."
 pubDate: 2026-11-06T13:00:00+08:00
 category: ai
+term: "AI-optimized routes"
 tags: [AI-optimized routes, residential IP, Dedicated IP, TUN mode, AI tools]
 faq:
   - q: "Will AI-optimized routes work with a specific AI service?"

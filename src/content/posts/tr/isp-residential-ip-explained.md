@@ -3,6 +3,7 @@ title: "ISP Konut IP’si Nedir? Konut ve Veri Merkezi IP’si Farkı"
 description: "ISP konut IP’si bir internet sağlayıcısının bireysel ağından gelir, veri merkezinden değil. Farkı, ne zaman önemli olduğunu ve nasıl kontrol edileceğini görün."
 pubDate: 2026-11-06T10:00:00+08:00
 category: ip-types
+term: "ISP konut IP’si"
 tags: ["ISP konut IP’si", "konut IP’si", "veri merkezi IP’si", "ASN", "IP sorgulama"]
 faq:
   - q: "ISP konut IP’si, kendi ev IP adresimle aynı şey mi?"

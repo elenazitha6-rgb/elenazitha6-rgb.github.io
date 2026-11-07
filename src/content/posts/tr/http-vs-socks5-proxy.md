@@ -3,6 +3,7 @@ title: "HTTP ve SOCKS5 Proxy: Farklar ve Nasıl Seçilir"
 description: "HTTP proxy web isteklerini anlar, SOCKS5 proxy ise her TCP bağlantısını aktarır. Hıza göre değil, yazılımınızın desteğine göre seçin. Test komutları da içeride."
 pubDate: 2026-11-06T11:00:00+08:00
 category: proxies
+term: "SOCKS5 proxy"
 tags: ["HTTP proxy", "SOCKS5", "proxy protokolü", "curl", "tarayıcı profilleri"]
 faq:
   - q: "SOCKS5, HTTP proxy’den daha hızlı mı?"

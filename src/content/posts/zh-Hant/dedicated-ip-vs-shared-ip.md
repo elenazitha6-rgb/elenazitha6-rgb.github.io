@@ -3,6 +3,7 @@ title: "固定 IP 與共享 IP 有什麼差別？該選哪一種"
 description: "共享 IP 由許多人同時使用，費用較低；固定 IP 只分配給單一使用者，位址在方案有效期間內保持不變。日常上網選共享 IP，需要 IP 白名單或穩定的登入環境時選固定 IP。本文整理兩者的差異、適用情境、安泊 VPN 的做法，並附上快速選擇清單，幫你快速做出決定。"
 pubDate: 2026-11-06T09:00:00+08:00
 category: ip-types
+term: "固定 IP"
 featured: true
 tags: [固定 IP, 共享 IP, 靜態 IP, IP 白名單, VPN 基礎]
 faq:

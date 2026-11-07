@@ -13,7 +13,7 @@ import { formatDate, isoDate } from "@/i18n/format";
 import { langParam, localePath } from "@/i18n/paths";
 import { getMessages } from "@/i18n/ui";
 import { getAllPosts, getPosts, getTranslationLocales, relatedPosts, topicPath, type Post } from "@/lib/posts";
-import { blogPostingNode, breadcrumbNode, faqNode, graph } from "@/lib/schema";
+import { blogPostingNode, breadcrumbNode, definedTermNode, faqNode, graph } from "@/lib/schema";
 import { pageTitle } from "@/site";
 
 export const getStaticPaths = (async () => {
@@ -42,9 +42,10 @@ const crumbs = [
 ];
 const url = new URL(post.path, site).toString();
 const jsonLd = graph([
-  blogPostingNode(site, post, categoryName),
+  blogPostingNode(site, post, categoryName, alternates),
   breadcrumbNode(site, crumbs.map((c) => ({ name: c.name, path: c.href })), url),
   faqNode(post.faq),
+  definedTermNode(site, post, new URL(topicPath(locale, post.category), site).toString(), categoryName),
 ]);
 ---
 
@@ -55,10 +56,13 @@ const jsonLd = graph([
   path={`/posts/${post.slug}/`}
   alternates={alternates}
   type="article"
+  keywords={[...post.tags, categoryName]}
   article={{ published: post.published, modified: post.modified, tags: post.tags, section: categoryName }}
   jsonLd={[jsonLd]}
   active="articles"
 >
+  <!-- 纯 Markdown 版本:大模型 / 答案引擎抓取用 -->
+  <link slot="head" rel="alternate" type="text/markdown" href={url.replace(/\/$/, ".md")} />
   <article class="container post">
     <div class="cols">
       <div class="main">
@@ -67,7 +71,7 @@ const jsonLd = graph([
           <a class="badge" href={topicPath(locale, post.category)}>{categoryName}</a>
           <h1>{post.title}</h1>
           <p class="byline">
-            <span>{m.post.by} <strong>{m.team}</strong></span>
+            <span>{m.post.by} <a class="author" href={localePath(locale, "/about/")} rel="author"><strong>{m.team}</strong></a></span>
             <span class="sep" aria-hidden="true">·</span>
             <span>{m.post.published} <time datetime={isoDate(post.published)}>{formatDate(post.published, locale)}</time></span>
             {
@@ -182,6 +186,13 @@ const jsonLd = graph([
   }
   .byline strong {
     color: var(--text-soft);
+  }
+  .author {
+    text-decoration: none;
+  }
+  .author:hover strong {
+    color: var(--link);
+    text-decoration: underline;
   }
   .read {
     display: inline-flex;

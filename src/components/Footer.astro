@@ -1,8 +1,10 @@
 ---
 import Icon from "./Icon.astro";
+import { CATEGORIES } from "@/categories";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/paths";
 import { getMessages } from "@/i18n/ui";
+import { getPosts, topicPath } from "@/lib/posts";
 import { SITE, brandNameFor, officialLink } from "@/site";
 
 interface Props {
@@ -10,8 +12,11 @@ interface Props {
 }
 const { locale } = Astro.props;
 const m = getMessages(locale);
+const posts = await getPosts(locale);
 const brand = brandNameFor(locale);
 const year = new Date().getUTCFullYear();
+// 每个页面的页脚都带专题入口:专题页之间、专题页和首页之间多一层站内链接,爬虫从任何页面都能一步到达
+const topics = CATEGORIES.filter((c) => posts.some((p) => p.category === c));
 
 const products = [
   { label: m.footer.productLinks.dedicatedIp, href: officialLink(locale, "/residential-ip", "footer") },
@@ -49,6 +54,7 @@ const company = [
       <h2>{m.footer.blog}</h2>
       <ul role="list">
         <li><a href={localePath(locale, "/")}>{m.nav.articles}</a></li>
+        {topics.map((c) => <li><a href={topicPath(locale, c)}>{m.categories[c].name}</a></li>)}
         <li><a href={localePath(locale, "/about/")}>{m.nav.about}</a></li>
         <li>
           <a href={localePath(locale, "/feed.xml")} class="with-icon"><Icon name="rss" size={16} />{m.footer.rss}</a>

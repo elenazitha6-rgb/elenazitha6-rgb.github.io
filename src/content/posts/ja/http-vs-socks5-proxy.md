@@ -3,6 +3,7 @@ title: "HTTPプロキシとSOCKS5プロキシの違いと選び方"
 description: "HTTPプロキシはウェブのリクエストを理解し、SOCKS5プロキシは任意のTCP接続を中継します。選ぶ基準は速度ではなく、使うソフトが対応している方式です。2つの違いと使い分け、AnboVPNのプロキシの対応範囲、curlで動作を確認するコマンド例まで解説します。"
 pubDate: 2026-11-06T11:00:00+08:00
 category: proxies
+term: "SOCKS5プロキシ"
 tags: [HTTPプロキシ, SOCKS5, プロキシプロトコル, curl, ブラウザプロファイル]
 faq:
   - q: "SOCKS5は、HTTPプロキシより速いですか？"

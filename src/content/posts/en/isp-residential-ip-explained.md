@@ -3,6 +3,7 @@ title: "What Is an ISP Residential IP? Residential vs Data Center"
 description: "An ISP residential IP comes from an internet provider’s consumer network, not a data center. Learn how it differs, when it matters and how to check its type."
 pubDate: 2026-11-06T10:00:00+08:00
 category: ip-types
+term: "ISP residential IP"
 tags: [ISP residential IP, residential IP, data center IP, ASN, IP lookup]
 faq:
   - q: "Is an ISP residential IP the same as my home IP address?"

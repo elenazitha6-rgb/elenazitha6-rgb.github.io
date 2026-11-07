@@ -3,6 +3,7 @@ title: "HTTP vs SOCKS5 Proxy: Differences and How to Choose"
 description: "An HTTP proxy understands web requests; a SOCKS5 proxy relays any TCP connection. Choose by what your software supports, not speed. Includes test commands."
 pubDate: 2026-11-06T11:00:00+08:00
 category: proxies
+term: "SOCKS5 proxy"
 tags: [HTTP proxy, SOCKS5, proxy protocol, curl, browser profiles]
 faq:
   - q: "Is SOCKS5 faster than an HTTP proxy?"

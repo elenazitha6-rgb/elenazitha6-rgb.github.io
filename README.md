@@ -18,6 +18,7 @@ npm run build        # 先跑内容检查,再构建到 dist/
 npm run preview      # 预览 dist/
 npm run check        # Astro / TypeScript 类型检查
 npm run check:content  # 只跑内容检查(文章字段、链接、术语、译文是否齐全)
+npm run check:seo      # 检查构建产物 dist/(先 npm run build):hreflang、canonical、sitemap、站内链接、结构化数据
 ```
 
 ## 第一次发布
@@ -44,6 +45,7 @@ npm run check:content  # 只跑内容检查(文章字段、链接、术语、译
    pubDate: 2026-11-06T09:00:00+08:00
    category: ip-types    # ip-types | proxies | gateway | ai
    tags: [Dedicated IP, shared IP]
+   term: "Dedicated IP" # 这篇文章讲清楚的术语(该语言行业通用的叫法);定义取正文第一个 H2 下的第一段
    faq:                  # 至少 3 条,页面上显示,同时输出 FAQPage 结构化数据
      - q: "…"
        a: "…"
@@ -79,12 +81,26 @@ scripts/check-content.mjs            内容检查
 .github/workflows/deploy.yml         发布到 GitHub Pages
 ```
 
-## 已做的 SEO / GEO
+## SEO / GEO
 
-canonical 自引用、hreflang(只指向真有译文的语言,`x-default` 指英文)、Open Graph / Twitter、
-BlogPosting / BreadcrumbList / FAQPage / Blog / WebSite / Organization 结构化数据、
-sitemap(`lastmod` 只用文章更新时间)、每个语言一个 RSS、`/llms.txt` 和 `/llms-full.txt`(全文 Markdown)、
-robots 对所有爬虫开放、深色主题、零框架 JS(只有几十行脚本:主题、下拉菜单、目录高亮)。
+本站的 SEO / GEO 做法如下。
+
+**SEO**
+- canonical 自引用;hreflang 只指向真有译文的语言、互相链回、带 `x-default`;404 页 noindex,不输出 canonical / hreflang。
+- Open Graph / Twitter、`<time datetime>`、`article:*` 标签、robots meta 放开摘要长度和大图预览(`max-snippet:-1` 等)。
+- 结构化数据:Organization(`sameAs` 连到官网)、WebSite、Blog、BlogPosting(ISO 8601 日期、词数、外部来源 `citation`、译文关系 `workTranslation` / `translationOfWork`、`publishingPrinciples`)、BreadcrumbList、FAQPage、DefinedTerm、DefinedTermSet(专题页)、CollectionPage、AboutPage。不写 `aggregateRating`,没有站内搜索所以不写 `SearchAction`。
+- sitemap:`lastmod` 只用文章自己的更新时间,固定页面不写;hreflang 互链;没有内容的语言不出现。
+- robots.txt 只有一个 `*` 分组;每个语言一个 RSS;专题页 / 页脚互相链接。
+- IndexNow:发布成功后只推新增或有更新的页面(状态存在 Actions 缓存里,不在部署目录),429 / 403 / 422 熔断,sitemap 为空或骤降时不推送。要关掉:仓库 Variables 里设 `INDEXNOW_DISABLED=true`。
+- 站长验证:仓库 Variables 里设 `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION`(验证码),重新构建后页面 `<head>` 里就有对应的 meta 标签。
+- `npm run check:seo`(CI 里每次发布前跑)检查构建产物:每页恰好一个 h1、hreflang 互链、canonical、sitemap 和页面一一对应、站内链接和资源不 404、FAQ / 术语定义和页面可见内容逐字一致。
+
+**GEO(给大模型和答案引擎)**
+- 答案优先:每篇文章有"简短回答"框(= 摘要),H2 写成问句,标题下第一段自包含地回答;内容检查会提醒不符合的小节。
+- 每篇文章有纯 Markdown 版本(`/posts/<slug>.md`,页面 `<head>` 里有 `<link rel="alternate" type="text/markdown">`);`/llms.txt`(简介、写作方法、专题、各语言文章)和 `/llms-full.txt`(全文)。
+- 可见的发布 / 更新日期、作者链到关于页(编辑原则、利益说明)、`speakable`、FAQ、术语定义(DefinedTerm)、外部来源链接。
+- robots 对所有爬虫(含 AI 爬虫)开放,不给具名爬虫单开分组。
+
 本地用生产构建跑 Lighthouse(2026-11-06):首页 / 文章页 / 中文页 / 波斯语页四项均为 100。
 
 ## 已知限制

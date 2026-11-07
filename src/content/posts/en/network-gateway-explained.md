@@ -3,6 +3,7 @@ title: "Network Gateway Explained: Cover Devices Without Apps"
 description: "A network gateway (side router) routes every device that points to it through one connection, so TVs and consoles need no app. See how it works and its limits."
 pubDate: 2026-11-06T12:00:00+08:00
 category: gateway
+term: "Network gateway"
 tags: [network gateway, side router, transparent proxy, Linux, home network]
 faq:
   - q: "Do I need to install an app on every device behind the AnboVPN network gateway?"
@@ -49,7 +50,7 @@ Devices that cannot run a VPN client but do let you change their network setting
 
 ## What are the limits of a network gateway?
 
-A gateway is simple but not free of trade-offs. Know these before you commit:
+A network gateway has four main limits: every device pointed at it leaves through the same single region, the machine must stay on, all traffic from those devices goes through it, and you maintain it yourself. It also makes no promise about speed, latency or uptime. The details:
 
 - **One region.** Every device pointed at the gateway leaves through the same region. You cannot switch region per device.
 - **Always on.** The machine must stay powered and connected. When it is off, the devices pointed at it have no route.

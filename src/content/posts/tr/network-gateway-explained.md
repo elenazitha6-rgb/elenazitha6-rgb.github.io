@@ -3,6 +3,7 @@ title: "Ağ Geçidi Nedir? Uygulama Kurmadan Cihazları Kapsayın"
 description: "Ağ geçidi (yan yönlendirici), ona yönlendirilen her cihazı tek bağlantıdan geçirir; TV ve konsollara uygulama gerekmez. İşleyişini ve sınırlarını öğrenin."
 pubDate: 2026-11-06T12:00:00+08:00
 category: gateway
+term: "Ağ geçidi"
 tags: ["ağ geçidi", "yan yönlendirici", "şeffaf proxy", "Linux", "ev ağı"]
 faq:
   - q: "AnboVPN ağ geçidinin arkasındaki her cihaza uygulama kurmam gerekir mi?"
@@ -49,7 +50,7 @@ VPN istemcisi çalıştıramayan ama ağ ayarlarını değiştirmenize izin vere
 
 ## Ağ geçidinin sınırları nelerdir?
 
-Ağ geçidi basittir ama ödünsüz değildir. Karar vermeden önce şunları bilin:
+Ağ geçidinin dört temel sınırı vardır: ona yönlendirilen tüm cihazlar aynı tek bölgeden çıkar, makine sürekli açık kalmalıdır, bu cihazların tüm trafiği ondan geçer ve bakımını siz yaparsınız. Hız, gecikme veya çalışma süresi için de söz verilmez. Ayrıntılar:
 
 - **Tek bölge.** Ağ geçidine yönlendirilen her cihaz aynı bölgeyi kullanır. Cihaz bazında bölge değiştiremezsiniz.
 - **Her zaman açık.** Makine açık ve bağlı kalmalıdır. Kapalıyken ona yönlendirilen cihazların yolu olmaz.

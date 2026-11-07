@@ -10,7 +10,7 @@ import { LOCALES, LOCALE_META, type Locale } from "@/i18n/config";
 import { langParam, localePath } from "@/i18n/paths";
 import { getMessages } from "@/i18n/ui";
 import { getAllPosts, topicPath } from "@/lib/posts";
-import { breadcrumbNode, graph } from "@/lib/schema";
+import { breadcrumbNode, definedTermSetNode, graph } from "@/lib/schema";
 
 export const getStaticPaths = (async () => {
   const all = await getAllPosts();
@@ -48,6 +48,7 @@ const jsonLd = graph([
       itemListElement: posts.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: new URL(p.path, site).toString(), name: p.title })),
     },
   },
+  definedTermSetNode(site, locale, url, name, posts),
   breadcrumbNode(site, crumbs.map((c) => ({ name: c.name, path: c.href })), url),
 ]);
 ---

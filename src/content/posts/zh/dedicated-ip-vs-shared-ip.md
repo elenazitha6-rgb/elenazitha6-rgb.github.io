@@ -3,6 +3,7 @@ title: "固定 IP 与共享 IP 有什么区别？该选哪一个"
 description: "共享 IP 由许多用户同时使用，固定 IP 只分配给一位用户，地址在套餐有效期内保持不变。日常浏览和切换地区选共享 IP，需要 IP 白名单、稳定登录地址或长期使用的账号时选固定 IP。固定 IP 不等于匿名，也不承诺更快。下文逐项对比，并附选择清单。"
 pubDate: 2026-11-06T09:00:00+08:00
 category: ip-types
+term: "固定 IP"
 featured: true
 tags: [固定 IP, 共享 IP, 静态 IP, IP 白名单, VPN 入门]
 faq:

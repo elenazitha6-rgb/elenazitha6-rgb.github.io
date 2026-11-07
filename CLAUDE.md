@@ -61,6 +61,9 @@ AnboVPN 官方博客,Astro 6 静态站,托管 GitHub Pages(<https://elenazitha6-
 - robots.txt 只用一个 `*` 分组,别给具名爬虫(GPTBot 等)单开分组,会绕过 `*` 组里的规则。
 - 页面自己写了 `openGraph` 会盖掉默认分享图,没有封面时要显式带默认图(`BaseLayout` 已处理)。
 - 官网的 Lighthouse 要求四项 ≥ 90;本站用生产构建实测过四项 100,改动较大(新依赖、大图、阻塞脚本)后要重新跑。
+- **多语言站点常见的 SEO 坑,别再踩**(2026-11-07 整理):① hreflang 指向 404 页面,搜索引擎会把整组标记判为不可信——只列真有译文的语言,且必须互链(`npm run check:seo` 会查);② 默认语言的 URL 不能被重定向到另一个形式(canonical、hreflang、sitemap、站内链接统一用带结尾斜杠的地址);③ 结构化数据里不写假新鲜度(`new Date()`、写死的 `lastReviewed`)、不写没有依据的评分和评价;日期用带时区的 ISO 8601;`articleBody` 用纯文本,不要截断的 HTML;④ OG 图只引用真实存在的文件,尺寸写真实尺寸;**换分享图必须换文件名**(Telegram / 微信 / X / Facebook 按图片 URL 缓存预览,同名覆盖后会长期显示旧图);⑤ 空的语言列表页要 noindex 且不进 sitemap(本站目前每种语言都有文章);⑥ IndexNow 的推送记录放在部署目录之外,否则每次部署后全站重推;⑦ 页面里的 FAQ、术语定义和结构化数据必须是同一份数据、逐字一致。
+- 术语定义(DefinedTerm):frontmatter 的 `term` 写这篇文章讲清楚的术语(该语言行业通用叫法),定义直接取正文第一个 H2 下的第一段(页面上可见),所以**第一个 H2 的第一段必须是一句自包含的定义**。专题页是 DefinedTermSet。
+- 新增 / 修改页面模板后,先 `npm run build` 再 `npm run check:seo`,它检查的是构建产物。
 
 ## 技术约定
 
