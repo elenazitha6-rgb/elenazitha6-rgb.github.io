@@ -1,0 +1,53 @@
+# 推送到 main 就自动检查、构建并发布到 GitHub Pages。
+# 第一次使用:仓库 Settings → Pages → Build and deployment → Source 选 "GitHub Actions"。
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只发布一次,新的推送排队等前一次发布完成(不取消正在进行的发布)。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # 类型检查(Astro 组件 + TypeScript);内容检查由 `npm run build` 的第一步完成。
+      - run: npm run check
+
+      - run: npm run build
+        env:
+          # 换自定义域名时,在仓库 Settings → Secrets and variables → Actions → Variables 里设 SITE_URL。
+          SITE_URL: ${{ vars.SITE_URL }}
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

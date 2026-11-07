@@ -1,0 +1,65 @@
+---
+import { getMessages } from "@/i18n/ui";
+import type { Locale } from "@/i18n/config";
+
+interface Props {
+  locale: Locale;
+  /** 最后一项是当前页,不带 href。 */
+  items: { name: string; href?: string }[];
+}
+const { locale, items } = Astro.props;
+const m = getMessages(locale);
+---
+
+<nav class="crumbs" aria-label={m.a11y.breadcrumb}>
+  <ol>
+    {
+      items.map((item, i) => (
+        <li>
+          {item.href ? <a href={item.href}>{item.name}</a> : <span aria-current="page">{item.name}</span>}
+          {i < items.length - 1 && <span class="sep" aria-hidden="true">/</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  .crumbs li {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+    min-inline-size: 0;
+  }
+  .crumbs a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--link);
+    text-decoration: underline;
+  }
+  .crumbs [aria-current] {
+    color: var(--text-soft);
+    max-inline-size: 28ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sep {
+    opacity: 0.5;
+  }
+  [dir="rtl"] .sep {
+    transform: scaleX(-1);
+  }
+</style>

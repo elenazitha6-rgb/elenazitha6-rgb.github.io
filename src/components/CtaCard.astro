@@ -1,0 +1,136 @@
+---
+import Icon from "./Icon.astro";
+import type { Locale } from "@/i18n/config";
+import { getMessages } from "@/i18n/ui";
+import { brandNameFor, officialLink } from "@/site";
+
+/**
+ * 引向官网的推广卡。放在内容流里(文章末尾 / 侧栏),不悬浮、不遮挡。
+ * 这是官方博客,推广的就是我们自己的产品,所以不做「广告」标注;关于页有利益说明。
+ * `placement` 写进 utm_campaign,官网统计里能分辨是博客的哪个位置。
+ */
+interface Props {
+  locale: Locale;
+  variant?: "banner" | "side";
+  placement: string;
+}
+const { locale, variant = "banner", placement } = Astro.props;
+const m = getMessages(locale);
+---
+
+{
+  variant === "banner" ? (
+    <aside class="cta banner">
+      <div class="text">
+        <p class="eyebrow">{brandNameFor(locale)}</p>
+        <h2>{m.cta.title}</h2>
+        <p class="body">{m.cta.body}</p>
+        <p class="note"><Icon name="check" size={16} />{m.cta.note}</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href={officialLink(locale, "/download", placement)} rel="noopener">
+          {m.cta.primary}
+          <Icon name="arrow" size={18} class="arrow" />
+        </a>
+        <a class="btn btn-secondary" href={officialLink(locale, "/pricing", placement)} rel="noopener">{m.cta.secondary}</a>
+      </div>
+    </aside>
+  ) : (
+    <aside class="cta side">
+      <p class="eyebrow">{brandNameFor(locale)}</p>
+      <p class="side-title">{m.cta.sideTitle}</p>
+      <p class="body">{m.cta.sideBody}</p>
+      <a class="btn btn-primary" href={officialLink(locale, "/download", placement)} rel="noopener">{m.cta.primary}</a>
+    </aside>
+  )
+}
+
+<style>
+  .cta {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--accent-soft-border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--accent-soft), var(--surface) 70%);
+  }
+  .cta::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    block-size: 4px;
+    background: var(--gradient);
+  }
+  .eyebrow {
+    color: var(--link);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .body {
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2.5rem;
+    padding: 2rem 2.25rem;
+    margin-block: 3rem 0;
+  }
+  .banner .text {
+    flex: 1 1 22rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .banner h2 {
+    color: var(--text);
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+  .note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .note :global(svg) {
+    color: var(--brand-600);
+    flex: none;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .side {
+    display: grid;
+    gap: 0.6rem;
+    padding: 1.4rem 1.3rem 1.3rem;
+  }
+  .side-title {
+    color: var(--text);
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+  .side .body {
+    font-size: 0.92rem;
+  }
+  .side .btn {
+    margin-block-start: 0.4rem;
+  }
+  @media (max-width: 560px) {
+    .banner {
+      padding: 1.5rem 1.25rem;
+    }
+    .actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>

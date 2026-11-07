@@ -1,0 +1,10 @@
+---
+/** 输出 JSON-LD 结构化数据。`<` 转义成 <,避免内容里出现 `</script>` 提前结束脚本。 */
+interface Props {
+  data: Record<string, unknown> | Record<string, unknown>[];
+}
+const { data } = Astro.props;
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
+---
+
+<script type="application/ld+json" set:html={json} />

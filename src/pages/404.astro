@@ -1,0 +1,96 @@
+---
+import Icon from "@/components/Icon.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { LOCALE_META } from "@/i18n/config";
+import { localePath } from "@/i18n/paths";
+import { getMessages } from "@/i18n/ui";
+import { getContentLocales, getPosts } from "@/lib/posts";
+import { postPath } from "@/lib/posts";
+
+/**
+ * 404 页(GitHub Pages 会把所有不存在的地址交给 /404.html)。
+ * 静态站不知道访客是从哪个语言路径进来的,所以把各语言的提示都渲染出来,
+ * 默认只显示英文(没有 JS 也能用),脚本按 URL 的语言前缀换成对应语言。
+ */
+const locales = await getContentLocales();
+const latest = await getPosts("en");
+const en = getMessages("en");
+---
+
+<BaseLayout locale="en" title={`${en.notFound.title} | AnboVPN Blog`} description={en.notFound.text} path="/404/" noindex>
+  <div class="container wrap">
+    <p class="code" aria-hidden="true">404</p>
+    {
+      locales.map((l) => {
+        const m = getMessages(l);
+        return (
+          <section data-notfound={l} lang={LOCALE_META[l].htmlLang} dir={LOCALE_META[l].dir} hidden={l !== "en"}>
+            <h1>{m.notFound.title}</h1>
+            <p>{m.notFound.text}</p>
+            <a class="btn btn-primary" href={localePath(l, "/")}>
+              {m.notFound.home}
+              <Icon name="arrow" size={18} class="arrow" />
+            </a>
+          </section>
+        );
+      })
+    }
+    {
+      latest[0] && (
+        <p class="hint" lang="en">
+          <a href={postPath("en", latest[0].slug)}>{latest[0].title}</a>
+        </p>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .wrap {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    padding-block: 5rem 2rem;
+    text-align: center;
+  }
+  .code {
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  section {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+  }
+  section[hidden] {
+    display: none;
+  }
+  h1 {
+    color: var(--text);
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+  p {
+    max-inline-size: 32rem;
+    color: var(--text-muted);
+  }
+  .hint {
+    margin-block-start: 1.5rem;
+    font-size: 0.95rem;
+  }
+</style>
+
+<script>
+  const first = location.pathname.split("/")[1];
+  const sections = document.querySelectorAll<HTMLElement>("[data-notfound]");
+  const match = Array.from(sections).find((s) => s.dataset.notfound === first);
+  if (match) {
+    sections.forEach((s) => (s.hidden = s !== match));
+  }
+</script>

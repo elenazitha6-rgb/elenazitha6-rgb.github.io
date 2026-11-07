@@ -1,0 +1,72 @@
+---
+import type { GetStaticPaths } from "astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { Locale } from "@/i18n/config";
+import { langParam, localePath } from "@/i18n/paths";
+import { getMessages } from "@/i18n/ui";
+import { getContentLocales } from "@/lib/posts";
+import { breadcrumbNode, graph, organizationNode } from "@/lib/schema";
+import { SITE } from "@/site";
+
+export const getStaticPaths = (async () => {
+  const locales = await getContentLocales();
+  return locales.map((locale) => ({ params: { lang: langParam(locale) }, props: { locale } }));
+}) satisfies GetStaticPaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const m = getMessages(locale);
+const site = Astro.site!;
+const crumbs = [{ name: m.post.home, href: localePath(locale, "/") }, { name: m.nav.about }];
+const url = new URL(localePath(locale, "/about/"), site).toString();
+const jsonLd = graph([
+  { "@type": "AboutPage", "@id": `${url}#about`, url, name: m.about.title, description: m.about.metaDescription },
+  organizationNode(site, locale),
+  breadcrumbNode(site, crumbs.map((c) => ({ name: c.name, path: c.href })), url),
+]);
+---
+
+<BaseLayout locale={locale} title={m.about.metaTitle} description={m.about.metaDescription} path="/about/" active="about" jsonLd={[jsonLd]}>
+  <div class="container wrap">
+    <Breadcrumbs locale={locale} items={crumbs} />
+    <h1>{m.about.title}</h1>
+    <p class="lead">{m.about.lead}</p>
+
+    <div class="prose">
+      <h2>{m.about.coverTitle}</h2>
+      <ul>{m.about.coverItems.map((item) => <li>{item}</li>)}</ul>
+
+      <h2>{m.about.policyTitle}</h2>
+      <ul>{m.about.policyItems.map((item) => <li>{item}</li>)}</ul>
+
+      <h2>{m.about.disclosureTitle}</h2>
+      <p>{m.about.disclosureBody}</p>
+
+      <h2>{m.about.contactTitle}</h2>
+      <p>{m.about.contactBody} <a href={`mailto:${SITE.company.email}`}>{SITE.company.email}</a></p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .wrap {
+    max-inline-size: 46rem;
+    padding-block-start: 2rem;
+  }
+  h1 {
+    margin-block-start: 1.5rem;
+    color: var(--text);
+    font-size: clamp(1.9rem, 4.4vw, 2.6rem);
+    font-weight: 850;
+    letter-spacing: -0.03em;
+  }
+  .lead {
+    margin-block-start: 1rem;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    line-height: 1.65;
+  }
+  .prose {
+    margin-block-start: 1.5rem;
+  }
+</style>

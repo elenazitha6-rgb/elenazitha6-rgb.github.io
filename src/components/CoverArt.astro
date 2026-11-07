@@ -1,0 +1,74 @@
+---
+import Icon from "./Icon.astro";
+import { CATEGORY_GRADIENT, type Category } from "@/categories";
+
+/**
+ * 文章封面:品牌渐变 + 分类图标,纯 CSS / SVG 画出来,没有图片请求。
+ * 装饰性(alt 为空):标题和分类都在卡片文字里。
+ */
+interface Props {
+  category: Category;
+  /** 图标大小占封面宽度的比例,卡片里小一点、头图里大一点。 */
+  iconSize?: number;
+}
+const { category, iconSize = 56 } = Astro.props;
+const [from, to] = CATEGORY_GRADIENT[category];
+---
+
+<div class="cover" style={`--from:${from};--to:${to}`} aria-hidden="true">
+  <span class="orb orb-a"></span>
+  <span class="orb orb-b"></span>
+  <span class="grid"></span>
+  <span class="tile"><Icon name={category} size={iconSize} strokeWidth={1.6} /></span>
+</div>
+
+<style>
+  .cover {
+    position: relative;
+    inline-size: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(120deg, var(--from), var(--to));
+    display: grid;
+    place-items: center;
+    isolation: isolate;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.13);
+    z-index: -1;
+  }
+  .orb-a {
+    inline-size: 62%;
+    aspect-ratio: 1;
+    inset-inline-end: -14%;
+    inset-block-end: -48%;
+  }
+  .orb-b {
+    inline-size: 34%;
+    aspect-ratio: 1;
+    inset-inline-start: -8%;
+    inset-block-start: -24%;
+    background: rgb(255 255 255 / 0.1);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(rgb(255 255 255 / 0.22) 1px, transparent 1.4px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(to bottom, transparent, #000 55%, transparent);
+  }
+  .tile {
+    display: grid;
+    place-items: center;
+    padding: 1.05rem;
+    border-radius: 24px;
+    background: rgb(255 255 255 / 0.16);
+    border: 1px solid rgb(255 255 255 / 0.38);
+    box-shadow: 0 12px 32px -10px rgb(2 32 71 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.4);
+    color: #fff;
+    backdrop-filter: blur(6px);
+  }
+</style>

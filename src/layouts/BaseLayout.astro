@@ -1,0 +1,122 @@
+---
+import "@/styles/global.css";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import JsonLd from "@/components/JsonLd.astro";
+import { DEFAULT_LOCALE, LOCALES, LOCALE_META, type Locale } from "@/i18n/config";
+import { absoluteUrl, localePath } from "@/i18n/paths";
+import { getMessages } from "@/i18n/ui";
+import { getContentLocales } from "@/lib/posts";
+import { SITE, brandNameFor } from "@/site";
+
+interface Props {
+  locale: Locale;
+  /** 完整的 `<title>`(页面标题 + 品牌后缀由调用方拼好)。 */
+  title: string;
+  description: string;
+  /** 不带语言前缀的页面路径,如 `/posts/x/`;canonical 和语言切换都由它推出。 */
+  path: string;
+  /** 这个页面真有对应版本的语言;hreflang 和语言菜单的直达链接只用这些。默认是所有有文章的语言。 */
+  alternates?: Locale[];
+  type?: "website" | "article";
+  /** 分享图(站内路径或绝对地址)。没有就用站点默认分享图。 */
+  image?: string;
+  imageAlt?: string;
+  jsonLd?: Record<string, unknown>[];
+  article?: { published: Date; modified: Date; tags: string[]; section: string };
+  active?: "articles" | "topics" | "about";
+  /** 404 这类页面:不要收录,也不输出 canonical / hreflang。 */
+  noindex?: boolean;
+}
+
+const { locale, title, description, path, type = "website", image, imageAlt, jsonLd = [], article, active, noindex = false } = Astro.props;
+const meta = LOCALE_META[locale];
+const m = getMessages(locale);
+const site = Astro.site!;
+
+const contentLocales = await getContentLocales();
+const alternates = Astro.props.alternates ?? contentLocales;
+
+const canonical = absoluteUrl(site, localePath(locale, path));
+const hreflangs = alternates.map((l) => ({ l, lang: LOCALE_META[l].htmlLang, href: absoluteUrl(site, localePath(l, path)) }));
+const xDefault = alternates.includes(DEFAULT_LOCALE) ? DEFAULT_LOCALE : alternates[0];
+
+// 语言菜单:列出所有有内容的语言;这一页有对应版本的直达,没有的回到该语言首页。
+const menuLocales = LOCALES.filter((l) => l === locale || contentLocales.includes(l));
+const languages = menuLocales.map((l) => ({
+  locale: l,
+  name: LOCALE_META[l].name,
+  htmlLang: LOCALE_META[l].htmlLang,
+  href: alternates.includes(l) ? localePath(l, path) : localePath(l, "/"),
+  current: l === locale,
+}));
+
+const imageUrl = absoluteUrl(site, image ?? SITE.shareImage);
+const defaultImage = !image;
+const siteTitle = `${brandNameFor(locale)} ${m.blogName}`;
+---
+
+<!doctype html>
+<html lang={meta.htmlLang} dir={meta.dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {!noindex && hreflangs.map((h) => <link rel="alternate" hreflang={h.lang} href={h.href} />)}
+    {!noindex && xDefault && hreflangs.length > 1 && <link rel="alternate" hreflang="x-default" href={absoluteUrl(site, localePath(xDefault, path))} />}
+    <link rel="alternate" type="application/rss+xml" title={siteTitle} href={absoluteUrl(site, localePath(locale, "/feed.xml"))} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteTitle} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={meta.ogLocale} />
+    {alternates.filter((l) => l !== locale).map((l) => <meta property="og:locale:alternate" content={LOCALE_META[l].ogLocale} />)}
+    <meta property="og:image" content={imageUrl} />
+    {defaultImage && <meta property="og:image:width" content="1200" />}
+    {defaultImage && <meta property="og:image:height" content="630" />}
+    <meta property="og:image:alt" content={imageAlt ?? siteTitle} />
+    {article && <meta property="article:published_time" content={article.published.toISOString()} />}
+    {article && <meta property="article:modified_time" content={article.modified.toISOString()} />}
+    {article && <meta property="article:section" content={article.section} />}
+    {article && article.tags.map((t) => <meta property="article:tag" content={t} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a1120" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- 首帧之前就定好主题,避免深色模式用户先看到一下白底 -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var theme = stored === "dark" || stored === "light" ? stored : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {}
+      })();
+    </script>
+
+    {jsonLd.length > 0 && <JsonLd data={jsonLd} />}
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{m.a11y.skip}</a>
+    <Header locale={locale} languages={languages} active={active} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

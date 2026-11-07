@@ -1,0 +1,356 @@
+---
+import Icon from "./Icon.astro";
+import { CATEGORIES } from "@/categories";
+import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/paths";
+import { getMessages } from "@/i18n/ui";
+import { topicPath } from "@/lib/posts";
+import { brandNameFor, officialLink } from "@/site";
+
+interface Props {
+  locale: Locale;
+  languages: { locale: Locale; name: string; htmlLang: string; href: string; current: boolean }[];
+  active?: "articles" | "topics" | "about";
+}
+
+const { locale, languages, active } = Astro.props;
+const m = getMessages(locale);
+const brand = brandNameFor(locale);
+const home = localePath(locale, "/");
+const current = languages.find((l) => l.current);
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={home} aria-label={m.a11y.homeLink}>
+      <img src="/brand/logo-64.webp" srcset="/brand/logo-64.webp 2x, /brand/logo-96.webp 3x" width="32" height="32" alt="" />
+      <span class="brand-name">{brand}</span>
+      <span class="brand-tag">{m.blogName}</span>
+    </a>
+
+    <nav class="nav" aria-label={m.a11y.mainNav}>
+      <a href={home} aria-current={active === "articles" ? "page" : undefined}>{m.nav.articles}</a>
+      <details class="menu topics">
+        <summary aria-current={active === "topics" ? "true" : undefined}>
+          {m.nav.topics}
+          <Icon name="chevron" size={16} />
+        </summary>
+        <div class="panel">
+          {CATEGORIES.map((c) => (
+            <a href={topicPath(locale, c)}>
+              <span class="panel-title">{m.categories[c].name}</span>
+              <span class="panel-desc">{m.categories[c].description}</span>
+            </a>
+          ))}
+        </div>
+      </details>
+      <a href={localePath(locale, "/about/")} aria-current={active === "about" ? "page" : undefined}>{m.nav.about}</a>
+    </nav>
+
+    <div class="tools">
+      <details class="menu lang">
+        <summary aria-label={`${m.a11y.language}: ${current?.name ?? ""}`} title={m.a11y.language}>
+          <Icon name="language" size={20} />
+          <span class="lang-code">{current?.name}</span>
+        </summary>
+        <ul class="panel" role="list">
+          {languages.map((l) => (
+            <li>
+              <a href={l.href} hreflang={l.htmlLang} lang={l.htmlLang} aria-current={l.current ? "true" : undefined}>
+                {l.name}
+                {l.current && <Icon name="check" size={16} />}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+
+      <button class="icon-btn theme" type="button" data-theme-toggle aria-label={m.a11y.theme} title={m.a11y.theme}>
+        <Icon name="moon" class="i-moon" />
+        <Icon name="sun" class="i-sun" />
+      </button>
+
+      <a class="btn btn-primary cta" href={officialLink(locale, "/download", "header")} rel="noopener">{m.nav.getApp}</a>
+
+      <details class="menu burger">
+        <summary aria-label={m.a11y.menuOpen}>
+          <Icon name="menu" class="i-open" size={22} />
+          <Icon name="close" class="i-close" size={22} />
+        </summary>
+        <div class="panel">
+          <a href={home}>{m.nav.articles}</a>
+          {CATEGORIES.map((c) => <a class="sub" href={topicPath(locale, c)}>{m.categories[c].name}</a>)}
+          <a href={localePath(locale, "/about/")}>{m.nav.about}</a>
+          <a class="btn btn-primary" href={officialLink(locale, "/download", "header_menu")} rel="noopener">{m.nav.getApp}</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 50;
+    background: var(--header-bg);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-block-end: 1px solid var(--border);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    block-size: var(--header-h);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+    flex: none;
+  }
+  .brand:hover {
+    color: var(--text);
+  }
+  .brand img {
+    border-radius: 9px;
+  }
+  .brand-tag {
+    padding: 0.12rem 0.55rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-soft-border);
+    color: var(--link);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-inline-start: 0.5rem;
+  }
+  .nav > a,
+  .topics > summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    color: var(--text-soft);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .nav > a:hover,
+  .topics > summary:hover,
+  .topics[open] > summary {
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+  .nav > a[aria-current="page"],
+  .topics > summary[aria-current="true"] {
+    color: var(--link);
+  }
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-inline-start: auto;
+  }
+
+  /* 下拉菜单:用原生 <details>,没有 JS 也能展开;脚本只负责点外面 / 按 Esc 时关闭。 */
+  .menu {
+    position: relative;
+  }
+  .menu > summary {
+    list-style: none;
+  }
+  .menu > summary::-webkit-details-marker {
+    display: none;
+  }
+  .panel {
+    position: absolute;
+    inset-block-start: calc(100% + 8px);
+    inset-inline-start: 0;
+    z-index: 60;
+    min-inline-size: 16rem;
+    margin: 0;
+    padding: 0.4rem;
+    list-style: none;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+  }
+  .panel a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .panel a:hover {
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+  .panel-title {
+    font-weight: 650;
+    font-size: 0.95rem;
+  }
+  .panel-desc {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+  .lang > summary,
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-block-size: 40px;
+    min-inline-size: 40px;
+    padding: 0 0.6rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-soft);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .lang > summary:hover,
+  .lang[open] > summary,
+  .icon-btn:hover {
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+  .lang .panel {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    min-inline-size: 12rem;
+  }
+  .lang .panel a {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 550;
+  }
+  .lang .panel a[aria-current="true"] {
+    color: var(--link);
+    background: var(--accent-soft);
+  }
+  /* 图标是子组件里的 <svg>,父组件的 scoped 样式够不到,所以这几条都用 :global */
+  :global(.i-sun) {
+    display: none;
+  }
+  :global(html[data-theme="dark"] .i-sun) {
+    display: block;
+  }
+  :global(html[data-theme="dark"] .i-moon) {
+    display: none;
+  }
+  .burger {
+    display: none;
+  }
+  .burger > summary {
+    display: grid;
+    place-items: center;
+    inline-size: 40px;
+    block-size: 40px;
+    border-radius: 999px;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .burger > summary:hover {
+    background: var(--bg-soft);
+  }
+  .burger :global(.i-close),
+  .burger[open] :global(.i-open) {
+    display: none;
+  }
+  .burger[open] :global(.i-close) {
+    display: block;
+  }
+  .burger .panel {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    inline-size: min(18rem, 100vw - 2.5rem);
+  }
+  .burger .panel a.sub {
+    padding-inline-start: 1.6rem;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+  .burger .panel .btn {
+    margin-block-start: 0.4rem;
+    flex-direction: row;
+    color: #fff;
+  }
+  :global(html[data-theme="dark"]) .burger .panel .btn {
+    color: #04111f;
+  }
+
+  @media (max-width: 900px) {
+    .nav,
+    .cta {
+      display: none;
+    }
+    .burger {
+      display: block;
+    }
+    .lang-code {
+      display: none;
+    }
+  }
+  @media (max-width: 420px) {
+    .brand-tag {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch {
+        /* 隐私模式下写不进去,当前页仍然生效 */
+      }
+    });
+  });
+
+  const menus = document.querySelectorAll<HTMLDetailsElement>("details.menu");
+  document.addEventListener("click", (event) => {
+    menus.forEach((menu) => {
+      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+    });
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    menus.forEach((menu) => {
+      if (!menu.open) return;
+      menu.open = false;
+      menu.querySelector("summary")?.focus();
+    });
+  });
+</script>

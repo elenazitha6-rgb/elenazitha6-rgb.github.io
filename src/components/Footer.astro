@@ -1,0 +1,156 @@
+---
+import Icon from "./Icon.astro";
+import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/paths";
+import { getMessages } from "@/i18n/ui";
+import { SITE, brandNameFor, officialLink } from "@/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const m = getMessages(locale);
+const brand = brandNameFor(locale);
+const year = new Date().getUTCFullYear();
+
+const products = [
+  { label: m.footer.productLinks.dedicatedIp, href: officialLink(locale, "/residential-ip", "footer") },
+  { label: m.footer.productLinks.proxy, href: officialLink(locale, "/proxy-ip", "footer") },
+  { label: m.footer.productLinks.gateway, href: officialLink(locale, "/gateway", "footer") },
+  { label: m.footer.productLinks.ai, href: officialLink(locale, "/ai", "footer") },
+];
+const company = [
+  { label: m.footer.download, href: officialLink(locale, "/download", "footer") },
+  { label: m.footer.pricing, href: officialLink(locale, "/pricing", "footer") },
+  { label: m.footer.help, href: officialLink(locale, "/faq", "footer") },
+  { label: m.footer.privacy, href: officialLink(locale, "/privacy", "footer") },
+  { label: m.footer.terms, href: officialLink(locale, "/terms", "footer") },
+];
+---
+
+<footer class="site-footer">
+  <div class="container grid">
+    <div class="about">
+      <a class="brand" href={localePath(locale, "/")}>
+        <img src="/brand/logo-64.webp" srcset="/brand/logo-64.webp 2x, /brand/logo-96.webp 3x" width="32" height="32" alt="" />
+        <span>{brand}</span>
+      </a>
+      <p>{m.footer.tagline}</p>
+    </div>
+
+    <nav aria-label={m.footer.products}>
+      <h2>{m.footer.products}</h2>
+      <ul role="list">
+        {products.map((l) => <li><a href={l.href} rel="noopener">{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav aria-label={m.footer.blog}>
+      <h2>{m.footer.blog}</h2>
+      <ul role="list">
+        <li><a href={localePath(locale, "/")}>{m.nav.articles}</a></li>
+        <li><a href={localePath(locale, "/about/")}>{m.nav.about}</a></li>
+        <li>
+          <a href={localePath(locale, "/feed.xml")} class="with-icon"><Icon name="rss" size={16} />{m.footer.rss}</a>
+        </li>
+      </ul>
+    </nav>
+
+    <nav aria-label={m.footer.company}>
+      <h2>{m.footer.company}</h2>
+      <ul role="list">
+        {company.map((l) => <li><a href={l.href} rel="noopener">{l.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container legal">
+    <p>© {year} {SITE.company.name}. {m.footer.rights}</p>
+    <p><a href={`mailto:${SITE.company.email}`}>{SITE.company.email}</a></p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-block-start: 5rem;
+    padding-block: 3.5rem 2rem;
+    background: var(--bg-soft);
+    border-block-start: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-decoration: none;
+  }
+  .brand img {
+    border-radius: 9px;
+  }
+  .brand:hover {
+    color: var(--text);
+  }
+  .about p {
+    margin-block-start: 0.9rem;
+    max-inline-size: 22rem;
+  }
+  h2 {
+    margin-block-end: 0.9rem;
+    color: var(--text);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.55rem;
+  }
+  a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--link);
+    text-decoration: underline;
+  }
+  .with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    margin-block-start: 3rem;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .about {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 460px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

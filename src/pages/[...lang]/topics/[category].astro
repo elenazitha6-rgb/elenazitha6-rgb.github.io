@@ -1,0 +1,184 @@
+---
+import type { GetStaticPaths } from "astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import CtaCard from "@/components/CtaCard.astro";
+import Icon from "@/components/Icon.astro";
+import PostCard from "@/components/PostCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { CATEGORIES, type Category } from "@/categories";
+import { LOCALES, LOCALE_META, type Locale } from "@/i18n/config";
+import { langParam, localePath } from "@/i18n/paths";
+import { getMessages } from "@/i18n/ui";
+import { getAllPosts, topicPath } from "@/lib/posts";
+import { breadcrumbNode, graph } from "@/lib/schema";
+
+export const getStaticPaths = (async () => {
+  const all = await getAllPosts();
+  const paths = [];
+  for (const category of CATEGORIES) {
+    const have = LOCALES.filter((l) => all.some((p) => p.locale === l && p.category === category));
+    for (const locale of have) {
+      paths.push({ params: { lang: langParam(locale), category }, props: { locale, category, alternates: have } });
+    }
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+const { locale, category, alternates } = Astro.props as { locale: Locale; category: Category; alternates: Locale[] };
+const m = getMessages(locale);
+const site = Astro.site!;
+const name = m.categories[category].name;
+const posts = (await getAllPosts()).filter((p) => p.locale === locale && p.category === category);
+const others = (await getAllPosts()).filter((p) => p.locale === locale);
+const otherCategories = CATEGORIES.filter((c) => c !== category && others.some((p) => p.category === c));
+
+const crumbs = [{ name: m.post.home, href: localePath(locale, "/") }, { name }];
+const url = new URL(topicPath(locale, category), site).toString();
+const jsonLd = graph([
+  {
+    "@type": "CollectionPage",
+    "@id": `${url}#collection`,
+    url,
+    name,
+    description: m.categories[category].description,
+    inLanguage: LOCALE_META[locale].htmlLang,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: posts.length,
+      itemListElement: posts.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: new URL(p.path, site).toString(), name: p.title })),
+    },
+  },
+  breadcrumbNode(site, crumbs.map((c) => ({ name: c.name, path: c.href })), url),
+]);
+---
+
+<BaseLayout
+  locale={locale}
+  title={m.category.metaTitle(name)}
+  description={m.category.metaDescription(name)}
+  path={`/topics/${category}/`}
+  alternates={alternates}
+  active="topics"
+  jsonLd={[jsonLd]}
+>
+  <section class="container head">
+    <Breadcrumbs locale={locale} items={crumbs} />
+    <div class="title-row">
+      <span class="icon"><Icon name={category} size={30} strokeWidth={1.8} /></span>
+      <div>
+        <h1>{name}</h1>
+        <p class="desc">{m.categories[category].description}</p>
+        <p class="count">{m.category.count(posts.length)}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container list" aria-label={name}>
+    <div class="grid">{posts.map((p) => <PostCard post={p} headingLevel={2} />)}</div>
+  </section>
+
+  {
+    otherCategories.length > 0 && (
+      <section class="container others" aria-labelledby="others-title">
+        <h2 id="others-title">{m.home.topics}</h2>
+        <ul role="list">
+          {
+            otherCategories.map((c) => (
+              <li>
+                <a href={topicPath(locale, c)}>
+                  <Icon name={c} size={16} />
+                  {m.categories[c].name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    )
+  }
+
+  <div class="container"><CtaCard locale={locale} placement={`topic_${category}`} /></div>
+</BaseLayout>
+
+<style>
+  .head {
+    padding-block: 2rem 0;
+    display: grid;
+    gap: 1.75rem;
+  }
+  .title-row {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+  .icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: 64px;
+    block-size: 64px;
+    border-radius: 18px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-soft-border);
+    color: var(--link);
+  }
+  h1 {
+    color: var(--text);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 850;
+    letter-spacing: -0.03em;
+  }
+  .desc {
+    margin-block-start: 0.5rem;
+    max-inline-size: 40rem;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+  .count {
+    margin-block-start: 0.6rem;
+    color: var(--link);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .list {
+    margin-block-start: 2.5rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+    gap: 1.5rem;
+  }
+  .others {
+    margin-block-start: 3.5rem;
+  }
+  .others h2 {
+    margin-block-end: 1rem;
+    color: var(--text);
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+  .others ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .others a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-soft);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .others a:hover {
+    border-color: var(--accent-soft-border);
+    color: var(--link);
+  }
+</style>

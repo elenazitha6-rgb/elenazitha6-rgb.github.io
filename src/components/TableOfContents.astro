@@ -1,0 +1,131 @@
+---
+import type { MarkdownHeading } from "astro";
+
+/**
+ * 文章目录。文章页放两份:侧栏里的 `desktop`(吸附 + 随阅读高亮当前小节)和正文上方的 `mobile`(折叠块),
+ * 用 CSS 在 1020px 处二选一,所以同一时刻只有一份对读屏可见。只列 h2(及其下的 h3)。
+ */
+interface Props {
+  headings: MarkdownHeading[];
+  title: string;
+  variant: "desktop" | "mobile";
+}
+const { headings, title, variant } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  items.length > 1 && (
+    <nav class:list={["toc", variant]} aria-label={title}>
+      {variant === "mobile" ? (
+        <details>
+          <summary>{title}</summary>
+          <ol>
+            {items.map((h) => (
+              <li class={h.depth === 3 ? "sub" : undefined}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ol>
+        </details>
+      ) : (
+        <>
+          <p class="label">{title}</p>
+          <ol>
+            {items.map((h) => (
+              <li class={h.depth === 3 ? "sub" : undefined}>
+                <a href={`#${h.slug}`} data-toc-link>{h.text}</a>
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.15rem;
+  }
+  .toc a {
+    display: block;
+    padding: 0.35rem 0.75rem;
+    border-inline-start: 2px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .toc a:hover {
+    color: var(--text);
+  }
+  .toc a.active {
+    border-inline-start-color: var(--brand-600);
+    color: var(--link);
+    font-weight: 650;
+  }
+  .sub a {
+    padding-inline-start: 1.5rem;
+    font-size: 0.85rem;
+  }
+  .label {
+    margin-block-end: 0.6rem;
+    color: var(--text);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .mobile {
+    display: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .mobile summary {
+    padding: 0.8rem 1rem;
+    color: var(--text);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .mobile ol {
+    padding: 0 0.5rem 0.75rem;
+  }
+  @media (max-width: 1020px) {
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  // 阅读到哪一节,侧栏目录里对应的链接就高亮。没有 IntersectionObserver 的老浏览器就不高亮,不影响跳转。
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"));
+  if (links.length && "IntersectionObserver" in window) {
+    const idOf = (a: HTMLAnchorElement) => decodeURIComponent(a.hash.slice(1));
+    const headings = links.map((a) => document.getElementById(idOf(a))).filter((el): el is HTMLElement => !!el);
+    const visible = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.add(e.target.id);
+          else visible.delete(e.target.id);
+        }
+        const current = headings.find((h) => visible.has(h.id))?.id;
+        if (!current) return;
+        links.forEach((a) => a.classList.toggle("active", idOf(a) === current));
+      },
+      { rootMargin: "-80px 0px -65% 0px" },
+    );
+    headings.forEach((h) => observer.observe(h));
+  }
+</script>
