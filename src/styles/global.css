@@ -131,6 +131,12 @@ svg {
   max-inline-size: 100%;
 }
 
+/* 日文标题按词组换行(Chrome 119+ 的 auto-phrase),避免「ア/プリ」这样把片假名词从中间断开;不支持的浏览器忽略 */
+:lang(ja) :is(h1, h2, h3) {
+  word-break: auto-phrase;
+  line-break: strict;
+}
+
 h1,
 h2,
 h3,

@@ -1,36 +1,49 @@
 ---
-title: "HTTP ve SOCKS5 Proxy: Farklar ve Nasıl Seçilir"
-description: "HTTP proxy web isteklerini anlar, SOCKS5 proxy ise her TCP bağlantısını aktarır. Hıza göre değil, yazılımınızın desteğine göre seçin. Test komutları da içeride."
+title: "HTTP mi SOCKS5 mi? Proxy Protokolü Nasıl Seçilir?"
+description: "SOCKS5 proxy her TCP bağlantısını olduğu gibi aktarır, HTTP proxy yalnızca web isteklerini anlar. Seçimi hıza göre değil, aracınızın ayarına göre yapın."
 pubDate: 2026-11-06T11:00:00+08:00
 category: proxies
 term: "SOCKS5 proxy"
-tags: ["HTTP proxy", "SOCKS5", "proxy protokolü", "curl", "tarayıcı profilleri"]
+tags: ["SOCKS5 proxy", "HTTP proxy", "proxy protokolü", "curl proxy", "tarayıcı profili", "proxy nasıl test edilir"]
 faq:
-  - q: "SOCKS5, HTTP proxy’den daha hızlı mı?"
-    a: "İki protokol de doğası gereği daha hızlı değildir. Hız, ağ yoluna ve proxy sunucusuna bağlıdır. Aralarında seçimi beklenen hıza göre değil, yazılımınızın desteğine göre yapın."
+  - q: "SOCKS5 proxy HTTP proxy’den hızlı mıdır?"
+    a: "Hayır, protokol tek başına hızı belirlemez. Hız ağ yoluna ve proxy sunucusuna bağlıdır. Seçimi beklenen hıza göre değil, kullandığınız aracın hangi protokolü desteklediğine göre yapın."
   - q: "SOCKS5 trafiğimi şifreler mi?"
-    a: "Hayır. SOCKS5 yalnızca bağlantınızı aktarır. Şifreleme, onun üzerinden çalıştırdığınız protokolden gelir; örneğin HTTPS. Sizinle proxy arasındaki hat, ayrıca sarmalanmadıkça şifrelenmez."
-  - q: "AnboVPN SOCKS5 proxy’si UDP’yi destekliyor mu?"
-    a: "Hayır. AnboVPN HTTP/SOCKS5 proxy yalnızca TCP trafiğini işler. SOCKS5 UDP desteklenmez; UDP gerektiren araçlar bunun yerine VPN istemcisini kullanmalıdır."
-  - q: "HTTP ve SOCKS5 için aynı hesap bilgilerini kullanabilir miyim?"
-    a: "Evet. Tek bir hesap bilgisi iki protokolde de çalışır. Ağınızda bir protokol sıfırlanıyorsa, aynı hesapla diğerini deneyebilirsiniz."
+    a: "Hayır. SOCKS5 bağlantıyı yalnızca aktarır. Şifreleme, üzerinden çalıştırdığınız protokolden gelir; örneğin HTTPS. Sizinle proxy arasındaki hat ayrıca korunmadıkça şifreli değildir."
+  - q: "AnboVPN proxy’sinde SOCKS5 UDP çalışıyor mu?"
+    a: "Hayır. AnboVPN HTTP/SOCKS5 proxy yalnızca TCP trafiği için hazırlanmıştır, SOCKS5 UDP desteklenmez. UDP gerektiren araçlar için AnboVPN istemcisini kullanın."
+  - q: "Tek hesapla hem HTTP hem SOCKS5 kullanabilir miyim?"
+    a: "Evet. Bir proxy hesabının kullanıcı adı ve parolası iki protokolde de geçerlidir. Ağınızda biri takılırsa aynı bilgilerle diğerini deneyebilirsiniz."
+  - q: "Proxy kullanıcı adı ve parolası olmadan bağlanabilir miyim?"
+    a: "Hesabınızda kaynak IP izin listesi tanımlarsanız, listedeki adreslerden gelen bağlantılar kullanıcı adı ve parola girmeden kurulur. Liste boşsa kimlik doğrulama gerekir."
 ---
 
-## HTTP proxy ile SOCKS5 proxy arasındaki fark nedir?
+## SOCKS5 proxy nedir, HTTP proxy’den farkı ne?
 
-Bir **HTTP proxy** HTTP’yi anlar: web isteklerinizi okur ve HTTPS için `CONNECT` yöntemiyle bir tünel açar. Bir **SOCKS5 proxy** ise bir seviye aşağıda çalışır: içinden geçeni yorumlamadan, belirttiğiniz hedefe bir TCP bağlantısı aktarır. SOCKS5’in daha fazla yazılım türüne uyması, HTTP’nin ise web araçlarına doğal bir seçenek olması bu yüzdendir.
+**SOCKS5 proxy**, kendisine iletilmesi istenen bir TCP bağlantısını, içindekini yorumlamadan hedefe aktaran ve isteğe bağlı olarak kullanıcı adı ve parolayla kimlik doğrulayan bir ara sunucudur (RFC 1928). HTTP proxy ise HTTP’yi anlar: web isteklerinizi okur, HTTPS için de `CONNECT` yöntemiyle bir tünel açar.
 
-| | HTTP proxy | SOCKS5 proxy |
-|---|---|---|
-| Neyi anlar | HTTP istekleri | İçerideki trafik hakkında hiçbir şey |
-| Tipik trafik | Web sayfaları, API’ler, `CONNECT` ile HTTPS | Web, SSH veya sohbet uygulamaları gibi her TCP bağlantısı |
-| Kimlik doğrulama | HTTP başlıklarında proxy kimlik doğrulaması | SOCKS el sıkışması sırasında kullanıcı adı ve parola |
-| UDP | Hayır | Protokolde tanımlıdır ama her sağlayıcı desteklemez |
-| En iyi desteklendiği yerler | Tarayıcılar, `curl`, scraping kütüphaneleri | SOCKS ayarı olan uygulamalar, SSH tünelleri, birçok masaüstü istemcisi |
+Basit bir benzetme: HTTP proxy, gelen mektubun üstündeki adrese ve yazıya bakan sekreterdir; SOCKS5 ise paketi açmadan adrese ileten kuryedir. Bu yüzden SOCKS5 daha çok yazılımla çalışır, HTTP proxy ise web araçları için doğal seçimdir.
 
-## Bir HTTPS isteği her birinden nasıl geçer?
+> **Özetle:** Aracınızda yalnızca “HTTP proxy” alanı varsa HTTP, “SOCKS” seçeneği de varsa genel amaçlı SOCKS5 daha esnektir. UDP gerekiyorsa proxy yerine VPN istemcisini düşünün.
 
-HTTP proxy ile istemciniz önce hedefi belirten düz metin bir `CONNECT` satırı gönderir, ardından proxy tüneli açar. SOCKS5 ile istemciniz ve proxy kısa bir ikili (binary) el sıkışma yapar; istek de hedefi sıkıştırılmış ikili biçimde belirtir. Her iki biçim de proxy’ye nereye gittiğinizi söyler ve hiçbiri proxy’ye giden hattı kendi başına şifrelemez.
+## Hangisini seçmeliyim? Ayar ekranınıza bakın
+
+Doğru protokolü hızdan değil, aracınızın ayar ekranından anlarsınız: orada hangi protokol listeleniyorsa onu kullanırsınız. İkisi de varsa web odaklı işlerde HTTP, web dışı işlerde SOCKS5 daha rahat eder.
+
+| Araç | Genellikle uygun olan |
+|---|---|
+| Tarayıcı profili araçları, `curl`, tarama kütüphaneleri | HTTP (SOCKS5 de çoğunlukla desteklenir) |
+| SSH tüneli, sohbet ve masaüstü uygulamaları | SOCKS5 |
+| Yalnızca “HTTP proxy” kutusu olan yazılımlar | HTTP |
+| UDP kullanan oyun ya da sesli görüşme | Proxy değil, VPN istemcisi |
+
+Pratikte karar genelde tek bakışta verilir. Örneğin her tarayıcı profiline ayrı bir adres vermek istiyorsanız profil ayarında “HTTP” ya da “SOCKS5” seçeneklerinden birini işaretler, aynı hesap bilgilerini yapıştırırsınız. Betiklerde ise kütüphanenizin hangi proxy şemasını (`http://` ya da `socks5://`) kabul ettiğine bakmanız yeter.
+
+> **İpucu:** Sorun çıkarsa aynı bilgilerle diğer protokolü deneyin. Bazı ağlar düz metin `CONNECT` satırlarını inceler, SOCKS5 el sıkışmasına farklı davranır; bir protokol sıfırlanırken diğeri bağlanabilir. Bu bir kural değil, hata ayıklama adımıdır.
+
+## HTTPS isteği proxy’den nasıl geçer?
+
+HTTP proxy’de istemci önce hedefi düz metin bir `CONNECT` satırıyla bildirir, proxy da tüneli açar. SOCKS5’te ise istemci ve proxy kısa bir ikili el sıkışma yapar ve hedef kısa bir ikili biçimde iletilir. İki yöntemde de proxy hedefi görür; hiçbiri proxy’ye giden hattı kendiliğinden şifrelemez.
 
 ```text
 CONNECT example.com:443 HTTP/1.1
@@ -38,42 +51,42 @@ Host: example.com:443
 Proxy-Authorization: Basic ...
 ```
 
-`CONNECT` yöntemi [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#name-connect) içinde tanımlanır. SOCKS5 el sıkışması [RFC 1928](https://www.rfc-editor.org/rfc/rfc1928) içindedir; kullanıcı adı ve parola adımı ise [RFC 1929](https://www.rfc-editor.org/rfc/rfc1929) içinde yer alır.
+`CONNECT` yöntemi [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#name-connect)’da, SOCKS5 el sıkışması [RFC 1928](https://www.rfc-editor.org/rfc/rfc1928)’de, kullanıcı adı ve parola adımı ise [RFC 1929](https://www.rfc-editor.org/rfc/rfc1929)’da tanımlıdır.
 
-Pratik bir sonuç: bazı ağlar düz metin `CONNECT` satırlarını inceler ama ikili SOCKS5 el sıkışmasını aynı şekilde okumaz. Böyle bir ağda bir protokolün bağlantısı sıfırlanırken diğeri bağlanabilir. Bunu bir kural değil, bir sorun giderme adımı olarak ele alın; çünkü diğer ağlar farklı davranır.
+## SOCKS5 daha mı hızlı, daha mı güvenli?
 
-## Hangisini seçmelisiniz?
+İkisi de değildir. Hız, ağ yoluna ve proxy sunucusuna bağlıdır; protokol seçimi bunu belirlemez ve biz hız ya da gecikme vaat etmiyoruz. Güvenlik ise bağlantının şifrelenmesinden gelir: HTTPS kullanan bir site, ister HTTP ister SOCKS5 proxy üzerinden olsun, içeriğini şifreli taşır.
 
-Yazılımınızın neyi desteklediğine göre seçin. İkisini de sunuyorsa SOCKS5 daha genel, HTTP ise daha geleneksel seçenektir.
+## AnboVPN HTTP/SOCKS5 proxy’de neler var?
 
-- **HTTP’yi seçin:** aracınızda yalnızca bir HTTP proxy alanı varsa, web istekleri ve API’lerle çalışıyorsanız ya da scraping kütüphaneleri ve tarayıcılarla en geniş uyumu istiyorsanız.
-- **SOCKS5’i seçin:** uygulama bir web istemcisi değilse, yazılım SOCKS5’i seçenek olarak listeliyorsa ya da tek bir ayarın birkaç protokolü kapsamasını istiyorsanız.
-- **İkisini de seçmeyin:** UDP gerekiyorsa, örneğin bazı oyunlar veya sesli aramalar için. Bunun yerine bir VPN istemcisi kullanın.
+AnboVPN, her tarayıcı profiline ya da betiğe ayrı bir proxy hesabı verir; HTTP (HTTPS tünelleri dahil) ve SOCKS5 tek bir kullanıcı adı ve parolayla çalışır. Bilgiler Kasım 2026’da resmî AnboVPN web sitesinden kontrol edilmiştir.
 
-## AnboVPN HTTP/SOCKS5 proxy neleri destekler?
+- Ana makine, port, kullanıcı adı ve parola hesabınızda gösterilir. Tek satırlık `host:port:username:password` biçimi, tarayıcı profili araçlarına yapıştırmak için hazırdır; çok sayıda proxy’yi tek tıkla kopyalayabilirsiniz.
+- İsteğe bağlı kaynak IP izin listesiyle onaylı adresler parolasız bağlanır.
+- Proxy, Özel IP ile aynı veriyi ve aynı IP kaynağını kullanır.
+- SOCKS5 UDP desteklenmez; 25. port ve iç ağ erişimi sunulmaz.
+- Proxy, düğüm bazında açılır. Bir IP için proxy kartı görünmüyorsa o düğüm henüz açılmamıştır; IP yine de istemci ya da abonelik bağlantısıyla kullanılabilir.
 
-AnboVPN’in HTTP/SOCKS5 proxy’si, her tarayıcı profilinize veya betiğinize kendi proxy hesabını verir; HTTP (HTTPS tünelleri dahil) ve SOCKS5 aynı hesap bilgileri üzerinden çalışır. Bu ayrıntılar Kasım 2026’da AnboVPN web sitesine göre kontrol edilmiştir.
+Satıştaki seçenekler için [HTTP/SOCKS5 proxy sayfasına](https://www.anbovpn.com/tr/proxy-ip) bakın.
 
-- Tek hesap iki protokolde de çalışır. İsteğe bağlı bir kaynak IP izin listesiyle, onaylı adresler kullanıcı adı ve parola olmadan bağlanır.
-- Ana makine, portlar, kullanıcı adı ve parola hesabınızda gösterilir; tarayıcı profili araçlarına yapıştırması kolay, tek satırlık `host:port:username:password` biçimindedir. Çok sayıda yönetiyorsanız hepsini tek seferde kopyalayabilirsiniz.
-- Özel IP’nizle aynı veri ve IP kaynağını kullanır.
-- SOCKS5 UDP desteklenmez; 25. port ve iç ağlara erişim sunulmaz.
-- Proxy erişimi düğüm bazında etkinleştirilir. Bir IP için proxy kartını görmüyorsanız o düğüm henüz etkin değildir; IP yine de istemci veya abonelik bağlantısı üzerinden kullanılabilir.
+## Proxy çalışıyor mu? curl ile iki dakikada test
 
-Şu anda satışta olanlar için [HTTP/SOCKS5 proxy sayfasına](https://www.anbovpn.com/tr/proxy-ip) bakın.
-
-## Bir proxy nasıl test edilir?
-
-Proxy üzerinden adresinizi yansıtan bir hizmete tek bir istek gönderin ve adresin proxy’ye ait olduğunu kontrol edin. `curl` ile yer tutucuları kendi bilgilerinizle değiştirin:
+Proxy üzerinden adresinizi gösteren bir servise tek istek atın ve dönen adresin proxy’ye ait olduğunu doğrulayın. Büyük harfli yerlere kendi bilgilerinizi yazın:
 
 ```bash
-# SOCKS5 (socks5h, alan adının proxy tarafından çözümlenmesini sağlar)
-curl -x socks5h://USERNAME:PASSWORD@HOST:PORT https://www.anbovpn.com/ip
+# SOCKS5 (socks5h: alan adını proxy çözer)
+curl -x socks5h://KULLANICI:PAROLA@ANA_MAKINE:PORT https://www.anbovpn.com/ip
 
 # HTTP
-curl -x http://USERNAME:PASSWORD@HOST:PORT https://www.anbovpn.com/ip
+curl -x http://KULLANICI:PAROLA@ANA_MAKINE:PORT https://www.anbovpn.com/ip
 ```
 
-Yanıt, web sitesinin gördüğü adresi ve konumu gösterir. Bir protokol başarısız olursa aynı bilgilerle diğerini deneyin. Ayrıca ücretsiz [HTTP proxy testi](https://www.anbovpn.com/tr/tools/http-proxy-test) ve [SOCKS5 proxy testi](https://www.anbovpn.com/tr/tools/socks5-proxy-test) araçlarıyla birden fazla proxy’yi tek seferde kontrol edebilirsiniz.
+Dönen yanıt, sitenin gördüğü adresi ve konumu gösterir. Çalışmıyorsa şu üç şeyi kontrol edin:
 
-Bir proxy’nin arkasındaki adres türleri hakkında bilgi için [Özel IP ve paylaşımlı IP](/tr/posts/dedicated-ip-vs-shared-ip/) yazısını okuyun.
+- **Port karışıklığı:** Hesabınızda gösterilen portu olduğu gibi kullanın. HTTP ve SOCKS5 için ayrı port yazıyorsa her protokole kendi portunu verin.
+- **Özel karakterler:** Parolada `@`, `:` ya da `/` varsa curl adresinde yüzde kodlamasıyla (`@` yerine `%40` gibi) yazın.
+- **Protokol değişimi:** Bir protokol bağlanmıyorsa aynı bilgilerle diğerini deneyin.
+
+Birden fazla proxy’yi tek seferde denemek istiyorsanız ücretsiz [HTTP proxy testi](https://www.anbovpn.com/tr/tools/http-proxy-test) ve [SOCKS5 proxy testi](https://www.anbovpn.com/tr/tools/socks5-proxy-test) araçlarını kullanabilirsiniz.
+
+Proxy’nin arkasındaki adres türlerini merak ediyorsanız [Özel IP mi Paylaşımlı IP mi?](/tr/posts/dedicated-ip-vs-shared-ip/) yazımıza göz atın. Evdeki akıllı TV gibi uygulama kurulamayan cihazlar için ise [ağ geçidi rehberi](/tr/posts/network-gateway-explained/) daha uygun bir yoldur.

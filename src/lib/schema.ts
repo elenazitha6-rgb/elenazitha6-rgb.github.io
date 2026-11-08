@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "@/i18n/config";
+import { LOCALE_META, type Locale } from "@/i18n/config";
 import { absoluteUrl, localePath } from "@/i18n/paths";
 import { getMessages } from "@/i18n/ui";
 import { externalCitations, plainText } from "@/lib/markdown";
@@ -85,17 +85,10 @@ function countWords(markdown: string): number {
   return latin + cjk;
 }
 
-export function blogPostingNode(site: URL, post: Post, categoryName: string, translations: Locale[] = []): Record<string, unknown> {
+export function blogPostingNode(site: URL, post: Post, categoryName: string): Record<string, unknown> {
   const url = absoluteUrl(site, post.path);
   const home = absoluteUrl(site, localePath(post.locale, "/"));
   const citations = externalCitations(post.body);
-  const others = translations.filter((l) => l !== post.locale);
-  const translationLink = (l: Locale) => ({
-    "@type": "BlogPosting",
-    "@id": `${absoluteUrl(site, `${localePath(l, "/")}posts/${post.slug}/`)}#article`,
-    url: absoluteUrl(site, `${localePath(l, "/")}posts/${post.slug}/`),
-    inLanguage: LOCALE_META[l].htmlLang,
-  });
   return {
     "@type": "BlogPosting",
     "@id": `${url}#article`,
@@ -106,7 +99,7 @@ export function blogPostingNode(site: URL, post: Post, categoryName: string, tra
     datePublished: post.published.toISOString(),
     dateModified: post.modified.toISOString(),
     inLanguage: LOCALE_META[post.locale].htmlLang,
-    image: [{ "@type": "ImageObject", url: absoluteUrl(site, SITE.shareImage), width: 1200, height: 630 }],
+    image: [{ "@type": "ImageObject", url: absoluteUrl(site, post.cover ?? SITE.shareImage), width: 1200, height: 630 }],
     author: { "@type": "Organization", name: brandNameFor(post.locale), url: SITE.officialUrl },
     publisher: { "@id": orgId(site) },
     copyrightHolder: { "@id": orgId(site) },
@@ -121,9 +114,8 @@ export function blogPostingNode(site: URL, post: Post, categoryName: string, tra
     isAccessibleForFree: true,
     // 技术性说法引用的外部来源(RFC、官方文档)
     ...(citations.length ? { citation: citations.map((c) => ({ "@type": "CreativeWork", name: c.name, url: c.url })) } : {}),
-    // 译文关系:英文是原文,其它语言版本互相挂在它下面
-    ...(post.locale === DEFAULT_LOCALE && others.length ? { workTranslation: others.map(translationLink) } : {}),
-    ...(post.locale !== DEFAULT_LOCALE && translations.includes(DEFAULT_LOCALE) ? { translationOfWork: translationLink(DEFAULT_LOCALE) } : {}),
+    // 各语言版本是按当地写法各自写的(不是互相翻译),所以不声明 workTranslation / translationOfWork;
+    // 它们之间的对应关系由 hreflang 表达。
     // 答案引擎 / 语音助手优先朗读的部分:标题和页面上的「简短回答」。
     speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", "[data-geo-summary]"] },
   };

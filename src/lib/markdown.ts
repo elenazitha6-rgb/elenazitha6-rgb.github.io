@@ -38,7 +38,11 @@ export function plainText(markdown: string, maxLength = 5000): string {
     .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
     .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
     .replace(/^\s*\|?[-:| ]{3,}\|?\s*$/gm, " ")
-    .replace(/[#>*_`|]/g, " ")
+    // 行内强调 / 代码标记直接去掉(不留空格),这样文字和页面上渲染出来的完全一致(DefinedTerm 的定义要和页面可见文字逐字一致)
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/\*([^*\n]+)\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/[#>*|]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
   return text.length > maxLength ? `${text.slice(0, maxLength - 1).trimEnd()}…` : text;

@@ -145,7 +145,6 @@ for (const base of en) {
       if ((t.data[key] ?? false) !== (base.data[key] ?? false)) err(t.rel, `${key} 和英文不一致`);
     }
     if (new Date(t.data.pubDate).getTime() !== new Date(base.data.pubDate).getTime()) err(t.rel, "pubDate 和英文不一致");
-    if ((t.data.faq ?? []).length !== (base.data.faq ?? []).length) warn(t.rel, "FAQ 条数和英文不一致");
   }
 }
 for (const locale of LOCALES) {

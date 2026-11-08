@@ -24,7 +24,18 @@ const warn = (where, msg) => warnings.push(`${where}: ${msg}`);
 const decode = (s) => s.replace(/&amp;|&#x26;|&#38;/g, "&").replace(/&quot;|&#x22;/g, '"').replace(/&#39;|&#x27;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 // 正文经过 smartypants,页面上的直引号 / 省略号会变成弯引号 / …;比较「结构化数据里的文字是否在页面上」时先抹平
 const flat = (s) => s.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/…/g, "...").replace(/\s+/g, " ");
-const strip = (html) => decode(html.replace(/<script[\s\S]*?<\/script>/g, " ").replace(/<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+// 行内标签(链接、强调、代码)去掉时不留空格,块级标签换成空格:这样才和页面上读到的文字一致
+const INLINE = "a|strong|em|b|i|code|span|time|mark|abbr|sub|sup";
+const strip = (html) =>
+  decode(
+    html
+      .replace(/<script[\s\S]*?<\/script>/g, " ")
+      .replace(/<style[\s\S]*?<\/style>/g, " ")
+      .replace(new RegExp(`</?(?:${INLINE})(?:\\s[^>]*)?>`, "g"), "")
+      .replace(/<[^>]+>/g, " "),
+  )
+    .replace(/\s+/g, " ")
+    .trim();
 
 function walk(dir) {
   return readdirSync(dir).flatMap((name) => {

@@ -57,12 +57,16 @@ export const en = {
   },
   cta: {
     title: "Ready to try it yourself?",
-    body: "AnboVPN puts shared IP, Dedicated IP, HTTP/SOCKS5 proxy and network gateway plans on one account, so you can start with the one that fits and add others later.",
     primary: "Download AnboVPN",
     secondary: "See plans",
-    note: "10 GB free data on sign-up. One time only, valid for 1 month.",
     sideTitle: "Try AnboVPN",
-    sideBody: "Shared IP, Dedicated IP, proxy and gateway plans on one account.",
+    /** 官网下载页的四条卖点(各语言用官网自己的说法,不要改写):赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。 */
+    features: [
+      { title: "10 GB free to start", text: "Get 10 GB of free data on sign-up (one time, valid 1 month), then buy only what you need." },
+      { title: "AI-optimized routes", text: "Routes optimized for AI services, with a residential or ISP residential IP exit." },
+      { title: "Open and connect", text: "Official clients with one-click connect and app-level smart routing." },
+      { title: "Four ways to connect", text: "Shared IP, dedicated IP, proxy and network gateway — one account, unlimited devices." },
+    ],
   },
   about: {
     metaTitle: "About the AnboVPN Blog | Who We Are and How We Write Our Guides",

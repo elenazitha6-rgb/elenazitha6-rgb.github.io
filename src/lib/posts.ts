@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { DEFAULT_LOCALE, LOCALES, LOCALE_META, isLocale, type Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/paths";
@@ -17,6 +19,8 @@ export interface Post {
   /** 这篇文章定义的术语,以及它的定义(正文第一个 H2 下第一段的纯文本,页面上可见)。 */
   term?: string;
   termDefinition?: string;
+  /** 封面图(1200×630 的站内路径);没有就是 undefined,页面退回品牌渐变图形。 */
+  cover?: string;
   tags: string[];
   faq: { q: string; a: string }[];
   featured: boolean;
@@ -48,6 +52,12 @@ export function leadDefinition(markdown: string): string | undefined {
     out += sentence;
   }
   return out.trim() || text.slice(0, 450);
+}
+
+/** 封面:frontmatter 的 `cover` 优先,否则约定 `public/covers/<slug>.webp`(各语言共用);文件必须真实存在。 */
+function resolveCover(slug: string, explicit?: string): string | undefined {
+  const candidate = explicit ?? `/covers/${slug}.webp`;
+  return existsSync(path.resolve(process.cwd(), "public", candidate.replace(/^\//, ""))) ? candidate : undefined;
 }
 
 const CJK = /[぀-ヿ㐀-鿿豈-﫿]/g;
@@ -85,6 +95,7 @@ function toPost(entry: PostEntry): Post | null {
     title: data.title,
     description: data.description,
     category: data.category,
+    cover: resolveCover(slug, data.cover),
     term: data.term,
     termDefinition: data.term ? leadDefinition(body) : undefined,
     tags: data.tags,

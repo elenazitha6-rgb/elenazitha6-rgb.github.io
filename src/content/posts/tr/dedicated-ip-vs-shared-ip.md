@@ -1,75 +1,76 @@
 ---
-title: "Özel IP mi Paylaşımlı IP mi? Hangisine İhtiyacınız Var?"
-description: "Paylaşımlı IP’yi birçok kişi kullanır, Özel IP tek kullanıcıya atanır. Günlük kullanımda paylaşımlı, izin listeleri ve kararlı girişlerde Özel IP’yi seçin."
+title: "Özel IP mi Paylaşımlı IP mi? Hangisini Seçmeliyim?"
+description: "Günlük gezinti için Paylaşımlı IP yeterlidir; IP izin listesi ve hep aynı kalan bir adres gerekiyorsa Özel IP alın. Farkı ve seçim sorularını görün."
 pubDate: 2026-11-06T09:00:00+08:00
 category: ip-types
 term: "Özel IP"
 featured: true
-tags: ["Özel IP", "paylaşımlı IP", "statik IP", "IP izin listesi", "VPN temelleri"]
+tags: ["Özel IP", "paylaşımlı IP", "statik IP", "IP izin listesi", "özel IP ne işe yarar", "sabit IP"]
 faq:
-  - q: "Aynı AnboVPN hesabında hem paylaşımlı IP hem de Özel IP kullanabilir miyim?"
-    a: "Evet. Paylaşımlı IP, Özel IP, HTTP/SOCKS5 proxy ve ağ geçidi paketleri tek hesapta bulunabilir. Her IP türünün veri bakiyesi ayrıdır; birini kullanmak diğerinin bakiyesinden düşmez."
-  - q: "Özel IP adresim hiç değişir mi?"
-    a: "Özel IP, paket geçerli olduğu sürece aynı kalmak üzere tasarlanmıştır. Paketin süresi dolarsa, paket başına belirlenen bir ek süre tanınır; bu sürede yenilerseniz aynı adresi korursunuz. Sonrasında adres serbest bırakılır."
-  - q: "Özel IP, paylaşımlı IP’den daha güvenli midir?"
-    a: "Tek başına değil. Şifreleme adres türünden değil, bağlantıdan gelir. Özel IP size sabit bir adres verir ve diğer kullanıcıların davranışlarının adresin itibarını etkilemesini önler; bu, güvenlikten farklı bir faydadır."
-  - q: "Özel IP ne kadar tutar?"
-    a: "Fiyatlar bölgeye, ağ türüne ve faturalama dönemine göre değişir ve zamanla güncellenir. Güncel rakamlar her zaman canlı fiyat sayfasında gösterilir."
+  - q: "Özel IP ile statik IP aynı şey mi?"
+    a: "Günlük dilde çoğu zaman aynı anlamda kullanılır ama vurgu farklıdır: statik IP adresin değişmemesini, Özel IP ise adresin tek bir kullanıcıya ayrılmasını anlatır. AnboVPN’de Özel IP, paket geçerli olduğu sürece aynı kalır."
+  - q: "Paylaşımlı IP ve Özel IP’yi aynı hesapta birlikte kullanabilir miyim?"
+    a: "Evet. Paylaşımlı IP, Özel IP, HTTP/SOCKS5 proxy ve ağ geçidi aynı hesapta durabilir. Her türün veri bakiyesi ayrı tutulduğu için birini kullanmak diğerinin veri paketinden düşmez."
+  - q: "Özel IP’nin süresi dolarsa adres kaybolur mu?"
+    a: "Hemen kaybolmaz. Süre bitince paket başına belirlenen bir ek süre tanınır; bu sürede yenilerseniz aynı IP’yi korursunuz. Ek süre de dolarsa adres serbest bırakılır."
+  - q: "Özel IP, Paylaşımlı IP’den daha güvenli mi?"
+    a: "Kendi başına değil. Şifreleme bağlantıdan gelir, adres türünden değil. Özel IP size sabit bir adres verir ve başkalarının davranışının adresi etkilemesini önler; bu bir kararlılık faydasıdır, güvenlik faydası değil."
+  - q: "Özel IP fiyatı ne kadar?"
+    a: "Fiyat bölgeye, ağ türüne ve süreye göre değişir ve zaman içinde güncellenir. Doğru rakamı her zaman AnboVPN’in canlı fiyat sayfasında görürsünüz."
 ---
 
-## Özel IP ile paylaşımlı IP arasındaki fark nedir?
+## Özel IP nedir, Paylaşımlı IP’den farkı ne?
 
-**Paylaşımlı IP**, aynı sunucunun birçok kullanıcısının aynı anda kullandığı bir adrestir; bu yüzden ziyaret ettiğiniz web siteleri, tek bir adresin ardındaki birçok kişiden gelen trafiği görür. **Özel IP** ise tek bir kullanıcıya atanır: adres hep aynı kalır ve kimsenin etkinliği sizinkine karışmaz. Bu karşılaştırmadaki her şey bu tek farktan doğar.
+**Özel IP** (Dedicated IP), yalnızca tek bir kullanıcıya atanan ve onun için sabit kalacak şekilde ayrılan IP adresidir; **Paylaşımlı IP** ise aynı sunucuyu kullanan birçok kişinin aynı anda ortak kullandığı adrestir. Paylaşımlı IP apartmanın ortak giriş kapısına, Özel IP ise yalnızca size ait bir kapı numarasına benzer.
 
-| | Paylaşımlı IP | Özel IP |
-|---|---|---|
-| Adresi kimler kullanır | Aynı anda birçok kullanıcı | Tek kullanıcı (sektördeki tanıma göre) |
-| Değişir mi? | Bağlantılar ve sunucular arasında farklı olabilir | Paket geçerli olduğu sürece aynı kalması amaçlanır |
-| IP izin listeleri için uygun mu? | Pratik değil, çünkü adres yalnızca size ait değil | Evet, hizmet kabul ediyorsa |
-| Diğer kullanıcıların etkisi | Davranışları, sitelerin adrese nasıl yaklaştığını etkileyebilir | Adresi kullanan başka kullanıcılardan etkilenmez |
-| Tipik maliyet | Daha düşük | Daha yüksek |
-| En uygun olduğu durumlar | Günlük gezinti ve bölge değiştirme | Sabit adresler ve uzun ömürlü hesaplar |
+Ortak kapıdan giren herkes aynı adresten görünür. Bir site o adresten gelen onlarca kişiyi tek ziyaretçi gibi görür; yan dairedeki birinin yaptığı şey adresin itibarına, yani sizin de bağlantınıza yansıyabilir. Özel IP’de adres yalnızca sizindir ve sürekli aynı kalır.
 
-## Ne zaman paylaşımlı IP seçmelisiniz?
+> **Özetle:** Adresin sabit kalması ve kimseyle paylaşılmaması gerekiyorsa Özel IP, bölgeyi ara sıra değiştirip gezinmek yetiyorsa Paylaşımlı IP.
 
-Yalnızca ara sıra başka bir bölgeden görünmeniz gerekiyorsa ve tam olarak hangi adresi aldığınız önemli değilse paylaşımlı IP seçin. Daha ucuz seçenektir ve başlamak için en basit olanıdır.
+## Paylaşımlı IP ne zaman yeterli olur?
 
-- Başka bir bölgeden ara sıra gezinir, okur veya araştırma yaparsınız.
-- Bölgeler arasında sık geçiş yapar ve aynı adrese iki kez ihtiyaç duymazsınız.
-- Sabit bir adrese bağlanmadan önce bir hizmeti denemek istersiniz.
-- Adresinizi bir izin listesine eklemeniz gerekmez.
+Bölgeyi ara sıra değiştirip gezinmek, bir sayfanın başka ülkeden nasıl göründüğüne bakmak ya da yeni bir hizmeti denemek istiyorsanız Paylaşımlı IP yeterlidir. Başlaması en kolay seçenektir ve genellikle maliyeti daha düşüktür. Karşılığında adres bağlantıdan bağlantıya ya da sunucudan sunucuya değişebilir; bu yüzden bir izin listesine yazılacak adres olarak uygun değildir.
 
-## Özel IP ne zaman buna değer?
+- Evde ya da kafede gezinirken zaman zaman başka bir bölgeden görünmek istiyorsunuz.
+- Bölgeyi sık değiştiriyorsunuz ve aynı adrese tekrar ihtiyacınız yok.
+- Sabit adrese karar vermeden önce hizmeti denemek istiyorsunuz.
+- Adresinizi kimseye bildirmeniz gerekmiyor.
 
-Adresin kendisi önemli olduğunda Özel IP buna değer: başka bir şeyin sizi o adresle tanıması gerektiğinde ya da değişen bir adres sorun çıkardığında. Daha pahalıdır, bu yüzden belirli bir sorunu çözmelidir.
+## Özel IP’ye ne zaman gerçekten ihtiyaç olur?
 
-- **IP izin listeleri.** Yalnızca onaylı adreslerden gelen bağlantıları kabul eden sunucular, yönetim panelleri, veritabanları ve API’ler, değişmeyen bir adres gerektirir.
-- **Uzun ömürlü hesaplar.** Bazı hizmetler, giriş yaptığınız konum sık değiştiğinde ek doğrulama ister. Tek bir sabit adres bu uyarıları azaltır.
-- **Uzaktan çalışma.** Tutarlı bir adres, iş arkadaşlarınızın veya iş ortaklarınızın sizi bir kez onaylayıp işi bitirmesini kolaylaştırır.
-- **Öngörülebilir itibar.** Paylaşımlı bir adreste, başka bir kullanıcının davranışı sitelerin o adresi kullanan herkese ek doğrulama uygulamasına yol açabilir. Özel IP bu “komşu etkisini” ortadan kaldırır.
+Adresin kendisi önem kazandığında: başka bir sistem sizi o adresle tanıyorsa ya da adresin sürekli değişmesi iş aksatıyorsa. Aşağıdaki durumlar tipiktir; her hizmetin kendi politikasını kendisinin belirlediğini unutmayın.
 
-Bunlardan herhangi birinin sizin için geçerli olduğundan emin değilseniz paylaşımlı IP ile başlayın. Özel IP’yi sonradan ekleyebilirsiniz.
+- **Sunucularda IP izin listesi.** Yönetim paneli, veritabanı ya da API’nizi yalnızca onaylı adreslere açıyorsanız, adres her bağlanışta değişirse izin listesinin anlamı kalmaz. Sabit adres bu sorunu çözer.
+- **Uzaktan çalışma.** İş ortağınızın ya da şirketin sistemlerinde adresinizi bir kez onaylatıp unutmak istiyorsanız sabit adres işi kolaylaştırır. Kabul edip etmemek karşı tarafın kararıdır.
+- **Test ve geliştirme.** Aynı bölgeden, aynı adresle tekrar tekrar test yapınca sonuçları karşılaştırmak kolaylaşır.
+- **Uzun süredir kullandığınız hesaplar.** Bazı hizmetler giriş konumu sık değişince ek doğrulama ister. Tek bir sabit adres bu uyarıları azaltabilir, ama bunu hiçbir hizmet adına garanti edemeyiz.
 
-## AnboVPN’de paylaşımlı IP ve Özel IP nasıl çalışır?
+> **İpucu:** Bunlardan hiçbiri size uymuyorsa Paylaşımlı IP ile başlayın. İhtiyaç netleşince Özel IP ekleyebilirsiniz; ikisi aynı hesapta yan yana durur.
 
-AnboVPN’de paylaşımlı IP günlük bölge değiştirme içindir; Özel IP ise uzun süreli kullanım için tasarlanmış, sabit bir bölge ve IP adresidir. Özel IP’yi bölgeye göre satın alırsınız ve paket seçici o bölgede hangi ağ türlerinin satışta olduğunu gösterir. Aşağıdaki ayrıntılar Kasım 2026’da AnboVPN web sitesine göre kontrol edilmiştir.
+Ev ağı da ayrı bir durumdur. Akıllı TV, oyun konsolu ya da NAS gibi uygulama kurulamayan cihazlarda sabit bir adres istiyorsanız yol istemci değil, [ağ geçididir](/tr/posts/network-gateway-explained/); bu cihazları tek bir kurulumla aynı adrese bağlayabilirsiniz.
 
-- Tüm paket türleri tek hesapta bulunur ve her IP türünün veri bakiyesi ayrıdır.
-- Özel IP paketleri birden fazla faturalama döneminde sunulur. Bir yazıya kopyalanmış rakamlara güvenmek yerine [güncel veri paketlerine ve fiyatlara](https://www.anbovpn.com/tr/pricing) bakın.
-- Yeni hesaplar kayıtta 10 GB ücretsiz veri alır. Bu tek seferlik bir hediyedir ve 1 ay geçerlidir.
-- [Özel IP sayfası](https://www.anbovpn.com/tr/residential-ip), şu anda sunulan bölgeleri ve bir bölgenin tükenip tükenmediğini listeler.
+## AnboVPN’de bu iki seçenek nasıl çalışıyor?
 
-## Özel IP sizi anonim yapar mı ya da hızlandırır mı?
+AnboVPN’de Paylaşımlı IP günlük bölge değiştirme için, Özel IP ise uzun süreli kullanıma uygun sabit bir bölge ve çıkış adresi olarak sunulur. Aşağıdaki ürün bilgileri Kasım 2026’da resmî AnboVPN web sitesinden kontrol edilmiştir.
 
-Hayır. Özel IP, web sitelerinin hangi adresi gördüğünü değiştirir. Giriş yaptığınız hizmetten kim olduğunuzu gizlemez; daha yüksek hız, daha düşük gecikme veya daha iyi erişilebilirlik de vaat etmez. Onu bir gizlilik ya da performans yükseltmesi olarak değil, bir kararlılık aracı olarak görün.
+- Tek hesapta dört bağlantı türü bulunur: Paylaşımlı IP, Özel IP, HTTP/SOCKS5 proxy ve ağ geçidi. Her türün veri bakiyesi ayrıdır.
+- Özel IP’yi bölgeye göre satın alırsınız. Bölgede hangi ağ türlerinin (konut IP’si, ISP konut IP’si) satışta olduğunu paket seçici gösterir; güncel liste [Özel IP sayfasında](https://www.anbovpn.com/tr/residential-ip) durur.
+- Adres, paket geçerli olduğu sürece değişmez. Süre dolarsa paketin ek süresi içinde yenileyerek aynı IP’yi koruyabilirsiniz.
+- Yeni üyelere kayıtta tek seferlik 10 GB ücretsiz veri verilir; 1 ay geçerlidir.
+- Fiyatları yazıya kopyalamıyoruz, çünkü değişiyor. Güncel rakamlar için [veri paketleri sayfasına](https://www.anbovpn.com/tr/pricing) bakın.
 
-Hız sizin için önemliyse IP türünden çok ağ yolu ve sunucu belirleyicidir. Anonimlik önemliyse, yalnızca sizin kullandığınız tek bir adres, zaman içinde paylaşımlı bir adrese göre sizinle daha kolay ilişkilendirilir.
+## Özel IP sizi anonim ya da daha hızlı yapar mı?
 
-## Nasıl seçersiniz? Kısa bir kontrol listesi
+Hayır. Özel IP yalnızca web sitelerinin gördüğü adresi değiştirir; giriş yaptığınız hizmetten kim olduğunuzu saklamaz ve hız, gecikme ya da erişilebilirlik vaadi taşımaz.
 
-1. Adresinizi başkasına vermeniz gerekiyor mu, örneğin bir izin listesi için? Evet ise Özel IP seçin.
-2. Hesaplarınız değişen giriş konumuna kötü tepki veriyor mu? Evet ise Özel IP seçin.
-3. Kullanım ara sıra, keşif amaçlı veya kısa süreli mi? Evet ise paylaşımlı IP seçin.
-4. Emin değil misiniz? Paylaşımlı IP ile başlayın ve yalnızca somut bir ihtiyaç ortaya çıktığında bir üst seviyeye geçin.
+> **Dikkat:** Özel IP bir kararlılık aracıdır; gizlilik ya da performans yükseltmesi değildir. Hızı asıl belirleyen ağ yolu ve sunucudur. Anonimlik açısından ise yalnızca sizin kullandığınız tek bir adres, zamanla sizinle daha kolay ilişkilendirilebilir.
 
-İlgili okumalar: [ISP konut IP’si nedir?](/tr/posts/isp-residential-ip-explained/) yazısı, bir adresin ağ türünün sitelerin ona nasıl davrandığını nasıl etkilediğini açıklar; [HTTP ve SOCKS5 proxy](/tr/posts/http-vs-socks5-proxy/) ise sabit bir adresi kullanmanın diğer yolunu ele alır.
+## Üç soruluk karar testi
+
+Karar için üç soruya evet ya da hayır demeniz yeterlidir; cevaplarınız aşağıdaki seçimi gösterir.
+
+1. Adresinizi başkasına, örneğin bir IP izin listesi için vermeniz gerekiyor mu? Evet ise **Özel IP**.
+2. Hesaplarınız giriş konumu sık değişince ek doğrulama istiyor mu? Evet ise **Özel IP**.
+3. Kullanımınız ara sıra, deneme amaçlı ya da kısa süreli mi? Evet ise **Paylaşımlı IP**.
+
+Kararsızsanız Paylaşımlı IP ile başlayın. Devamında [ISP konut IP’si nedir?](/tr/posts/isp-residential-ip-explained/) yazımız adres türünün neden önemli olduğunu, [HTTP mi SOCKS5 mi?](/tr/posts/http-vs-socks5-proxy/) yazımız ise sabit adresi tek bir uygulamada kullanmanın yolunu anlatıyor.

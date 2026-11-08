@@ -1,11 +1,14 @@
 ---
 import Icon from "./Icon.astro";
+import type { IconName } from "./Icon.astro";
 import type { Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/ui";
 import { brandNameFor, officialLink } from "@/site";
 
 /**
- * 引向官网的推广卡。放在内容流里(文章末尾 / 侧栏),不悬浮、不遮挡。
+ * 引向官网的推广卡,放在内容流里(文章末尾 / 首页 / 专题页 / 侧栏),不悬浮、不遮挡。
+ * 卖点是官网下载页的四条(各语言用官网自己的说法,见 i18n/ui 的 `cta.features`):
+ * 赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。
  * 这是官方博客,推广的就是我们自己的产品,所以不做「广告」标注;关于页有利益说明。
  * `placement` 写进 utm_campaign,官网统计里能分辨是博客的哪个位置。
  */
@@ -16,17 +19,31 @@ interface Props {
 }
 const { locale, variant = "banner", placement } = Astro.props;
 const m = getMessages(locale);
+// 和 features 的顺序一一对应:赠送 / AI 专线优化 / 打开即用 / 四类连接方式
+const ICONS: IconName[] = ["gift", "ai", "bolt", "layers"];
+const features = m.cta.features.map((f, i) => ({ ...f, icon: ICONS[i] ?? "check" }));
 ---
 
 {
   variant === "banner" ? (
     <aside class="cta banner">
-      <div class="text">
+      <div class="head">
         <p class="eyebrow">{brandNameFor(locale)}</p>
         <h2>{m.cta.title}</h2>
-        <p class="body">{m.cta.body}</p>
-        <p class="note"><Icon name="check" size={16} />{m.cta.note}</p>
       </div>
+      <ul class="features" role="list">
+        {
+          features.map((f) => (
+            <li>
+              <span class="icon"><Icon name={f.icon} size={22} strokeWidth={1.8} /></span>
+              <span class="copy">
+                <strong>{f.title}</strong>
+                <span>{f.text}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
       <div class="actions">
         <a class="btn btn-primary" href={officialLink(locale, "/download", placement)} rel="noopener">
           {m.cta.primary}
@@ -39,7 +56,16 @@ const m = getMessages(locale);
     <aside class="cta side">
       <p class="eyebrow">{brandNameFor(locale)}</p>
       <p class="side-title">{m.cta.sideTitle}</p>
-      <p class="body">{m.cta.sideBody}</p>
+      <ul class="side-list" role="list">
+        {
+          features.map((f) => (
+            <li>
+              <span class="icon sm"><Icon name={f.icon} size={16} strokeWidth={2} /></span>
+              <span>{f.title}</span>
+            </li>
+          ))
+        }
+      </ul>
       <a class="btn btn-primary" href={officialLink(locale, "/download", placement)} rel="noopener">{m.cta.primary}</a>
     </aside>
   )
@@ -68,49 +94,74 @@ const m = getMessages(locale);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
-  .body {
-    color: var(--text-muted);
-    line-height: 1.6;
+  .icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: 44px;
+    block-size: 44px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--accent-soft-border);
+    color: var(--link);
+    box-shadow: var(--shadow-sm);
   }
+  .icon.sm {
+    inline-size: 28px;
+    block-size: 28px;
+    border-radius: 8px;
+  }
+
   .banner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem 2.5rem;
+    display: grid;
+    gap: 1.5rem;
     padding: 2rem 2.25rem;
     margin-block: 3rem 0;
   }
-  .banner .text {
-    flex: 1 1 22rem;
-    display: grid;
-    gap: 0.6rem;
-  }
   .banner h2 {
+    margin-block-start: 0.3rem;
     color: var(--text);
     font-size: 1.6rem;
     font-weight: 800;
   }
-  .note {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--text-soft);
-    font-size: 0.9rem;
-    font-weight: 600;
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-  .note :global(svg) {
-    color: var(--brand-600);
-    flex: none;
+  .features li {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+  .copy {
+    display: grid;
+    gap: 0.15rem;
+    min-inline-size: 0;
+  }
+  .copy strong {
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 750;
+    line-height: 1.35;
+  }
+  .copy span {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
   }
   .actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
   }
+
   .side {
     display: grid;
-    gap: 0.6rem;
+    gap: 0.75rem;
     padding: 1.4rem 1.3rem 1.3rem;
   }
   .side-title {
@@ -119,15 +170,28 @@ const m = getMessages(locale);
     font-weight: 800;
     line-height: 1.3;
   }
-  .side .body {
+  .side-list {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0.2rem 0 0.4rem;
+    padding: 0;
+    list-style: none;
+  }
+  .side-list li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    color: var(--text-soft);
     font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.35;
   }
-  .side .btn {
-    margin-block-start: 0.4rem;
-  }
-  @media (max-width: 560px) {
+  @media (max-width: 720px) {
     .banner {
       padding: 1.5rem 1.25rem;
+    }
+    .features {
+      grid-template-columns: 1fr;
     }
     .actions .btn {
       flex: 1 1 100%;

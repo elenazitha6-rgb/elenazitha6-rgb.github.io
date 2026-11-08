@@ -52,9 +52,10 @@ npm run check:seo      # 检查构建产物 dist/(先 npm run build):hreflang、
    ---
    ```
 
-2. 其它语言放在 `src/content/posts/<语言码>/<同一个 slug>.md`。译文的 `pubDate`、`category`、`featured` 必须和英文一致;站内链接和官网链接要换成该语言的前缀(`/zh/posts/x/`、`https://www.anbovpn.com/zh/pricing`)。没有译文的语言,这一篇不会出现在该语言的页面里。
-3. 跑 `npm run check:content`,按提示修;再 `npm run dev` 看一眼。
-4. 提交并推送,线上自动更新。
+2. 其它语言放在 `src/content/posts/<语言码>/<同一个 slug>.md`。**不要翻译英文稿**:每个语言按当地写作习惯从头写(标题、结构、例子、FAQ 问题、语气都不同),只共用同一个 slug、主题和产品事实;`pubDate`、`category`、`featured` 必须和英文一致;站内链接和官网链接要换成该语言的前缀(`/zh/posts/x/`、`https://www.anbovpn.com/zh/pricing`)。没有对应版本的语言,这一篇不会出现在该语言的页面里。
+3. 封面:放一张 1200×630 的 `public/covers/<slug>.webp`(各语言共用,图里不要有文字);不放就用品牌渐变图形。换封面要换文件名并写进 frontmatter 的 `cover`(见 `CLAUDE.md`「封面图」)。
+4. 跑 `npm run check:content`,按提示修;再 `npm run dev` 看一眼。
+5. 提交并推送,线上自动更新。
 
 ## 目录结构
 
@@ -106,6 +107,6 @@ scripts/check-content.mjs            内容检查
 ## 已知限制
 
 - 各语言译文由 AI 起草,上线前建议请母语者通读一遍,尤其是波斯语、俄语、土耳其语。
-- 文章封面是按分类生成的品牌渐变图形,没有照片;分享图是官网的默认分享图(1200×630,所有页面共用)。
+- 5 篇文章的封面是 AI 生成的插画(没有文字,各语言共用),新文章没配封面时退回品牌渐变图形;首页、专题页、关于页的分享图是官网的默认分享图(1200×630)。
 - 没有站内搜索、评论、订阅邮件、统计脚本;文章超过十几篇后再加分页。
 - GitHub Pages 不能设置响应头(缓存、安全头),也没有服务端重定向。

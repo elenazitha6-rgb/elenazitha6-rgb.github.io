@@ -42,7 +42,7 @@ const crumbs = [
 ];
 const url = new URL(post.path, site).toString();
 const jsonLd = graph([
-  blogPostingNode(site, post, categoryName, alternates),
+  blogPostingNode(site, post, categoryName),
   breadcrumbNode(site, crumbs.map((c) => ({ name: c.name, path: c.href })), url),
   faqNode(post.faq),
   definedTermNode(site, post, new URL(topicPath(locale, post.category), site).toString(), categoryName),
@@ -56,6 +56,8 @@ const jsonLd = graph([
   path={`/posts/${post.slug}/`}
   alternates={alternates}
   type="article"
+  image={post.cover}
+  imageAlt={post.title}
   keywords={[...post.tags, categoryName]}
   article={{ published: post.published, modified: post.modified, tags: post.tags, section: categoryName }}
   jsonLd={[jsonLd]}
@@ -87,7 +89,15 @@ const jsonLd = graph([
           </p>
         </header>
 
-        <div class="hero-cover"><CoverArt category={post.category} iconSize={64} /></div>
+        <div class="hero-cover">
+          {
+            post.cover ? (
+              <img src={post.cover} width="1200" height="630" alt={post.title} fetchpriority="high" decoding="async" />
+            ) : (
+              <CoverArt category={post.category} iconSize={64} />
+            )
+          }
+        </div>
 
         <aside class="short" data-geo-summary>
           <p class="short-label">{m.post.shortAnswer}</p>
@@ -210,6 +220,12 @@ const jsonLd = graph([
   }
   .hero-cover :global(.cover) {
     aspect-ratio: 21 / 8;
+  }
+  .hero-cover img {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 1200 / 630;
+    object-fit: cover;
   }
   .short {
     margin-block-start: 1.75rem;

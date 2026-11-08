@@ -29,6 +29,12 @@ const posts = defineCollection({
     tags: z.array(z.string()).default([]),
     /** 内嵌 FAQ:页面上显示、同时输出 FAQPage 结构化数据,问答必须和页面可见内容逐字一致,每篇至少 3 条。 */
     faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+    /**
+     * 封面图(站内路径,1200×630)。不写就按约定找 `public/covers/<slug>.webp`,各语言版本共用同一张(图里没有文字),
+     * 找不到再用品牌渐变图形。换图时**必须换文件名**(如 `<slug>-v2.webp`)并在这里写出新路径:
+     * Telegram / 微信 / X / Facebook 按图片 URL 缓存分享预览,同名覆盖后会长期显示旧图。
+     */
+    cover: z.string().startsWith("/").optional(),
     /** 想在首页放大展示的一篇(每种语言至多一篇)。 */
     featured: z.boolean().default(false),
     /** 草稿:构建时跳过。 */
