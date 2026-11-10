@@ -1,4 +1,8 @@
 <p align="center">
+  <b>简体中文</b> | <a href="./README.en.md">English</a> | <a href="./README.zh-Hant.md">繁體中文</a> | <a href="./README.ja.md">日本語</a> | <a href="./README.ru.md">Русский</a> | <a href="./README.fa.md">فارسی</a> | <a href="./README.tr.md">Türkçe</a>
+</p>
+
+<p align="center">
   <img src="./public/brand/anbo-logo-256.png" alt="安泊 VPN" width="96" height="96">
 </p>
 

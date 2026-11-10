@@ -1,6 +1,6 @@
 # 开发与维护手册
 
-AnboVPN 官方博客的开发、发布和维护说明。产品介绍见 [`README.md`](../README.md),写作和术语规则见 [`CLAUDE.md`](../CLAUDE.md)。
+AnboVPN 官方博客的开发、发布和维护说明。产品介绍见 [`README.md`](../README.md)(另有 6 个语言版本,见下文「维护 README」),写作和术语规则见 [`CLAUDE.md`](../CLAUDE.md)。
 
 站点是 Astro 静态站,托管在 GitHub Pages:<https://elenazitha6-rgb.github.io>。
 
@@ -57,6 +57,17 @@ npm run check:seo      # 检查构建产物 dist/(先 npm run build):hreflang、
 4. 跑 `npm run check:content`,按提示修;再 `npm run dev` 看一眼。
 5. 提交并推送,线上自动更新。
 
+## 维护 README(7 个语言版本)
+
+`README.md`(简体中文)是面向读者的产品介绍和推广页,不写开发说明。另有 `README.en.md`、`README.zh-Hant.md`、`README.ja.md`、`README.ru.md`、`README.fa.md`、`README.tr.md`,每个文件顶部是同一行语言切换(当前语言只写字、不加链接)。
+
+- 和博客文章一样,各语言版本是**按当地写法各自写的,不互译**:标题、小节顺序、例子、FAQ 问题、语气都可以不同(日文结论先行加注意点,俄文是技术文档腔,繁体是循序渐进的教学文,土耳其文用「… nedir?」问答体)。必须一致的只有产品事实。
+- 改产品口径(赠送流量、四类连接方式的限制、核对时间等)时,7 个文件一起改。口径以 `CLAUDE.md`「不能做的对外承诺」和官网当前页面为准。
+- 术语用 `CLAUDE.md` 术语表里各语言的叫法;四条卖点用 `src/i18n/ui/<语言>.ts` 里 `cta.features` 的原话,不自己改写。
+- 文章链接用该语言的前缀(英文无前缀:`/posts/<slug>/`,其它 `/<语言码>/posts/<slug>/`),标题取自该语言文章的 frontmatter;官网链接同样带该语言前缀(英文无前缀)和 utm 参数。改 slug 或增删文章后,逐个核对 README 里指向的文章仍然存在。
+- 波斯语版正文用 `<div dir="rtl">` 包起来,div 里的 Markdown 前后要空行,否则不渲染;语言切换行和语言列表保持从左到右。
+- 这些 README 不在 `npm run check:content` 的检查范围内,链接和术语要自己核对。
+
 ## 目录结构
 
 ```
@@ -81,6 +92,8 @@ src/
 public/brand/                        官网 Logo 和默认分享图(拷自官网 apps/web/public/brand)
 scripts/check-content.mjs            内容检查
 .github/workflows/deploy.yml         发布到 GitHub Pages
+README.md, README.<语言码>.md        面向读者的产品介绍(7 个语言版本,见上文「维护 README」)
+docs/DEVELOPMENT.md                  本手册
 ```
 
 ## SEO / GEO
