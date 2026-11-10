@@ -1,112 +1,82 @@
-# AnboVPN Blog
+# AnboVPN（安泊 VPN）官方博客
 
-AnboVPN 官方博客:讲固定 IP(Dedicated IP)、HTTP/SOCKS5 代理、透明网关(Network gateway)、ISP 住宅 IP 和 AI 专线优化(AI-optimized routes)的选择与用法。
-Astro 静态站,托管在 GitHub Pages:<https://elenazitha6-rgb.github.io>。
+**一个账户，四类连接方式：共享 IP、固定 IP、代理 IP 与透明网关。注册即送 10 GB 免费流量，先试再买。**
 
-- 默认语言英文,另有 `zh` / `zh-Hant` / `ja` / `ru` / `fa`(从右到左)/ `tr`,和官网同一套语言码。
-- 文章是仓库里的 Markdown 文件,推送到 `main` 后由 GitHub Actions 自动检查、构建、发布,没有后端、没有数据库。
-- 写作和术语规则见 [`CLAUDE.md`](./CLAUDE.md)。
+安泊 VPN（英文名 AnboVPN）是一款提供共享 IP、固定 IP、代理 IP 和透明网关的网络连接服务，配有官方客户端，打开即可一键连接。这个博客是安泊 VPN 团队写的使用指南：每种连接方式是什么、适合谁、怎么选、有哪些限制，都讲清楚再让你决定要不要试。
 
-## 本地开发
+[**下载客户端 · 注册送 10 GB**](https://www.anbovpn.com/zh/download?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-top-download) ·
+[查看流量套餐](https://www.anbovpn.com/zh/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-top-pricing) ·
+[阅读博客](https://elenazitha6-rgb.github.io/zh/)
 
-需要 Node 22.12 或更新(`.nvmrc` 里是 22)。
+## 为什么选安泊 VPN
 
-```bash
-npm install
-npm run dev          # http://localhost:4321
-npm run build        # 先跑内容检查,再构建到 dist/
-npm run preview      # 预览 dist/
-npm run check        # Astro / TypeScript 类型检查
-npm run check:content  # 只跑内容检查(文章字段、链接、术语、译文是否齐全)
-npm run check:seo      # 检查构建产物 dist/(先 npm run build):hreflang、canonical、sitemap、站内链接、结构化数据
-```
+| | |
+|---|---|
+| **注册即送 10 GB** | 注册赠送 10 GB 免费流量（仅一次，有效期 1 个月），先试再买。 |
+| **AI 专线优化** | 面向 AI 服务做专线优化，出口可选住宅 IP 或家宽 IP。 |
+| **打开即用** | 官方客户端一键连接，支持应用级智能分流。 |
+| **四类连接方式** | 共享 IP、固定 IP、代理 IP 与透明网关，一个账户不限设备。 |
 
-## 第一次发布
+## 四类连接方式，怎么选？
 
-1. 在 GitHub 创建仓库 `elenazitha6-rgb.github.io`(已建好),把本地仓库推上去。
-2. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**。
-3. 推送到 `main`,到 **Actions** 页看 "Deploy to GitHub Pages" 跑完,站点就在 <https://elenazitha6-rgb.github.io> 上线。
+| 连接方式 | 是什么 | 适合 | 延伸阅读 |
+|---|---|---|---|
+| **共享 IP** | 在多个地区的共享节点之间切换，所有共享节点共用同一份流量，不必按地区分别购买。 | 日常使用、需要随时换地区 | [固定 IP 和共享 IP 哪个好？](https://elenazitha6-rgb.github.io/zh/posts/dedicated-ip-vs-shared-ip/) |
+| **固定 IP** | 固定在某个地区长期使用，套餐有效期内地址不变；出口可选住宅 IP 或家宽 IP。 | 做 IP 白名单、长期用同一个登录地址 | [家宽 IP 是什么？](https://elenazitha6-rgb.github.io/zh/posts/isp-residential-ip-explained/) |
+| **代理 IP** | 给指定软件单独配置出口，在软件里填写 HTTP / SOCKS5 信息即可接入，不用让整台设备走代理。一套凭据两种协议通用，可选来源 IP 白名单；不支持 SOCKS5 UDP。 | 只想让某个软件、脚本或工具走单独出口 | [HTTP 代理和 SOCKS5 代理有什么区别？](https://elenazitha6-rgb.github.io/zh/posts/http-vs-socks5-proxy/) |
+| **透明网关** | 装在一台常开的 Debian / Ubuntu（amd64 / arm64）Linux 机器上，一行命令、root 执行；电视、游戏主机等设备把网关指向它即可，设备本身不用装客户端。整台设备只走一个地区。 | 手上有闲置 Linux 机器，想一次覆盖一批没法装 App 的设备 | [透明网关怎么用？](https://elenazitha6-rgb.github.io/zh/posts/network-gateway-explained/) |
 
-### 换成自定义域名
+**AI 专线优化**不是单独的商品，而是固定 IP 与代理 IP 的一种搭配：面向 AI 服务做过线路优化，出口是住宅 IP 或家宽 IP。详见 [AI 专线优化是什么？它能做什么，不能承诺什么](https://elenazitha6-rgb.github.io/zh/posts/ai-optimized-routes-explained/)。
 
-1. 域名 DNS 按 [GitHub 文档](https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site)指向 GitHub Pages。
-2. 在 `public/` 里新建 `CNAME` 文件,内容是域名,例如 `blog.example.com`。
-3. 仓库 **Settings → Secrets and variables → Actions → Variables** 新增 `SITE_URL`,值是 `https://blog.example.com`。canonical、sitemap、RSS、分享图里的地址都会跟着变。
-4. 重新推送一次。
+## 三步开始
 
-## 写一篇新文章
+1. **下载并注册**：到[下载页](https://www.anbovpn.com/zh/download?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-steps-download)获取官方客户端，注册即领 10 GB 免费流量（仅一次，有效期 1 个月）。
+2. **选连接方式**：不确定选哪种，就先读上面的对照表和对应文章。
+3. **一键连接**：打开客户端点连接；需要时用应用级智能分流，只让指定的应用走出口。
 
-1. 在 `src/content/posts/en/` 新建 `<slug>.md`(slug 用英文小写加连字符,它就是 URL),照现有文章写 frontmatter:
+## 博客里能读到什么
 
-   ```yaml
-   ---
-   title: "…"
-   description: "…"      # 简短回答:第一句直接给结论,不超过 160 字符
-   pubDate: 2026-11-06T09:00:00+08:00
-   category: ip-types    # ip-types | proxies | gateway | ai
-   tags: [Dedicated IP, shared IP]
-   term: "Dedicated IP" # 这篇文章讲清楚的术语(该语言行业通用的叫法);定义取正文第一个 H2 下的第一段
-   faq:                  # 至少 3 条,页面上显示,同时输出 FAQPage 结构化数据
-     - q: "…"
-       a: "…"
-   ---
-   ```
+| 文章 | 一句话 |
+|---|---|
+| [固定 IP 和共享 IP 哪个好？一张表看懂怎么选](https://elenazitha6-rgb.github.io/zh/posts/dedicated-ip-vs-shared-ip/) | 日常切换地区用共享 IP，要做 IP 白名单、长期用同一个登录地址就选固定 IP。 |
+| [HTTP 代理和 SOCKS5 代理有什么区别？填哪个更合适](https://elenazitha6-rgb.github.io/zh/posts/http-vs-socks5-proxy/) | 软件里只有 HTTP 代理框就填 HTTP，想一套设置兼容更多程序就填 SOCKS5；附测试命令和报错排查表。 |
+| [家宽 IP 是什么？和机房 IP、住宅 IP 怎么区分](https://elenazitha6-rgb.github.io/zh/posts/isp-residential-ip-explained/) | 讲清机房、住宅、家宽三种标签的区别，教你自己查 IP 类型。 |
+| [透明网关怎么用？电视、游戏主机不装 App 也能接入](https://elenazitha6-rgb.github.io/zh/posts/network-gateway-explained/) | 适合谁、五步怎么设置，以及只能选一个地区、机器必须常开等限制。 |
+| [AI 专线优化是什么？它能做什么，不能承诺什么](https://elenazitha6-rgb.github.io/zh/posts/ai-optimized-routes-explained/) | 拆解三个常见误会和适用场景。 |
 
-2. 其它语言放在 `src/content/posts/<语言码>/<同一个 slug>.md`。**不要翻译英文稿**:每个语言按当地写作习惯从头写(标题、结构、例子、FAQ 问题、语气都不同),只共用同一个 slug、主题和产品事实;`pubDate`、`category`、`featured` 必须和英文一致;站内链接和官网链接要换成该语言的前缀(`/zh/posts/x/`、`https://www.anbovpn.com/zh/pricing`)。没有对应版本的语言,这一篇不会出现在该语言的页面里。
-3. 封面:放一张 1200×630 的 `public/covers/<slug>.webp`(各语言共用,图里不要有文字);不放就用品牌渐变图形。换封面要换文件名并写进 frontmatter 的 `cover`(见 `CLAUDE.md`「封面图」)。
-4. 跑 `npm run check:content`,按提示修;再 `npm run dev` 看一眼。
-5. 提交并推送,线上自动更新。
+## 常见问题
 
-## 目录结构
+**注册后能免费用多少流量？**
+注册赠送 10 GB 免费流量，仅一次，有效期 1 个月。四类连接方式的流量余额各自独立计算。
 
-```
-src/
-  content/posts/<语言码>/<slug>.md   文章(frontmatter 字段见 src/content.config.ts)
-  content.config.ts                  文章集合和字段校验
-  categories.ts                      分类和封面渐变
-  site.ts                            品牌名、官网地址、官网链接(带 utm)
-  i18n/
-    config.ts                        语言列表、方向、日期格式
-    paths.ts                         站内地址一律从这里拼
-    ui/<语言>.ts                     界面文案(en.ts 是类型来源,缺 key 编译不过)
-  lib/posts.ts                       读文章、相关文章、阅读时长
-  lib/schema.ts                      结构化数据(JSON-LD)
-  layouts/BaseLayout.astro           <head>、SEO 标签、页头页脚
-  components/                        页头、页脚、卡片、目录、FAQ、推广卡……
-  pages/[...lang]/                   首页、文章、专题、关于、RSS(英文无前缀,其它语言带前缀)
-  pages/{sitemap.xml,robots.txt,llms.txt,llms-full.txt}.ts
-  plugins/rehype-official-utm.mjs    正文里指向官网的链接自动补 utm 参数
-  styles/global.css                  设计令牌、深色主题、正文排版
-public/brand/                        官网 Logo 和默认分享图(拷自官网 apps/web/public/brand)
-scripts/check-content.mjs            内容检查
-.github/workflows/deploy.yml         发布到 GitHub Pages
-```
+**AI 专线优化能保证访问某个 AI 平台吗？**
+不能。我们不承诺速度、延迟或可用率，也不保证某个平台一定可用：各 AI 平台的访问策略由平台自行决定，不保证可用，请遵守各平台的服务条款。
 
-## SEO / GEO
+**固定 IP、共享 IP、代理 IP、透明网关，我该选哪个？**
+日常切换地区选共享 IP；要做 IP 白名单或长期用同一个登录地址选固定 IP；只想让某个软件单独走出口选代理 IP；想一次覆盖电视、游戏主机这类没法装 App 的设备，并且手上有一台常开的 Linux 机器，选透明网关。每种的限制都写在上面的对应文章里。
 
-本站的 SEO / GEO 做法如下。
+**价格和套餐在哪里看？**
+价格会变，博客不写具体数字，请以[官网价格页](https://www.anbovpn.com/zh/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-faq-pricing)为准。
 
-**SEO**
-- canonical 自引用;hreflang 只指向真有译文的语言、互相链回、带 `x-default`;404 页 noindex,不输出 canonical / hreflang。
-- Open Graph / Twitter、`<time datetime>`、`article:*` 标签、robots meta 放开摘要长度和大图预览(`max-snippet:-1` 等)。
-- 结构化数据:Organization(`sameAs` 连到官网)、WebSite、Blog、BlogPosting(ISO 8601 日期、词数、外部来源 `citation`、译文关系 `workTranslation` / `translationOfWork`、`publishingPrinciples`)、BreadcrumbList、FAQPage、DefinedTerm、DefinedTermSet(专题页)、CollectionPage、AboutPage。不写 `aggregateRating`,没有站内搜索所以不写 `SearchAction`。
-- sitemap:`lastmod` 只用文章自己的更新时间,固定页面不写;hreflang 互链;没有内容的语言不出现。
-- robots.txt 只有一个 `*` 分组;每个语言一个 RSS;专题页 / 页脚互相链接。
-- IndexNow:发布成功后只推新增或有更新的页面(状态存在 Actions 缓存里,不在部署目录),429 / 403 / 422 熔断,sitemap 为空或骤降时不推送。要关掉:仓库 Variables 里设 `INDEXNOW_DISABLED=true`。
-- 站长验证:仓库 Variables 里设 `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION`(验证码),重新构建后页面 `<head>` 里就有对应的 meta 标签。
-- `npm run check:seo`(CI 里每次发布前跑)检查构建产物:每页恰好一个 h1、hreflang 互链、canonical、sitemap 和页面一一对应、站内链接和资源不 404、FAQ / 术语定义和页面可见内容逐字一致。
+## 多语言
 
-**GEO(给大模型和答案引擎)**
-- 答案优先:每篇文章有"简短回答"框(= 摘要),H2 写成问句,标题下第一段自包含地回答;内容检查会提醒不符合的小节。
-- 每篇文章有纯 Markdown 版本(`/posts/<slug>.md`,页面 `<head>` 里有 `<link rel="alternate" type="text/markdown">`);`/llms.txt`(简介、写作方法、专题、各语言文章)和 `/llms-full.txt`(全文)。
-- 可见的发布 / 更新日期、作者链到关于页(编辑原则、利益说明)、`speakable`、FAQ、术语定义(DefinedTerm)、外部来源链接。
-- robots 对所有爬虫(含 AI 爬虫)开放,不给具名爬虫单开分组。
+博客有 7 种语言版本，每种语言都是按当地写作习惯各自写的，不是互相翻译：
 
-本地用生产构建跑 Lighthouse(2026-11-06):首页 / 文章页 / 中文页 / 波斯语页四项均为 100。
+[English](https://elenazitha6-rgb.github.io/) ·
+[简体中文](https://elenazitha6-rgb.github.io/zh/) ·
+[繁體中文](https://elenazitha6-rgb.github.io/zh-Hant/) ·
+[日本語](https://elenazitha6-rgb.github.io/ja/) ·
+[Русский](https://elenazitha6-rgb.github.io/ru/) ·
+[فارسی](https://elenazitha6-rgb.github.io/fa/) ·
+[Türkçe](https://elenazitha6-rgb.github.io/tr/)
 
-## 已知限制
+## 关于这个博客
 
-- 各语言译文由 AI 起草,上线前建议请母语者通读一遍,尤其是波斯语、俄语、土耳其语。
-- 5 篇文章的封面是 AI 生成的插画(没有文字,各语言共用),新文章没配封面时退回品牌渐变图形;首页、专题页、关于页的分享图是官网的默认分享图(1200×630)。
-- 没有站内搜索、评论、订阅邮件、统计脚本;文章超过十几篇后再加分页。
-- GitHub Pages 不能设置响应头(缓存、安全头),也没有服务端重定向。
+- **这是安泊 VPN 的官方博客**，文章会提到并链到我们自己的产品，我们不把它包装成中立评测；技术对比是为了帮你选，包括「你其实不需要付费产品」的情况。
+- 每篇文章先给结论再讲理由，标明发布和更新日期；会变的产品事实写明核对时间，技术性说法链到 RFC 或官方文档。
+- 产品信息核对于 **2026 年 11 月**，以[官网](https://www.anbovpn.com/zh?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-footer-home)当前页面为准。
+- 安泊 VPN 由 Anbo Technology LLC（美国怀俄明州有限责任公司）运营。文章问题或勘误请发邮件到 service@anbollc.com。
+
+---
+
+开发、发布和写作维护：见 [`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md)；品牌、术语和对外口径：见 [`CLAUDE.md`](./CLAUDE.md)。

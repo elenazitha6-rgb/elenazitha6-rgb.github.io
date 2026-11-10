@@ -2,7 +2,7 @@
 
 AnboVPN 官方博客,Astro 6 静态站,托管 GitHub Pages(<https://elenazitha6-rgb.github.io>),7 种语言,默认英文。
 和 monorepo(`anbovpn-monorepo`)是两个独立仓库;品牌、术语、对外承诺的口径都取自 monorepo 的官网 `apps/web`(下面标了出处)。
-命令和目录说明见 `README.md`,这里只记改它时容易踩的约定。
+命令和目录说明见 `docs/DEVELOPMENT.md`(`README.md` 是面向读者的产品介绍和推广页,不写开发说明),这里只记改它时容易踩的约定。
 
 ## 品牌
 
@@ -55,7 +55,7 @@ AnboVPN 官方博客,Astro 6 静态站,托管 GitHub Pages(<https://elenazitha6-
 - 新样式用逻辑属性(`margin-inline`、`inset-inline-start`、`text-align: start`),波斯语是从右到左;方向箭头加 `.arrow` 类(RTL 下自动翻转)。
 - 新增一种语言要改:`src/i18n/config.ts`、`src/i18n/ui/`(新文件并登记到 `index.ts`)、文章目录;`npm run check` 会指出漏的 key。
 - 官网各语言路径前缀和本站一致(`/zh`、`/zh-Hant`、`/ja`、`/ru`、`/fa`、`/tr`,英文无前缀);文章里的官网链接要换成该语言的前缀。**例外**:`https://www.anbovpn.com/ip`(终端查 IP 的短地址)不带语言前缀。
-- 译文由 AI 起草,没有母语者审过(见 README 已知限制)。
+- 译文由 AI 起草,没有母语者审过(见 docs/DEVELOPMENT.md 已知限制)。
 
 ## 封面图
 
