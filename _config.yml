@@ -1,0 +1,21 @@
+# 这个仓库是 Astro 站,靠 GitHub Actions 发布(Settings → Pages → Source 必须选 "GitHub Actions")。
+#
+# 如果 Pages 的来源被设成了 "Deploy from a branch",GitHub 会额外用 Jekyll 把整个仓库发布出去:
+# 源码、文章 Markdown(src/content/posts/**/*.md 会变成 .html 页面)、CLAUDE.md、docs 都会公开可访问,
+# 还会和 Actions 的发布互相覆盖(谁后完成谁生效)。下面把仓库里所有内容都排除掉,
+# 这样即使来源设错了,Jekyll 也只会发布一个空站,不会把文章或内部文档露出来。
+# Source 设为 GitHub Actions 之后这个文件完全不起作用,留着无害。
+exclude:
+  - .github
+  - docs
+  - public
+  - scripts
+  - src
+  - node_modules
+  - CLAUDE.md
+  - README.md
+  - README.zh.md
+  - astro.config.mjs
+  - package.json
+  - package-lock.json
+  - tsconfig.json
