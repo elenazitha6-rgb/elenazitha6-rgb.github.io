@@ -1,6 +1,6 @@
 # 开发与维护手册
 
-AnboVPN 官方博客的开发、发布和维护说明。产品介绍见 [`README.md`](../README.md)(另有 6 个语言版本,见下文「维护 README」),写作和术语规则见 [`CLAUDE.md`](../CLAUDE.md)。
+AnboVPN 官方博客的开发、发布和维护说明。产品介绍见 [`README.md`](../README.md)(英文,默认显示;另有 6 个语言版本,见下文「维护 README」),写作和术语规则见 [`CLAUDE.md`](../CLAUDE.md)。
 
 站点是 Astro 静态站,托管在 GitHub Pages:<https://elenazitha6-rgb.github.io>。
 
@@ -59,7 +59,7 @@ npm run check:seo      # 检查构建产物 dist/(先 npm run build):hreflang、
 
 ## 维护 README(7 个语言版本)
 
-`README.md`(简体中文)是面向读者的产品介绍和推广页,不写开发说明。另有 `README.en.md`、`README.zh-Hant.md`、`README.ja.md`、`README.ru.md`、`README.fa.md`、`README.tr.md`,每个文件顶部是同一行语言切换(当前语言只写字、不加链接)。
+`README.md` 是**英文版**,GitHub 仓库首页默认显示它(GitHub 只认 `README.md`,所以默认语言要放在这个文件名上);它是面向读者的产品介绍和推广页,不写开发说明。其余语言:`README.zh.md`(简体中文)、`README.zh-Hant.md`、`README.ja.md`、`README.ru.md`、`README.fa.md`、`README.tr.md`,文件名后缀是语言码。每个文件顶部是同一行语言切换(当前语言只写字、不加链接)。
 
 - 和博客文章一样,各语言版本是**按当地写法各自写的,不互译**:标题、小节顺序、例子、FAQ 问题、语气都可以不同(日文结论先行加注意点,俄文是技术文档腔,繁体是循序渐进的教学文,土耳其文用「… nedir?」问答体)。必须一致的只有产品事实。
 - 改产品口径(赠送流量、四类连接方式的限制、核对时间等)时,7 个文件一起改。口径以 `CLAUDE.md`「不能做的对外承诺」和官网当前页面为准。
@@ -92,7 +92,7 @@ src/
 public/brand/                        官网 Logo 和默认分享图(拷自官网 apps/web/public/brand)
 scripts/check-content.mjs            内容检查
 .github/workflows/deploy.yml         发布到 GitHub Pages
-README.md, README.<语言码>.md        面向读者的产品介绍(7 个语言版本,见上文「维护 README」)
+README.md, README.<语言码>.md        面向读者的产品介绍(README.md 是英文,另 6 个语言版本,见上文「维护 README」)
 docs/DEVELOPMENT.md                  本手册
 ```
 

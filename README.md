@@ -1,95 +1,95 @@
 <p align="center">
-  <b>简体中文</b> | <a href="./README.en.md">English</a> | <a href="./README.zh-Hant.md">繁體中文</a> | <a href="./README.ja.md">日本語</a> | <a href="./README.ru.md">Русский</a> | <a href="./README.fa.md">فارسی</a> | <a href="./README.tr.md">Türkçe</a>
+  <a href="./README.zh.md">简体中文</a> | <b>English</b> | <a href="./README.zh-Hant.md">繁體中文</a> | <a href="./README.ja.md">日本語</a> | <a href="./README.ru.md">Русский</a> | <a href="./README.fa.md">فارسی</a> | <a href="./README.tr.md">Türkçe</a>
 </p>
 
 <p align="center">
-  <img src="./public/brand/anbo-logo-256.png" alt="安泊 VPN" width="96" height="96">
+  <img src="./public/brand/anbo-logo-256.png" alt="AnboVPN" width="96" height="96">
 </p>
 
-<h1 align="center">AnboVPN（安泊 VPN）官方博客</h1>
+<h1 align="center">AnboVPN Blog</h1>
 
 <p align="center">
-  <b>一个账户，四类连接方式：共享 IP、固定 IP、代理 IP 与透明网关。</b><br>
-  注册即送 10 GB 免费流量，先试再买。
+  <b>One account, four ways to connect: Shared IP, Dedicated IP, HTTP/SOCKS5 proxy and Network gateway.</b><br>
+  Get 10 GB of free data when you sign up, then buy only what you need.
 </p>
 
 <p align="center">
-  <a href="https://www.anbovpn.com/zh/download?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-download"><b>下载客户端 · 注册送 10 GB</b></a>
+  <a href="https://www.anbovpn.com/download?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-download"><b>Download AnboVPN · 10 GB free</b></a>
   &nbsp;·&nbsp;
-  <a href="https://www.anbovpn.com/zh/pricing?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-pricing">查看流量套餐</a>
+  <a href="https://www.anbovpn.com/pricing?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-pricing">See plans</a>
   &nbsp;·&nbsp;
-  <a href="https://elenazitha6-rgb.github.io/zh/">阅读博客</a>
+  <a href="https://elenazitha6-rgb.github.io/">Read the blog</a>
 </p>
 
 ---
 
-安泊 VPN（英文名 AnboVPN）提供共享 IP、固定 IP、代理 IP 和透明网关四类连接方式，配有官方客户端，打开即可一键连接。这个博客是安泊 VPN 团队写的使用指南：每种连接方式是什么、适合谁、怎么选、有哪些限制，都讲清楚，再让你决定要不要试。
+AnboVPN gives you four ways to connect, plus official clients that connect in one click. This blog is where the AnboVPN team explains what each one is, who it suits and where its limits are, so you can decide before you try anything.
 
-## 为什么选安泊 VPN
+## Why AnboVPN
 
-- **注册即送 10 GB**：注册赠送 10 GB 免费流量（仅一次，有效期 1 个月），先试再买。
-- **AI 专线优化**：面向 AI 服务做专线优化，出口可选住宅 IP 或家宽 IP。
-- **打开即用**：官方客户端一键连接，支持应用级智能分流。
-- **四类连接方式**：共享 IP、固定 IP、代理 IP 与透明网关，一个账户不限设备。
+- **10 GB free to start**: Get 10 GB of free data on sign-up (one time, valid 1 month), then buy only what you need.
+- **AI-optimized routes**: Routes optimized for AI services, with a residential or ISP residential IP exit.
+- **Open and connect**: Official clients with one-click connect and app-level smart routing.
+- **Four ways to connect**: Shared IP, dedicated IP, proxy and network gateway — one account, unlimited devices.
 
-## 四类连接方式，怎么选？
+## Which connection type do you need?
 
-| 连接方式 | 一句话 | 适合 |
+| Type | In one line | Good for |
 |---|---|---|
-| **共享 IP** | 在多个地区的共享节点间随时切换 | 日常使用、需要随时换地区 |
-| **固定 IP** | 固定在某个地区长期使用，地址不变 | 做 IP 白名单、长期用同一个登录地址 |
-| **代理 IP** | 只给指定软件配置出口，填 HTTP / SOCKS5 即可 | 让某个软件、脚本或工具单独走出口 |
-| **透明网关** | 装在常开的 Linux 机器上，设备指向它即可 | 一次覆盖电视、游戏主机等没法装 App 的设备 |
+| **Shared IP** | Switch between shared nodes in many regions | Everyday use, changing regions often |
+| **Dedicated IP** | Assigned to you, same address for the plan's validity | Allowlists, stable logins |
+| **HTTP/SOCKS5 proxy** | Give one app its own exit | A single app, script or tool |
+| **Network gateway** | One Linux machine covers every device that points to it | TVs, consoles, anything that can't run an app |
 
-**各自的细节和限制**
+**Details and limits**
 
-- **共享 IP**：所有共享节点共用同一份流量，不必按地区分别购买。
-  → [固定 IP 和共享 IP 哪个好？一张表看懂怎么选](https://elenazitha6-rgb.github.io/zh/posts/dedicated-ip-vs-shared-ip/)
-- **固定 IP**：套餐有效期内地址不变，出口可选住宅 IP 或家宽 IP。
-  → [家宽 IP 是什么？和机房 IP、住宅 IP 怎么区分](https://elenazitha6-rgb.github.io/zh/posts/isp-residential-ip-explained/)
-- **代理 IP**：不用让整台设备走代理；一套凭据两种协议通用，可选来源 IP 白名单；不支持 SOCKS5 UDP。
-  → [HTTP 代理和 SOCKS5 代理有什么区别？填哪个更合适](https://elenazitha6-rgb.github.io/zh/posts/http-vs-socks5-proxy/)
-- **透明网关**：装在 Debian / Ubuntu（amd64 / arm64）Linux 机器上，一行命令、root 执行；设备本身不用装客户端，整台设备只走一个地区。
-  → [透明网关怎么用？电视、游戏主机不装 App 也能接入](https://elenazitha6-rgb.github.io/zh/posts/network-gateway-explained/)
+- **Shared IP**: all shared nodes draw on one data balance, so you don't buy per region.
+  → [Dedicated IP vs Shared IP: Which One Do You Need?](https://elenazitha6-rgb.github.io/posts/dedicated-ip-vs-shared-ip/)
+- **Dedicated IP**: the address stays the same for the plan's validity. The exit can be a residential or ISP residential IP.
+  → [What Is an ISP Residential IP? Residential vs Data Center](https://elenazitha6-rgb.github.io/posts/isp-residential-ip-explained/)
+- **HTTP/SOCKS5 proxy**: one set of credentials works for both protocols, with an optional source-IP allowlist. No SOCKS5 UDP, no port 25, no internal-network access, and it is enabled node by node.
+  → [HTTP vs SOCKS5 Proxy: Differences and How to Choose](https://elenazitha6-rgb.github.io/posts/http-vs-socks5-proxy/)
+- **Network gateway**: installs on Debian or Ubuntu (amd64 / arm64) with one command run as root. There is no router firmware, and the whole machine uses one region.
+  → [Network Gateway Explained: Cover Devices Without Apps](https://elenazitha6-rgb.github.io/posts/network-gateway-explained/)
 
-**AI 专线优化**不是单独的商品，而是固定 IP 与代理 IP 的一种搭配：面向 AI 服务做过线路优化，出口是住宅 IP 或家宽 IP。详见 [AI 专线优化是什么？它能做什么，不能承诺什么](https://elenazitha6-rgb.github.io/zh/posts/ai-optimized-routes-explained/)。
+**AI-optimized routes** are not a separate product. They are a way of packaging a Dedicated IP or a proxy: routes tuned for AI services, with a residential or ISP residential IP as the exit. See [AI-Optimized Routes Explained: What They Are and Aren’t](https://elenazitha6-rgb.github.io/posts/ai-optimized-routes-explained/).
 
-## 三步开始
+## Get started in three steps
 
-1. **下载并注册**：到[下载页](https://www.anbovpn.com/zh/download?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-steps-download)获取官方客户端，注册即领 10 GB 免费流量（仅一次，有效期 1 个月）。
-2. **选连接方式**：不确定选哪种，就先读上面的对照表和对应文章。
-3. **一键连接**：打开客户端点连接；需要时用应用级智能分流，只让指定的应用走出口。
+1. **Download and sign up.** Get the official client from the [download page](https://www.anbovpn.com/download?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-steps-download). You receive 10 GB of free data once, valid for 1 month.
+2. **Pick a connection type.** Use the table above; each linked guide covers the trade-offs.
+3. **Connect.** Click connect. If only some apps should use the exit, turn on app-level smart routing.
 
-## 博客里能读到什么
+## Guides on this blog
 
-- [**固定 IP 和共享 IP 哪个好？一张表看懂怎么选**](https://elenazitha6-rgb.github.io/zh/posts/dedicated-ip-vs-shared-ip/)<br>
-  日常切换地区用共享 IP，要做 IP 白名单、长期用同一个登录地址就选固定 IP。
-- [**HTTP 代理和 SOCKS5 代理有什么区别？填哪个更合适**](https://elenazitha6-rgb.github.io/zh/posts/http-vs-socks5-proxy/)<br>
-  软件里只有 HTTP 代理框就填 HTTP，想一套设置兼容更多程序就填 SOCKS5；附测试命令和报错排查表。
-- [**家宽 IP 是什么？和机房 IP、住宅 IP 怎么区分**](https://elenazitha6-rgb.github.io/zh/posts/isp-residential-ip-explained/)<br>
-  讲清机房、住宅、家宽三种标签的区别，教你自己查 IP 类型。
-- [**透明网关怎么用？电视、游戏主机不装 App 也能接入**](https://elenazitha6-rgb.github.io/zh/posts/network-gateway-explained/)<br>
-  适合谁、五步怎么设置，以及只能选一个地区、机器必须常开等限制。
-- [**AI 专线优化是什么？它能做什么，不能承诺什么**](https://elenazitha6-rgb.github.io/zh/posts/ai-optimized-routes-explained/)<br>
-  拆解三个常见误会和适用场景。
+- [**Dedicated IP vs Shared IP: Which One Do You Need?**](https://elenazitha6-rgb.github.io/posts/dedicated-ip-vs-shared-ip/)<br>
+  Shared for everyday use, dedicated for allowlists and a login address that never changes.
+- [**HTTP vs SOCKS5 Proxy: Differences and How to Choose**](https://elenazitha6-rgb.github.io/posts/http-vs-socks5-proxy/)<br>
+  Choose by what your software supports, not by speed. Includes test commands.
+- [**What Is an ISP Residential IP? Residential vs Data Center**](https://elenazitha6-rgb.github.io/posts/isp-residential-ip-explained/)<br>
+  Where the address comes from, how to check its type yourself, and what it can't promise.
+- [**Network Gateway Explained: Cover Devices Without Apps**](https://elenazitha6-rgb.github.io/posts/network-gateway-explained/)<br>
+  How a side router works for TVs and consoles, and its limits.
+- [**AI-Optimized Routes Explained: What They Are and Aren’t**](https://elenazitha6-rgb.github.io/posts/ai-optimized-routes-explained/)<br>
+  What you get, and the three things it does not promise.
 
-## 常见问题
+## FAQ
 
-**注册后能免费用多少流量？**
-注册赠送 10 GB 免费流量，仅一次，有效期 1 个月。四类连接方式的流量余额各自独立计算。
+**How much free data do I get?**
+10 GB when you sign up, one time, valid for 1 month. Each connection type keeps its own data balance.
 
-**AI 专线优化能保证访问某个 AI 平台吗？**
-不能。我们不承诺速度、延迟或可用率，也不保证某个平台一定可用：各 AI 平台的访问策略由平台自行决定，不保证可用，请遵守各平台的服务条款。
+**Do AI-optimized routes guarantee access to a specific AI platform?**
+No. We don't promise speed, latency or uptime, and we don't say any platform will work. Each AI platform sets its own access policy and access is not guaranteed, so please follow each platform’s terms of service.
 
-**固定 IP、共享 IP、代理 IP、透明网关，我该选哪个？**
-日常切换地区选共享 IP；要做 IP 白名单或长期用同一个登录地址选固定 IP；只想让某个软件单独走出口选代理 IP；想一次覆盖电视、游戏主机这类没法装 App 的设备，并且手上有一台常开的 Linux 机器，选透明网关。每种的限制都写在上面的对应文章里。
+**Which connection type should I pick?**
+Shared IP for everyday use. Dedicated IP if you need an allowlist or one stable login address. A proxy if only one app should use its own exit. A Network gateway if you have an always-on Linux machine and want to cover devices that can't run an app.
 
-**价格和套餐在哪里看？**
-价格会变，博客不写具体数字，请以[官网价格页](https://www.anbovpn.com/zh/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-faq-pricing)为准。
+**Where can I see prices?**
+Prices change, so this page doesn't list them. See the [official pricing page](https://www.anbovpn.com/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-faq-pricing).
 
-## 多语言
+## This blog in other languages
 
-博客有 7 种语言版本，每种语言都是按当地写作习惯各自写的，不是互相翻译：
+7 languages, each written for local readers rather than translated:
 
 [English](https://elenazitha6-rgb.github.io/) ·
 [简体中文](https://elenazitha6-rgb.github.io/zh/) ·
@@ -99,13 +99,9 @@
 [فارسی](https://elenazitha6-rgb.github.io/fa/) ·
 [Türkçe](https://elenazitha6-rgb.github.io/tr/)
 
-## 关于这个博客
+## About this blog
 
-- **这是安泊 VPN 的官方博客**，文章会提到并链到我们自己的产品，我们不把它包装成中立评测；技术对比是为了帮你选，包括「你其实不需要付费产品」的情况。
-- 每篇文章先给结论再讲理由，标明发布和更新日期；会变的产品事实写明核对时间，技术性说法链到 RFC 或官方文档。
-- 产品信息核对于 **2026 年 11 月**，以[官网](https://www.anbovpn.com/zh?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-footer-home)当前页面为准。
-- 安泊 VPN 由 Anbo Technology LLC（美国怀俄明州有限责任公司）运营。文章问题或勘误请发邮件到 service@anbollc.com。
-
----
-
-<sub>开发、发布和写作维护：见 [`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md)；品牌、术语和对外口径：见 [`CLAUDE.md`](./CLAUDE.md)。</sub>
+- **This is the official AnboVPN blog.** Articles may mention and link to our own products, and we say so plainly. Comparisons are written to help you choose, including when the answer is that you don't need a paid product.
+- Every article gives the short answer first, shows when it was published and updated, and dates product facts that can change. Technical claims link to primary sources such as RFCs.
+- Product details were checked against the [official website](https://www.anbovpn.com/?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-footer-home) in **November 2026**. The live site is the source of truth.
+- AnboVPN is operated by Anbo Technology LLC, a Wyoming limited liability company. Corrections or questions: service@anbollc.com.
