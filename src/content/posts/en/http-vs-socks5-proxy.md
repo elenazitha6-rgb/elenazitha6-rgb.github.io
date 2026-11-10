@@ -4,6 +4,7 @@ description: "Use the protocol your software supports: HTTP proxies handle web t
 pubDate: 2026-11-06T11:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: proxies
+draft: true
 term: "SOCKS5 proxy"
 tags: [HTTP proxy, SOCKS5, proxy protocol, curl, browser profiles]
 faq:

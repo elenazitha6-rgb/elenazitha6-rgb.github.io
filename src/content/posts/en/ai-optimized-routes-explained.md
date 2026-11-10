@@ -4,6 +4,7 @@ description: "AI-optimized routes pair AI-tuned routes with a residential or ISP
 pubDate: 2026-11-06T13:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: ai
+draft: true
 term: "AI-optimized routes"
 tags: [AI-optimized routes, residential IP, Dedicated IP, TUN mode, AI tools]
 faq:

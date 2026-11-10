@@ -4,6 +4,7 @@ description: "A shared IP is used by many people at once; a Dedicated IP belongs
 pubDate: 2026-11-06T09:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: ip-types
+draft: true
 term: "Dedicated IP"
 featured: true
 tags: [Dedicated IP, Shared IP, IP allowlist, static IP, VPN basics]

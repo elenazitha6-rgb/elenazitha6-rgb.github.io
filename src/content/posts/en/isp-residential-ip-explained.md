@@ -4,6 +4,7 @@ description: "An ISP residential IP belongs to a consumer internet provider’s 
 pubDate: 2026-11-06T10:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: ip-types
+draft: true
 term: "ISP residential IP"
 tags: [ISP residential IP, residential IP, data center IP, ASN, IP lookup]
 faq:

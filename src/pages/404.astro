@@ -12,7 +12,9 @@ import { postPath } from "@/lib/posts";
  * 静态站不知道访客是从哪个语言路径进来的,所以把各语言的提示都渲染出来,
  * 默认只显示英文(没有 JS 也能用),脚本按 URL 的语言前缀换成对应语言。
  */
-const locales = await getContentLocales();
+// 全部文章下线(都是 draft)时没有任何有内容的语言,至少要渲染英文那一段,不然 404 页是空的
+const contentLocales = await getContentLocales();
+const locales = contentLocales.length > 0 ? contentLocales : (["en"] as const);
 const latest = await getPosts("en");
 const en = getMessages("en");
 ---

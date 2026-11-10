@@ -4,6 +4,7 @@ description: "A network gateway is one always-on Linux machine that routes every
 pubDate: 2026-11-06T12:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: gateway
+draft: true
 term: "Network gateway"
 tags: [network gateway, side router, transparent proxy, Linux, smart TV]
 faq:

@@ -3,6 +3,7 @@ title: "HTTP 代理和 SOCKS5 代理有什么区别？填哪个更合适"
 description: "结论：软件里只有 HTTP 代理框就填 HTTP，想一套设置兼容更多程序就填 SOCKS5，两者的差别在协议层级，不在速度。安泊 VPN 的代理一套账号两种协议都能用，不支持 UDP。下文附对照表、curl 测试命令和常见报错排查表。"
 pubDate: 2026-11-06T11:00:00+08:00
 category: proxies
+draft: true
 term: "SOCKS5 代理"
 tags: [HTTP 代理, SOCKS5 代理, 代理协议, 代理 IP, curl, 浏览器环境, IP 白名单]
 faq:

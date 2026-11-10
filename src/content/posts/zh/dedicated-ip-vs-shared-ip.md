@@ -3,6 +3,7 @@ title: "固定 IP 和共享 IP 哪个好？一张表看懂怎么选"
 description: "结论：日常切换地区用共享 IP，要做 IP 白名单、长期用同一个登录地址就选固定 IP。固定 IP 在套餐有效期内地址不变，但不等于匿名，也不承诺更快。下文用对照表按店铺运营、远程办公、研发联调等场景对号入座，并附避坑提醒。"
 pubDate: 2026-11-06T09:00:00+08:00
 category: ip-types
+draft: true
 term: "固定 IP"
 featured: true
 tags: [固定 IP, 共享 IP, 独享 IP, 静态 IP, IP 白名单, 跨境电商店铺运营, 远程办公]

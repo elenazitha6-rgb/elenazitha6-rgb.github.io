@@ -17,6 +17,12 @@ export const GET: APIRoute = async ({ site }) => {
   const en = getMessages("en");
   const enPosts = all.filter((p) => p.locale === "en");
 
+  // 全部文章下线(都是 draft)时,首页 / 关于 / RSS 都不会生成,不能再往这些地址放链接(check:seo 会报 404)
+  if (all.length === 0) {
+    const offline = [`# ${SITE.name} Blog`, "", "> This blog is currently offline.", "", `- [${SITE.name} official website](${SITE.officialUrl}): products, plans and pricing`, ""].join("\n");
+    return new Response(offline, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+  }
+
   const topics = CATEGORIES.filter((c) => enPosts.some((p) => p.category === c)).map(
     (c) => `- [${en.categories[c].name}](${absoluteUrl(origin, topicPath("en", c))}): ${en.categories[c].description}`,
   );
