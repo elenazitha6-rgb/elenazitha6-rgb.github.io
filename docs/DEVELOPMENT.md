@@ -71,8 +71,9 @@ src/
     ui/<语言>.ts                     界面文案(en.ts 是类型来源,缺 key 编译不过)
   lib/posts.ts                       读文章、相关文章、阅读时长
   lib/schema.ts                      结构化数据(JSON-LD)
+  lib/locale-pref.ts                 语言偏好:记住手动选的语言、英文页跳转脚本、浏览器语言匹配、爬虫 UA 名单
   layouts/BaseLayout.astro           <head>、SEO 标签、页头页脚
-  components/                        页头、页脚、卡片、目录、FAQ、推广卡……
+  components/                        页头、页脚、卡片、目录、FAQ、推广卡、语言提示横幅……
   pages/[...lang]/                   首页、文章、专题、关于、RSS(英文无前缀,其它语言带前缀)
   pages/{sitemap.xml,robots.txt,llms.txt,llms-full.txt}.ts
   plugins/rehype-official-utm.mjs    正文里指向官网的链接自动补 utm 参数
@@ -92,9 +93,10 @@ scripts/check-content.mjs            内容检查
 - 结构化数据:Organization(`sameAs` 连到官网)、WebSite、Blog、BlogPosting(ISO 8601 日期、词数、外部来源 `citation`、译文关系 `workTranslation` / `translationOfWork`、`publishingPrinciples`)、BreadcrumbList、FAQPage、DefinedTerm、DefinedTermSet(专题页)、CollectionPage、AboutPage。不写 `aggregateRating`,没有站内搜索所以不写 `SearchAction`。
 - sitemap:`lastmod` 只用文章自己的更新时间,固定页面不写;hreflang 互链;没有内容的语言不出现。
 - robots.txt 只有一个 `*` 分组;每个语言一个 RSS;专题页 / 页脚互相链接。
+- 语言切换(沿用「Cookie 记住语言 + 首屏跳转脚本 + 提示横幅」的常见做法,改成静态站做法):手动选语言写 localStorage,之后打开英文页会被带到所选语言;首次访问只提示、不自动跳。不影响 SEO 的做法:HTML 对所有人一样、没有 `meta refresh`、跳转脚本只在无前缀的英文页、爬虫 UA / `navigator.webdriver` / 没选过语言都不跳、目标只取本页真有的对应版本。细节和理由见 `src/lib/locale-pref.ts` 顶部注释。
 - IndexNow:发布成功后只推新增或有更新的页面(状态存在 Actions 缓存里,不在部署目录),429 / 403 / 422 熔断,sitemap 为空或骤降时不推送。要关掉:仓库 Variables 里设 `INDEXNOW_DISABLED=true`。
 - 站长验证:仓库 Variables 里设 `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION`(验证码),重新构建后页面 `<head>` 里就有对应的 meta 标签。
-- `npm run check:seo`(CI 里每次发布前跑)检查构建产物:每页恰好一个 h1、hreflang 互链、canonical、sitemap 和页面一一对应、站内链接和资源不 404、FAQ / 术语定义和页面可见内容逐字一致。
+- `npm run check:seo`(CI 里每次发布前跑)检查构建产物:每页恰好一个 h1、hreflang 互链、canonical、sitemap 和页面一一对应、站内链接和资源不 404、FAQ / 术语定义和页面可见内容逐字一致、语言跳转脚本和提示横幅不越界(只在英文页、有爬虫护栏、目标是真实存在的对应版本、没有 `meta refresh`)。
 
 **GEO(给大模型和答案引擎)**
 - 答案优先:每篇文章有"简短回答"框(= 摘要),H2 写成问句,标题下第一段自包含地回答;内容检查会提醒不符合的小节。

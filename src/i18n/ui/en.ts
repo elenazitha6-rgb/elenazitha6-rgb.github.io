@@ -17,6 +17,15 @@ export const en = {
     homeLink: "AnboVPN Blog home",
   },
   nav: { articles: "Articles", topics: "Topics", about: "About", getApp: "Get AnboVPN" },
+  /**
+   * 首次访问时的语言提示横幅(只提示,不自动跳转;见 src/lib/locale-pref.ts)。
+   * 每种语言的这三条是写给「想读这个语言的人」看的,所以用**该语言自己**的写法,不是当前页面的语言。
+   */
+  langSuggest: {
+    text: "This page is also available in English.",
+    action: "Read in English",
+    dismiss: "Dismiss",
+  },
   home: {
     metaTitle: "AnboVPN Blog | Guides on Dedicated IPs, Proxies and Network Gateways",
     metaDescription:

@@ -3,9 +3,11 @@ import "@/styles/global.css";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import JsonLd from "@/components/JsonLd.astro";
+import LocaleSuggest, { type LocaleHint } from "@/components/LocaleSuggest.astro";
 import { DEFAULT_LOCALE, LOCALES, LOCALE_META, type Locale } from "@/i18n/config";
 import { absoluteUrl, localePath } from "@/i18n/paths";
 import { getMessages } from "@/i18n/ui";
+import { localeRedirectScript } from "@/lib/locale-pref";
 import { getContentLocales } from "@/lib/posts";
 import { SITE, brandNameFor } from "@/site";
 
@@ -52,6 +54,19 @@ const languages = menuLocales.map((l) => ({
   href: alternates.includes(l) ? localePath(l, path) : localePath(l, "/"),
   current: l === locale,
 }));
+
+// 语言偏好(见 src/lib/locale-pref.ts,不影响 SEO 的理由写在那里):
+// · 只有「这一页真有对应版本」的语言才会成为跳转 / 提示的目标;
+// · 跳转脚本只放在无前缀的默认语言页上(带前缀的页面里根本没有它),404 这类 noindex 页面也不放。
+const switchable = noindex ? [] : alternates.filter((l) => l !== locale);
+const redirectTargets = Object.fromEntries(switchable.filter(() => locale === DEFAULT_LOCALE).map((l) => [l, localePath(l, path)]));
+const redirectScript = Object.keys(redirectTargets).length > 0 ? localeRedirectScript(redirectTargets) : "";
+const localeHints: Partial<Record<Locale, LocaleHint>> = Object.fromEntries(
+  switchable.map((l) => {
+    const t = getMessages(l).langSuggest;
+    return [l, { href: localePath(l, path), lang: LOCALE_META[l].htmlLang, dir: LOCALE_META[l].dir, text: t.text, action: t.action, dismiss: t.dismiss }];
+  }),
+);
 
 // 站长平台验证码(选填,构建时从环境变量读,见 .github/workflows/deploy.yml)
 const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
@@ -106,6 +121,9 @@ const siteTitle = `${brandNameFor(locale)} ${m.blogName}`;
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+    <!-- 手动选过语言的人打开英文页时,渲染前就跳到对应语言版本(爬虫 / 没选过语言的人不会触发,见 src/lib/locale-pref.ts) -->
+    {redirectScript && <script is:inline set:html={redirectScript} />}
+
     <!-- 首帧之前就定好主题,避免深色模式用户先看到一下白底 -->
     <script is:inline>
       (function () {
@@ -127,5 +145,6 @@ const siteTitle = `${brandNameFor(locale)} ${m.blogName}`;
       <slot />
     </main>
     <Footer locale={locale} />
+    {Object.keys(localeHints).length > 0 && <LocaleSuggest locale={locale} label={m.a11y.language} hints={localeHints} />}
   </body>
 </html>

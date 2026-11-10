@@ -15,6 +15,11 @@ export const tr: Messages = {
     homeLink: "AnboVPN Blog ana sayfası",
   },
   nav: { articles: "Yazılar", topics: "Konular", about: "Hakkında", getApp: "AnboVPN’i indir" },
+  langSuggest: {
+    text: "Bu sayfa Türkçe olarak da okunabilir.",
+    action: "Türkçe oku",
+    dismiss: "Kapat",
+  },
   home: {
     metaTitle: "AnboVPN Blog: Özel IP, Proxy ve Ağ Geçidi Nedir, Nasıl Seçilir?",
     metaDescription:

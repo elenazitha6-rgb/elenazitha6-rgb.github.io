@@ -56,7 +56,7 @@ const current = languages.find((l) => l.current);
         <ul class="panel" role="list">
           {languages.map((l) => (
             <li>
-              <a href={l.href} hreflang={l.htmlLang} lang={l.htmlLang} aria-current={l.current ? "true" : undefined}>
+              <a href={l.href} hreflang={l.htmlLang} lang={l.htmlLang} data-locale={l.locale} aria-current={l.current ? "true" : undefined}>
                 {l.name}
                 {l.current && <Icon name="check" size={16} />}
               </a>
@@ -326,7 +326,24 @@ const current = languages.find((l) => l.current);
 </style>
 
 <script>
+  import { LOCALE_STORAGE_KEY } from "@/lib/locale-pref";
+
   const root = document.documentElement;
+
+  // 手动选语言 = 一次明确的选择:记下来,之后打开英文页会自动带到这个语言(包括选英文本身,否则会被再跳走)。
+  // 菜单里仍然是普通的 <a hreflang> 链接,没有脚本照样能切换。
+  document.querySelectorAll<HTMLAnchorElement>("details.lang a[data-locale]").forEach((a) => {
+    const remember = () => {
+      try {
+        localStorage.setItem(LOCALE_STORAGE_KEY, a.dataset.locale!);
+      } catch {
+        /* 隐私模式下写不进去:这次照常切换,只是不会被记住 */
+      }
+    };
+    a.addEventListener("click", remember);
+    a.addEventListener("auxclick", remember);
+  });
+
   document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const next = root.dataset.theme === "dark" ? "light" : "dark";

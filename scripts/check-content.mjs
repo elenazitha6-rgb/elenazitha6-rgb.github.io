@@ -34,7 +34,8 @@ for (const locale of readdirSync(postsDir)) {
   }
   for (const file of readdirSync(path.join(postsDir, locale)).filter((f) => f.endsWith(".md"))) {
     const rel = `posts/${locale}/${file}`;
-    const raw = readFileSync(path.join(postsDir, locale, file), "utf8");
+    // Windows 上 git 的 core.autocrlf 会把工作区检出成 CRLF,先规整成 LF,下面的正则才对得上
+    const raw = readFileSync(path.join(postsDir, locale, file), "utf8").replace(/\r\n/g, "\n");
     const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
     if (!match) {
       err(rel, "缺少 frontmatter");

@@ -15,6 +15,11 @@ export const fa: Messages = {
     homeLink: "صفحه اصلی وبلاگ AnboVPN",
   },
   nav: { articles: "مقاله‌ها", topics: "موضوعات", about: "درباره", getApp: "دریافت AnboVPN" },
+  langSuggest: {
+    text: "این صفحه به زبان فارسی هم موجود است.",
+    action: "خواندن به فارسی",
+    dismiss: "بستن",
+  },
   home: {
     metaTitle: "وبلاگ AnboVPN؛ آی‌پی اختصاصی، پروکسی و دروازه شبکه به زبان ساده",
     metaDescription: "مقاله‌های تیم AnboVPN دربارهٔ آی‌پی اختصاصی و اشتراکی، پروکسی HTTP/SOCKS5، دروازه شبکه، آی‌پی مسکونی ISP و مسیرهای بهینه‌شده برای AI، همراه با پرسش و پاسخ.",

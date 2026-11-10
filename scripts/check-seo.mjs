@@ -107,7 +107,13 @@ for (const p of pages) {
   if (lang?.[1] !== HTML_LANG[p.locale]) err(where, `<html lang> 应为 ${HTML_LANG[p.locale]},现在 ${lang?.[1]}`);
   if ((lang?.[3] ?? "ltr") !== (p.locale === "fa" ? "rtl" : "ltr")) err(where, `<html dir> 不对:${lang?.[3]}`);
 
-  if (p.noindex) continue;
+  // 语言偏好(记住选择 + 跳转 + 提示)只能是客户端行为,不能有任何服务端式的跳转信号
+  if (/<meta[^>]+http-equiv=["']?refresh/i.test(p.html)) err(where, "不要用 <meta http-equiv=refresh> 做跳转(搜索引擎会当成重定向)");
+
+  if (p.noindex) {
+    if (/anbovpn-blog-locale/.test(p.html.replace(/<script type="module"[\s\S]*?<\/script>/g, ""))) err(where, "noindex 页面不该带语言跳转脚本");
+    continue;
+  }
 
   if (p.canonical !== `${origin}${p.url}`) err(where, `canonical 应为 ${origin}${p.url},现在 ${p.canonical || "(没有)"}`);
 
@@ -123,6 +129,44 @@ for (const p of pages) {
         continue;
       }
       if (h.lang !== "x-default" && !target.hreflangs.some((back) => toPath(back.href) === p.url)) err(where, `hreflang ${h.lang} 的目标 ${target.url} 没有互链回来`);
+    }
+  }
+
+  // 语言跳转脚本(src/lib/locale-pref.ts):
+  // ① 只出现在无前缀的默认语言页;② 必须同时有爬虫 / 自动化浏览器护栏和「读 localStorage」(没选过语言的人、爬虫都不会触发);
+  // ③ 目标页必须真实存在、而且就是本页 hreflang 里列出的对应版本(不跳去 404,不把读者从文章扔到首页)。
+  const hreflangPaths = new Set(p.hreflangs.filter((h) => h.lang !== "x-default").map((h) => toPath(h.href)));
+  const scripts = [...p.html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+  const jumps = scripts.filter((s) => s.includes("location.replace") && s.includes("anbovpn-blog-locale"));
+  if (jumps.length > 0 && p.locale !== "en") err(where, "语言跳转脚本只能出现在无前缀的默认语言页上");
+  if (jumps.length > 1) err(where, "语言跳转脚本重复");
+  for (const s of jumps) {
+    if (!/navigator\.userAgent/.test(s) || !/navigator\.webdriver/.test(s)) err(where, "语言跳转脚本缺少爬虫 / 自动化浏览器护栏");
+    if (!/localStorage\.getItem/.test(s) || !/if\(!l\|\|/.test(s)) err(where, "语言跳转脚本必须只在「用户手动选过语言」时才跳");
+    let targets = {};
+    try {
+      targets = JSON.parse(s.match(/var t=(\{.*?\});/)?.[1] ?? "{}");
+    } catch {
+      err(where, "语言跳转脚本的目标表不是合法 JSON");
+    }
+    for (const [lang, target] of Object.entries(targets)) {
+      if (lang === p.locale) err(where, `语言跳转脚本不该跳到自己的语言 ${lang}`);
+      if (!resolveUrlPath(target)) err(where, `语言跳转目标 404:${target}`);
+      else if (!hreflangPaths.has(target)) err(where, `语言跳转目标不是本页 hreflang 里的对应版本:${target}`);
+    }
+  }
+  // 首次访问的提示横幅:只提示不跳转;每个目标同样必须是本页的对应版本
+  for (const m of p.html.matchAll(/<script type="application\/json" data-locale-hints>([\s\S]*?)<\/script>/g)) {
+    let hints = {};
+    try {
+      hints = JSON.parse(m[1]);
+    } catch {
+      err(where, "语言提示的数据不是合法 JSON");
+    }
+    for (const [lang, hint] of Object.entries(hints)) {
+      if (lang === p.locale) err(where, `语言提示不该提示自己的语言 ${lang}`);
+      if (!resolveUrlPath(hint.href)) err(where, `语言提示目标 404:${hint.href}`);
+      else if (!hreflangPaths.has(hint.href)) err(where, `语言提示目标不是本页 hreflang 里的对应版本:${hint.href}`);
     }
   }
 

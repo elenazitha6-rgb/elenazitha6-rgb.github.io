@@ -24,6 +24,11 @@ export const ru: Messages = {
     homeLink: "Блог AnboVPN: главная",
   },
   nav: { articles: "Статьи", topics: "Темы", about: "О блоге", getApp: "Скачать AnboVPN" },
+  langSuggest: {
+    text: "У этой страницы есть версия на русском языке.",
+    action: "Читать на русском",
+    dismiss: "Закрыть",
+  },
   home: {
     metaTitle: "Блог AnboVPN: выделенный IP, прокси, сетевой шлюз, маршруты для ИИ",
     metaDescription:

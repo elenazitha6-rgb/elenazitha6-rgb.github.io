@@ -15,6 +15,11 @@ export const ja: Messages = {
     homeLink: "AnboVPNブログのホーム",
   },
   nav: { articles: "記事", topics: "トピック", about: "このブログについて", getApp: "AnboVPNを入手" },
+  langSuggest: {
+    text: "このページは日本語版もあります。",
+    action: "日本語で読む",
+    dismiss: "閉じる",
+  },
   home: {
     metaTitle: "AnboVPNブログ｜専用IP・プロキシ・ゲートウェイの基礎知識と選び方",
     metaDescription:

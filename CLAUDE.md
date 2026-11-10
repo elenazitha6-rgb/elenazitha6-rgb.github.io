@@ -53,7 +53,9 @@ AnboVPN 官方博客,Astro 6 静态站,托管 GitHub Pages(<https://elenazitha6-
 - 只显示有内容的语言:没有译文的语言,首页 / 专题 / 文章页 / sitemap / hreflang 都不会出现这一篇;语言菜单里没有对应页面的语言回到该语言首页。**不要擅自加「回退成英文」**。
 - 界面文案在 `src/i18n/ui/<语言>.ts`,`en.ts` 是类型来源,其它语言少 key / 多 key 都编译不过;**不要在组件里写死某种语言的文字**。站内地址一律用 `src/i18n/paths.ts` 的 `localePath`,官网链接用 `src/site.ts` 的 `officialLink`,不要手拼 `/zh/...`。
 - 新样式用逻辑属性(`margin-inline`、`inset-inline-start`、`text-align: start`),波斯语是从右到左;方向箭头加 `.arrow` 类(RTL 下自动翻转)。
-- 新增一种语言要改:`src/i18n/config.ts`、`src/i18n/ui/`(新文件并登记到 `index.ts`)、文章目录;`npm run check` 会指出漏的 key。
+- 新增一种语言要改:`src/i18n/config.ts`、`src/i18n/ui/`(新文件并登记到 `index.ts`,含 `langSuggest` 三条提示文案,用**该语言自己**写)、文章目录;`npm run check` 会指出漏的 key。
+- **语言切换(实现在 `src/lib/locale-pref.ts`)**:菜单是普通 `<a hreflang>` 链接,没有脚本也能切;手动选语言会写 localStorage(`anbovpn-blog-locale`,选英文也记),之后打开英文页时 `<head>` 里的内联脚本在渲染前把人带到所选语言;首次访问按 `navigator.languages` 只弹一个可关闭的提示横幅(`LocaleSuggest.astro`),**不自动跳转**。静态站没有中间件 / Cookie 重定向,所以只有客户端这一层;也不做「首次访问按浏览器语言自动跳」。
+- **语言切换不能影响 SEO(硬约束,`npm run check:seo` 会查)**:发给所有人(含爬虫)的 HTML 完全一样;不用 `<meta http-equiv="refresh">`;跳转脚本只出现在无前缀的英文页(带前缀页、404 里没有);命中爬虫 UA / `navigator.webdriver`、或没手动选过语言,一律不跳;跳转和提示的目标只取这一页 hreflang 里真有的对应版本(不跳 404、不把读者从文章扔到首页)。改这块之后必须 `npm run build && npm run check:seo`。
 - 官网各语言路径前缀和本站一致(`/zh`、`/zh-Hant`、`/ja`、`/ru`、`/fa`、`/tr`,英文无前缀);文章里的官网链接要换成该语言的前缀。**例外**:`https://www.anbovpn.com/ip`(终端查 IP 的短地址)不带语言前缀。
 - 译文由 AI 起草,没有母语者审过(见 docs/DEVELOPMENT.md 已知限制)。
 

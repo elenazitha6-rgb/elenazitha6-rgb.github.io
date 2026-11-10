@@ -15,6 +15,11 @@ export const zhHant: Messages = {
     homeLink: "安泊 VPN 部落格首頁",
   },
   nav: { articles: "文章", topics: "專題", about: "關於", getApp: "取得安泊 VPN" },
+  langSuggest: {
+    text: "這個頁面也有繁體中文版。",
+    action: "閱讀繁體中文版",
+    dismiss: "關閉",
+  },
   home: {
     metaTitle: "安泊 VPN 部落格｜固定 IP、代理與透明閘道，新手也看得懂",
     metaDescription:

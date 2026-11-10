@@ -1,0 +1,186 @@
+---
+import Icon from "./Icon.astro";
+import { safeJson } from "@/lib/locale-pref";
+import type { Locale } from "@/i18n/config";
+
+export interface LocaleHint {
+  /** 这一页在目标语言下的对应地址(只列真有对应版本的语言)。 */
+  href: string;
+  /** 目标语言的 `lang` / `dir`,提示文字用目标语言写。 */
+  lang: string;
+  dir: "ltr" | "rtl";
+  text: string;
+  action: string;
+  dismiss: string;
+}
+
+interface Props {
+  locale: Locale;
+  /** 读屏用的区域名(当前页面语言的「语言」)。 */
+  label: string;
+  hints: Partial<Record<Locale, LocaleHint>>;
+}
+
+const { locale, label, hints } = Astro.props;
+---
+
+<!--
+  首次访问的语言提示(只提示、不自动跳转)。
+  服务端只输出一个空的、hidden 的壳和一份 JSON;浏览器语言和「是否选过语言」只有脚本知道,
+  所以发给爬虫和真人的 HTML 一样。fixed 定位,出现时不会推动页面内容(不产生布局偏移)。
+-->
+<aside class="locale-suggest" data-locale-suggest data-current={locale} aria-label={label} hidden>
+  <p class="text" data-text></p>
+  <div class="actions">
+    <a class="btn btn-primary" data-action rel="alternate"></a>
+    <button class="dismiss" type="button" data-dismiss>
+      <Icon name="close" size={18} />
+    </button>
+  </div>
+</aside>
+<script type="application/json" data-locale-hints set:html={safeJson(hints)} />
+
+<style>
+  .locale-suggest {
+    position: fixed;
+    inset-block-end: 1rem;
+    inset-inline-start: 1rem;
+    z-index: 45;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    max-inline-size: min(34rem, 100vw - 2rem);
+    padding: 0.75rem 0.75rem 0.75rem 1rem;
+    padding-inline: 1rem 0.75rem;
+    background: var(--surface-raised);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+  }
+  .locale-suggest[hidden] {
+    display: none;
+  }
+  .text {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: none;
+  }
+  .actions .btn {
+    min-block-size: 40px;
+    padding: 0.45rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+  .dismiss {
+    display: grid;
+    place-items: center;
+    inline-size: 40px;
+    block-size: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .dismiss:hover {
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+  @media (max-width: 600px) {
+    .locale-suggest {
+      inset-inline: 0.75rem;
+      inset-block-end: 0.75rem;
+      max-inline-size: none;
+      flex-wrap: wrap;
+    }
+    .text {
+      flex: 1 1 100%;
+    }
+    .actions {
+      inline-size: 100%;
+      justify-content: space-between;
+    }
+  }
+</style>
+
+<script>
+  import { LOCALES } from "@/i18n/config";
+  import { BOT_UA, LOCALE_DISMISS_DAYS, LOCALE_DISMISS_KEY, LOCALE_STORAGE_KEY, matchBrowserLocale } from "@/lib/locale-pref";
+
+  interface Hint {
+    href: string;
+    lang: string;
+    dir: "ltr" | "rtl";
+    text: string;
+    action: string;
+    dismiss: string;
+  }
+
+  function init(box: HTMLElement, hints: Record<string, Hint>) {
+    // 爬虫 / 自动化浏览器:什么都不显示
+    if (BOT_UA.test(navigator.userAgent) || navigator.webdriver) return;
+
+    let stored: string | null = null;
+    let dismissedAt = 0;
+    try {
+      stored = localStorage.getItem(LOCALE_STORAGE_KEY);
+      dismissedAt = Number(localStorage.getItem(LOCALE_DISMISS_KEY)) || 0;
+    } catch {
+      /* 读不到存储就当没选过 */
+    }
+    if (stored) return; // 手动选过语言的人不再提示
+    if (dismissedAt && Date.now() - dismissedAt < LOCALE_DISMISS_DAYS * 86_400_000) return;
+
+    const tags = navigator.languages && navigator.languages.length > 0 ? navigator.languages : [navigator.language];
+    const preferred = matchBrowserLocale(tags, LOCALES);
+    if (!preferred || preferred === box.dataset.current) return;
+    const hint = hints[preferred];
+    if (!hint) return; // 这一页没有该语言的对应版本:不提示,更不会跳去别的页面
+
+    const text = box.querySelector<HTMLElement>("[data-text]")!;
+    const action = box.querySelector<HTMLAnchorElement>("[data-action]")!;
+    const dismiss = box.querySelector<HTMLButtonElement>("[data-dismiss]")!;
+    text.textContent = hint.text;
+    text.lang = hint.lang;
+    text.dir = hint.dir;
+    action.textContent = hint.action;
+    action.href = hint.href;
+    action.hreflang = hint.lang;
+    action.lang = hint.lang;
+    dismiss.setAttribute("aria-label", hint.dismiss);
+    dismiss.title = hint.dismiss;
+
+    const remember = (key: string, value: string) => {
+      try {
+        localStorage.setItem(key, value);
+      } catch {
+        /* 隐私模式下写不进去:这次照常跳转 */
+      }
+    };
+    action.addEventListener("click", () => remember(LOCALE_STORAGE_KEY, preferred));
+    action.addEventListener("auxclick", () => remember(LOCALE_STORAGE_KEY, preferred));
+    dismiss.addEventListener("click", () => {
+      remember(LOCALE_DISMISS_KEY, String(Date.now()));
+      box.hidden = true;
+    });
+    box.hidden = false;
+  }
+
+  const box = document.querySelector<HTMLElement>("[data-locale-suggest]");
+  const raw = document.querySelector("script[data-locale-hints]")?.textContent;
+  if (box && raw) {
+    try {
+      init(box, JSON.parse(raw));
+    } catch {
+      /* JSON 不可用就不提示 */
+    }
+  }
+</script>

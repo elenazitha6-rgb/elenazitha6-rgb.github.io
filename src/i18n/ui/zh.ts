@@ -15,6 +15,11 @@ export const zh: Messages = {
     homeLink: "安泊 VPN 博客首页",
   },
   nav: { articles: "文章", topics: "专题", about: "关于", getApp: "获取安泊 VPN" },
+  langSuggest: {
+    text: "这篇内容也有简体中文版。",
+    action: "阅读简体中文版",
+    dismiss: "关闭",
+  },
   home: {
     metaTitle: "安泊 VPN 博客｜固定 IP、代理 IP、透明网关怎么选",
     metaDescription: "安泊 VPN 团队写的选购笔记：固定 IP 和共享 IP 怎么选、HTTP 与 SOCKS5 代理有什么区别、透明网关怎么给电视和游戏主机用、家宽 IP 与 AI 专线优化是什么。每篇先给结论，再配对照表、避坑清单和常见问题。",
