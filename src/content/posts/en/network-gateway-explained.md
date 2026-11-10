@@ -1,61 +1,71 @@
 ---
-title: "Network Gateway Explained: Cover Devices Without Apps"
-description: "A network gateway (side router) routes every device that points to it through one connection, so TVs and consoles need no app. See how it works and its limits."
+title: "How a Network Gateway Works (and When You Need One)"
+description: "A network gateway is one always-on Linux machine that routes every device pointed at it, so TVs and consoles need no app. Learn the setup steps and limits."
 pubDate: 2026-11-06T12:00:00+08:00
+updatedDate: 2026-11-09T10:00:00+08:00
 category: gateway
 term: "Network gateway"
-tags: [network gateway, side router, transparent proxy, Linux, home network]
+tags: [network gateway, side router, transparent proxy, Linux, smart TV]
 faq:
-  - q: "Do I need to install an app on every device behind the AnboVPN network gateway?"
-    a: "No. Devices behind the gateway need no client. They do need to be set up to use it, by pointing their gateway and DNS settings at the machine that runs it."
-  - q: "Can I install the network gateway on my router?"
-    a: "There is no router firmware or router app. The gateway installs on a Debian or Ubuntu Linux machine (amd64 or arm64), such as a server, a soft router or an idle PC, with a one-line command run as root."
-  - q: "Can I switch regions on a network gateway?"
-    a: "No. A gateway uses a single region, which is the one you buy. If you need a different region, you need a plan for that region."
-  - q: "Is a network gateway the same thing as a transparent proxy?"
-    a: "They describe the same idea from two angles. A transparent proxy handles traffic without each device being configured with proxy settings, and a gateway is the network role that makes that possible."
+  - q: "Does the gateway keep working after a reboot?"
+    a: "Yes. It runs as a system service on the machine and comes back on its own after a restart, so you don’t need to start it by hand."
+  - q: "How do I remove the gateway if I stop using it?"
+    a: "Run the uninstall command that comes with your plan. It removes the gateway without touching other services running on the same server."
+  - q: "How many devices can sit behind one gateway?"
+    a: "There is no device cap. All devices behind a gateway share that plan’s data, so a lot of streaming from many screens will use it up faster."
+  - q: "Can different devices use different regions?"
+    a: "Not behind a single gateway, which has one region. If you need a second region, buy a second plan; each resource is metered on its own, and you can buy several."
 ---
 
-## What is a network gateway (side router)?
+## What is a network gateway?
 
-A **network gateway** is a machine on your local network that other devices use as their path to the internet. When it also routes that traffic through a VPN or proxy connection, it works as a **side router**, also called a transparent proxy: the devices behind it do not need a VPN app because the machine in front of them does the work.
+A **network gateway** is a machine on your local network that other devices use as their path out to the internet. When that machine also sends the traffic through a VPN or proxy connection, it acts as a **side router**, sometimes called a transparent proxy: the devices behind it don’t run any VPN software, because the machine in front of them does the work.
 
-## How is a network gateway different from installing a VPN app?
+## Why not just install an app on every device?
 
-A VPN app protects the one device it runs on. A network gateway covers every device that is set to use it, whatever its operating system. The trade-off is that you maintain one more machine.
+You would, if you could. A VPN app covers the one device it runs on, which is perfect for laptops and phones. A gateway exists for the devices that can’t run an app at all, such as smart TVs and game consoles, as long as they let you change their network settings.
 
-| | VPN app on each device | Network gateway |
+| | App on each device | Network gateway |
 |---|---|---|
-| Setup | Install and sign in on every device | Install once, then point each device at it |
-| Devices that work | Those with a supported operating system | Any device that lets you set a gateway and DNS |
-| Per-device control | App-level routing on each device | All traffic of the devices that use it |
-| Machine you maintain | None | One Linux machine that must stay on |
-| If it stops | Only that device is affected | Devices pointed at it lose their route until you switch them back |
+| Setup | Install and sign in on every device | Set up once, then point each device at it |
+| What works | Devices with a supported operating system | Any device that lets you set a gateway and DNS |
+| Choosing which apps go through | Yes, with app-level routing | No; all traffic of a device pointed at it goes through |
+| What you maintain | Nothing extra | One Linux machine that has to stay on |
+| If something stops | One device is affected | Every device pointed at it loses its route until you point it back |
 
-If you want to choose which apps use the connection on a single computer, the AnboVPN client's app-level routing and TUN mode do that. The gateway is for the devices that cannot run a client.
+For one computer where you want only some apps to use the connection, the AnboVPN client’s app-level routing is the better tool.
 
-## What do you need to set up the AnboVPN network gateway?
+## What do you need before you start?
 
-You need a gateway plan and a Debian or Ubuntu Linux machine (amd64 or arm64) that stays on, such as a small server, a soft router or an idle PC. The AnboVPN gateway installs with a one-line command run as root. There is no router firmware or router app. These details were checked against the AnboVPN website in November 2026.
+You need a gateway plan and a spare Linux machine that stays switched on. AnboVPN’s gateway supports Debian and Ubuntu on amd64 or arm64, and the machine can be a small server, a soft router or an idle computer. There is no router firmware, so a stock home router can’t run it. These details were checked against the AnboVPN website in November 2026.
 
-1. **Choose a plan and region.** The gateway uses a single region, the one you buy, so pick it with care. See the [network gateway page](https://www.anbovpn.com/gateway) for what is on sale.
-2. **Prepare the machine.** A Debian or Ubuntu system with a fixed address on your local network.
-3. **Run the install command.** Copy the one-line command shown for your plan in your account and run it as root on that machine.
-4. **Point a device at it.** On the device, or in your router's DHCP settings, set the gateway and DNS to the machine's local address.
-5. **Verify.** Check the device's public address with `curl https://www.anbovpn.com/ip` or the free [IP lookup tool](https://www.anbovpn.com/tools/ip-lookup).
+- **A plan and a region.** A gateway uses a single region, the one you buy.
+- **A Debian or Ubuntu machine** with a fixed address on your local network.
+- **Root access** on that machine, because the install script must run as root.
+- **Devices that let you edit network settings**, specifically the gateway and DNS fields.
 
-## Which devices benefit most from a gateway?
+## How do you set up the AnboVPN network gateway?
 
-Devices that cannot run a VPN client but do let you change their network settings benefit most. That includes smart TVs, game consoles and some media players. Anything on the same local network that you point at the gateway gets the same connection, so one setup can serve several people and devices.
+Install once, then point your devices at the machine. The whole job is five steps.
 
-## What are the limits of a network gateway?
+1. **Choose a plan.** Pick the region and billing cycle on the [network gateway page](https://www.anbovpn.com/gateway). Billing is by data, with no separate gateway fee.
+2. **Open your plan’s details page** and copy your own one-line install command. It already contains the connection parameters for that plan.
+3. **Run it as root** on the Debian or Ubuntu machine.
+4. **Point a device at it.** On the TV, console or computer, set the gateway and DNS to the machine’s local address. You can also set this once in your router’s DHCP settings, so devices pick it up automatically.
+5. **Check the result.** On a device behind the gateway, run `curl https://www.anbovpn.com/ip` or open the free [IP lookup tool](https://www.anbovpn.com/tools/ip-lookup) and confirm the address is the one you expect.
 
-A network gateway has four main limits: every device pointed at it leaves through the same single region, the machine must stay on, all traffic from those devices goes through it, and you maintain it yourself. It also makes no promise about speed, latency or uptime. The details:
+## What are the catches?
 
-- **One region.** Every device pointed at the gateway leaves through the same region. You cannot switch region per device.
-- **Always on.** The machine must stay powered and connected. When it is off, the devices pointed at it have no route.
-- **All-or-nothing routing.** All traffic of a device that uses the gateway goes through it. For per-app choices on one computer, use the client instead.
-- **You maintain it.** Updates and the local network settings are your responsibility.
-- **No speed promise.** The connection depends on your network, the machine and the region, and AnboVPN does not promise speed, latency or uptime.
+A gateway has five catches: one region per plan, an always-on machine, all-or-nothing routing, your own maintenance and no promise of speed. None is a dealbreaker, but each deserves a sentence before you commit.
 
-Related reading: [Dedicated IP vs shared IP](/posts/dedicated-ip-vs-shared-ip/) explains when a fixed address matters, and [HTTP vs SOCKS5 proxy](/posts/http-vs-socks5-proxy/) covers a lighter-weight way to use a fixed address for a single tool.
+- **One region.** Every device pointed at the gateway leaves through that region.
+- **Always on.** If the machine is off, devices pointed at it have no route.
+- **All or nothing.** You can’t pick apps; all traffic from a device that uses the gateway goes through it.
+- **You’re the sysadmin.** Updates and local network settings are yours to look after.
+- **No promises on performance.** The connection depends on your network, the machine and the region. AnboVPN doesn’t promise speed, latency or uptime.
+
+## Is a network gateway right for you?
+
+It is right if you have an always-on Linux machine, a few devices that can’t run an app and a single region that suits all of them. If you only have one or two ordinary computers, skip the gateway and use the client.
+
+Related reading: [HTTP vs SOCKS5 proxy](/posts/http-vs-socks5-proxy/) covers a lighter way to give a single tool its own address, and [Dedicated IP or Shared IP?](/posts/dedicated-ip-vs-shared-ip/) explains when a stable address matters.

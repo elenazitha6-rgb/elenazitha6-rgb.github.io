@@ -1,5 +1,5 @@
 <p align="center">
-<b>English</b> | <a href="./README.zh.md">简体中文</a> | <a href="./README.zh-Hant.md">繁體中文</a> | <a href="./README.ja.md">日本語</a> | <a href="./README.ru.md">Русский</a> | <a href="./README.fa.md">فارسی</a> | <a href="./README.tr.md">Türkçe</a>
+<b>English</b> | <a href="./README.zh.md">简体中文</a>
 </p>
 
 <p align="center">
@@ -44,15 +44,15 @@ AnboVPN gives you four ways to connect, plus official clients that connect in on
 **Details and limits**
 
 - **Shared IP**: all shared nodes draw on one data balance, so you don't buy per region.
-  → [Dedicated IP vs Shared IP: Which One Do You Need?](https://elenazitha6-rgb.github.io/posts/dedicated-ip-vs-shared-ip/)
+  → [Dedicated IP or Shared IP? A Plain-English Buyer’s Guide](https://elenazitha6-rgb.github.io/posts/dedicated-ip-vs-shared-ip/)
 - **Dedicated IP**: the address stays the same for the plan's validity. The exit can be a residential or ISP residential IP.
-  → [What Is an ISP Residential IP? Residential vs Data Center](https://elenazitha6-rgb.github.io/posts/isp-residential-ip-explained/)
+  → [ISP Residential IP: What It Is and How to Check Yours](https://elenazitha6-rgb.github.io/posts/isp-residential-ip-explained/)
 - **HTTP/SOCKS5 proxy**: one set of credentials works for both protocols, with an optional source-IP allowlist. No SOCKS5 UDP, no port 25, no internal-network access, and it is enabled node by node.
-  → [HTTP vs SOCKS5 Proxy: Differences and How to Choose](https://elenazitha6-rgb.github.io/posts/http-vs-socks5-proxy/)
+  → [HTTP vs SOCKS5 Proxy: Which One Should You Use?](https://elenazitha6-rgb.github.io/posts/http-vs-socks5-proxy/)
 - **Network gateway**: installs on Debian or Ubuntu (amd64 / arm64) with one command run as root. There is no router firmware, and the whole machine uses one region.
-  → [Network Gateway Explained: Cover Devices Without Apps](https://elenazitha6-rgb.github.io/posts/network-gateway-explained/)
+  → [How a Network Gateway Works (and When You Need One)](https://elenazitha6-rgb.github.io/posts/network-gateway-explained/)
 
-**AI-optimized routes** are not a separate product. They are a way of packaging a Dedicated IP or a proxy: routes tuned for AI services, with a residential or ISP residential IP as the exit. See [AI-Optimized Routes Explained: What They Are and Aren’t](https://elenazitha6-rgb.github.io/posts/ai-optimized-routes-explained/).
+**AI-optimized routes** are not a separate product. They are a way of packaging a Dedicated IP or a proxy: routes tuned for AI services, with a residential or ISP residential IP as the exit. See [AI-Optimized Routes: What You Get and What You Don’t](https://elenazitha6-rgb.github.io/posts/ai-optimized-routes-explained/).
 
 ## Get started in three steps
 
@@ -62,16 +62,16 @@ AnboVPN gives you four ways to connect, plus official clients that connect in on
 
 ## Guides on this blog
 
-- [**Dedicated IP vs Shared IP: Which One Do You Need?**](https://elenazitha6-rgb.github.io/posts/dedicated-ip-vs-shared-ip/)<br>
+- [**Dedicated IP or Shared IP? A Plain-English Buyer’s Guide**](https://elenazitha6-rgb.github.io/posts/dedicated-ip-vs-shared-ip/)<br>
   Shared for everyday use, dedicated for allowlists and a login address that never changes.
-- [**HTTP vs SOCKS5 Proxy: Differences and How to Choose**](https://elenazitha6-rgb.github.io/posts/http-vs-socks5-proxy/)<br>
+- [**HTTP vs SOCKS5 Proxy: Which One Should You Use?**](https://elenazitha6-rgb.github.io/posts/http-vs-socks5-proxy/)<br>
   Choose by what your software supports, not by speed. Includes test commands.
-- [**What Is an ISP Residential IP? Residential vs Data Center**](https://elenazitha6-rgb.github.io/posts/isp-residential-ip-explained/)<br>
+- [**ISP Residential IP: What It Is and How to Check Yours**](https://elenazitha6-rgb.github.io/posts/isp-residential-ip-explained/)<br>
   Where the address comes from, how to check its type yourself, and what it can't promise.
-- [**Network Gateway Explained: Cover Devices Without Apps**](https://elenazitha6-rgb.github.io/posts/network-gateway-explained/)<br>
+- [**How a Network Gateway Works (and When You Need One)**](https://elenazitha6-rgb.github.io/posts/network-gateway-explained/)<br>
   How a side router works for TVs and consoles, and its limits.
-- [**AI-Optimized Routes Explained: What They Are and Aren’t**](https://elenazitha6-rgb.github.io/posts/ai-optimized-routes-explained/)<br>
-  What you get, and the three things it does not promise.
+- [**AI-Optimized Routes: What You Get and What You Don’t**](https://elenazitha6-rgb.github.io/posts/ai-optimized-routes-explained/)<br>
+  What you get, and what it does not promise.
 
 ## FAQ
 
@@ -89,15 +89,10 @@ Prices change, so this page doesn't list them. See the [official pricing page](h
 
 ## This blog in other languages
 
-7 languages, each written for local readers rather than translated:
+English and Simplified Chinese, each written for local readers rather than translated:
 
 [English](https://elenazitha6-rgb.github.io/) ·
-[简体中文](https://elenazitha6-rgb.github.io/zh/) ·
-[繁體中文](https://elenazitha6-rgb.github.io/zh-Hant/) ·
-[日本語](https://elenazitha6-rgb.github.io/ja/) ·
-[Русский](https://elenazitha6-rgb.github.io/ru/) ·
-[فارسی](https://elenazitha6-rgb.github.io/fa/) ·
-[Türkçe](https://elenazitha6-rgb.github.io/tr/)
+[简体中文](https://elenazitha6-rgb.github.io/zh/)
 
 ## About this blog
 

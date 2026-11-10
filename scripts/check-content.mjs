@@ -135,8 +135,12 @@ for (const p of posts) {
 
 // 译文齐全、字段和英文一致
 const en = posts.filter((p) => p.locale === "en");
+// 整个语言还没有任何文章(例如暂时只做英文和简体中文)时,只提示一次,不逐篇报缺译文
+const emptyLocales = LOCALES.slice(1).filter((l) => !posts.some((p) => p.locale === l));
+if (emptyLocales.length) console.log(`ℹ 暂无文章的语言:${emptyLocales.join(", ")}(这些语言的页面不会生成,语言菜单里也不会出现)`);
 for (const base of en) {
   for (const locale of LOCALES.slice(1)) {
+    if (emptyLocales.includes(locale)) continue;
     const t = posts.find((p) => p.locale === locale && p.slug === base.slug);
     if (!t) {
       warn(`posts/${locale}/${base.slug}.md`, "缺少这个语言的译文(该语言页面不会出现这一篇)");

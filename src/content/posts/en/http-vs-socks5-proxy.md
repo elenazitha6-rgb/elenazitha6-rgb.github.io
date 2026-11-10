@@ -1,36 +1,37 @@
 ---
-title: "HTTP vs SOCKS5 Proxy: Differences and How to Choose"
-description: "An HTTP proxy understands web requests; a SOCKS5 proxy relays any TCP connection. Choose by what your software supports, not speed. Includes test commands."
+title: "HTTP vs SOCKS5 Proxy: Which One Should You Use?"
+description: "Use the protocol your software supports: HTTP proxies handle web traffic, SOCKS5 relays any TCP connection. Includes test commands and AnboVPN proxy limits."
 pubDate: 2026-11-06T11:00:00+08:00
+updatedDate: 2026-11-09T10:00:00+08:00
 category: proxies
 term: "SOCKS5 proxy"
 tags: [HTTP proxy, SOCKS5, proxy protocol, curl, browser profiles]
 faq:
   - q: "Is SOCKS5 faster than an HTTP proxy?"
-    a: "Neither protocol is inherently faster. Speed depends on the network path and on the proxy server. Choose between them by what your software supports, not by expected speed."
+    a: "Neither is inherently faster. Speed comes from the network path and the proxy server, not the protocol. Pick by what your software supports."
   - q: "Does SOCKS5 encrypt my traffic?"
-    a: "No. SOCKS5 only relays your connection. Encryption comes from the protocol you run through it, for example HTTPS. The hop between you and the proxy is not encrypted unless it is wrapped separately."
-  - q: "Does the AnboVPN SOCKS5 proxy support UDP?"
-    a: "No. The AnboVPN HTTP/SOCKS5 proxy handles TCP traffic only. SOCKS5 UDP is not supported, so tools that need UDP should use the VPN client instead."
-  - q: "Can I use the same credentials for HTTP and SOCKS5?"
-    a: "Yes. One set of credentials works for both protocols. If one protocol is reset on your network, you can try the other with the same account."
+    a: "No. SOCKS5 relays your connection and nothing more. Encryption comes from what runs through it, such as HTTPS, and the hop between you and the proxy is not encrypted unless you wrap it separately."
+  - q: "Can I use one proxy in several browser profiles or scripts?"
+    a: "Yes. One proxy resource can serve several profiles or programs, but they all share the same exit address and the same data, so heavy use in one place leaves less for the others."
+  - q: "What happens if I type the wrong password too many times?"
+    a: "Repeated wrong passwords temporarily block the connection. Wait a little, then retry with the right credentials, or reset the password in your account; the old one stops working within about 30 seconds."
 ---
 
-## What is the difference between an HTTP proxy and a SOCKS5 proxy?
+## What is a SOCKS5 proxy, and how is it different from an HTTP proxy?
 
-An **HTTP proxy** understands HTTP: it reads your web requests and, for HTTPS, opens a tunnel with the `CONNECT` method. A **SOCKS5 proxy** works one level lower: it relays a TCP connection to the destination you name without interpreting what travels inside it. That is why SOCKS5 suits more kinds of software, while HTTP is the natural fit for web tools.
+A **SOCKS5 proxy** relays a raw TCP connection to whatever destination you name, without reading what travels inside it. An **HTTP proxy** understands HTTP: it reads web requests and, for HTTPS, opens a tunnel with the `CONNECT` method. That is why SOCKS5 works with more kinds of software, while HTTP is the natural fit for web tools.
 
 | | HTTP proxy | SOCKS5 proxy |
 |---|---|---|
 | What it understands | HTTP requests | Nothing about the traffic inside |
-| Typical traffic | Web pages, APIs, HTTPS via `CONNECT` | Any TCP connection, such as web, SSH or chat apps |
-| Authentication | Proxy authentication in HTTP headers | Username and password during the SOCKS handshake |
-| UDP | No | Defined in the protocol, but not every provider supports it |
-| Best supported by | Browsers, `curl`, scraping libraries | Apps with a SOCKS setting, SSH tunnels, many desktop clients |
+| Typical traffic | Web pages, APIs, HTTPS via `CONNECT` | Any TCP connection: web, SSH, chat apps |
+| Credentials travel in | Proxy authentication headers | A username and password step in the SOCKS handshake |
+| UDP | No | Defined in the protocol, but many providers don’t offer it |
+| Usually the better fit for | Browsers, `curl`, scraping libraries | Apps with a SOCKS setting, SSH tunnels, desktop clients |
 
-## How does an HTTPS request travel through each one?
+## What actually happens when you connect through each one?
 
-With an HTTP proxy, your client first sends a plain-text `CONNECT` line that names the destination, then the proxy opens the tunnel. With SOCKS5, your client and the proxy run a short binary handshake, and the request names the destination in a compact binary format. Both formats tell the proxy where you are going, and neither one encrypts the hop to the proxy by itself.
+With an HTTP proxy, your client sends a plain-text `CONNECT` line naming the destination, and the proxy opens a tunnel. With SOCKS5, client and proxy run a short binary handshake, then the request names the destination in a compact binary format. Either way the proxy learns where you are headed, and neither format encrypts the hop to the proxy.
 
 ```text
 CONNECT example.com:443 HTTP/1.1
@@ -38,33 +39,36 @@ Host: example.com:443
 Proxy-Authorization: Basic ...
 ```
 
-The `CONNECT` method is defined in [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#name-connect). The SOCKS5 handshake is in [RFC 1928](https://www.rfc-editor.org/rfc/rfc1928), and its username and password step is in [RFC 1929](https://www.rfc-editor.org/rfc/rfc1929).
+`CONNECT` is defined in [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110#name-connect). The SOCKS5 handshake is specified in [RFC 1928](https://www.rfc-editor.org/rfc/rfc1928), with username and password authentication in [RFC 1929](https://www.rfc-editor.org/rfc/rfc1929).
 
-One practical consequence: some networks inspect plain-text `CONNECT` lines but do not read the binary SOCKS5 handshake the same way. On such a network one protocol can be reset while the other connects. Treat that as a troubleshooting step, not a rule, because other networks behave differently.
+### Why does one protocol work while the other gets reset?
+
+Some networks inspect plain-text `CONNECT` lines but treat a binary SOCKS5 handshake differently, so one protocol may be reset while the other connects. If that happens, try the other one with the same credentials. It is a troubleshooting step, not a rule; other networks behave the opposite way.
 
 ## Which one should you choose?
 
-Choose by what your software supports. If it offers both, SOCKS5 is the more general option and HTTP is the more conventional one.
+Let your software decide. Open the proxy settings of the tool you are configuring and see what it accepts, then use that. If it accepts both, SOCKS5 is the more general option and HTTP is the more conventional one.
 
-- **Choose HTTP** when your tool only has an HTTP proxy field, when you work with web requests and APIs, or when you want the widest compatibility with scraping libraries and browsers.
-- **Choose SOCKS5** when the application is not a web client, when the software lists SOCKS5 as an option, or when you want one setting to cover several protocols.
-- **Choose neither** when you need UDP, for example for some games or voice calls. Use a VPN client instead.
+- **Only an “HTTP proxy” field?** Use HTTP.
+- **A “SOCKS5” option, or the app isn’t a web client?** Use SOCKS5.
+- **Browsers, `curl` and scraping libraries?** Both work; HTTP has the widest support.
+- **Need UDP, for example for some games or voice calls?** Neither. Use a VPN client instead.
 
-## What does the AnboVPN HTTP/SOCKS5 proxy support?
+## What does AnboVPN’s HTTP/SOCKS5 proxy include?
 
-AnboVPN's HTTP/SOCKS5 proxy gives each of your browser profiles or scripts its own proxy account, with HTTP (including HTTPS tunnels) and SOCKS5 on one set of credentials. These details were checked against the AnboVPN website in November 2026.
+AnboVPN’s HTTP/SOCKS5 proxy gives each browser profile, script or tool its own exit address, with HTTP (including HTTPS tunnels) and SOCKS5 on the same username and password. Everything below was checked against the AnboVPN website in November 2026.
 
-- One account works for both protocols, with an optional source-IP allowlist so that approved addresses connect without a username or password.
-- Host, ports, username and password are shown in your account, in a one-line `host:port:username:password` format that is easy to paste into browser-profile tools. Copy all of them at once if you manage many.
-- It uses the same data and IP resource as your Dedicated IP.
-- SOCKS5 UDP is not supported, and port 25 and access to internal networks are not offered.
-- Proxy access is enabled per node. If you do not see the proxy card for an IP, that node is not enabled yet, and the IP can still be used through the client or a subscription link.
+- **Two sign-in options.** Username and password by default, or a source-IP allowlist so that approved addresses connect without a password.
+- **Where to find the details.** Your host, port, username and password are in the proxy section of the Subscriptions page, ready to copy. For bulk import into other tools, use one proxy per line as `IP:port:username:password`.
+- **Limits.** SOCKS5 UDP isn’t supported for now, the proxy can’t reach internal network addresses, and port 25 (outgoing mail) is closed.
+- **Enabled per node.** Proxy IPs are only assigned from nodes where the proxy service is switched on, and the stock shown is for those nodes.
+- **Data.** Usage counts against the plan’s data. When it runs out, the proxy is switched off until you renew or add a top-up pack.
 
-See the [HTTP/SOCKS5 proxy page](https://www.anbovpn.com/proxy-ip) for what is on sale now.
+The [HTTP/SOCKS5 proxy page](https://www.anbovpn.com/proxy-ip) lists what is on sale right now.
 
-## How do you test a proxy?
+## How do you test a proxy before relying on it?
 
-Send one request through the proxy to a service that echoes your address, and check that the address is the proxy's. With `curl`, replace the placeholders with your own details:
+Send one request through the proxy to a service that echoes your address, then check that the address is the proxy’s. With `curl`, swap in your own details:
 
 ```bash
 # SOCKS5 (socks5h lets the proxy resolve the domain name)
@@ -74,6 +78,6 @@ curl -x socks5h://USERNAME:PASSWORD@HOST:PORT https://www.anbovpn.com/ip
 curl -x http://USERNAME:PASSWORD@HOST:PORT https://www.anbovpn.com/ip
 ```
 
-The reply shows the address and location the website sees. If one protocol fails, run the other with the same details. You can also use the free [HTTP proxy test](https://www.anbovpn.com/tools/http-proxy-test) and [SOCKS5 proxy test](https://www.anbovpn.com/tools/socks5-proxy-test) tools to check a batch of proxies at once.
+The reply shows the address and location a website would see. To check many proxies at once, the free [HTTP proxy test](https://www.anbovpn.com/tools/http-proxy-test) and [SOCKS5 proxy test](https://www.anbovpn.com/tools/socks5-proxy-test) tools take a list.
 
-For background on the address types behind a proxy, read [Dedicated IP vs shared IP](/posts/dedicated-ip-vs-shared-ip/).
+Related reading: [Dedicated IP or Shared IP?](/posts/dedicated-ip-vs-shared-ip/) covers the kinds of address that can sit behind a proxy, and [AI-optimized routes](/posts/ai-optimized-routes-explained/) explains how proxies and Dedicated IPs fit together.

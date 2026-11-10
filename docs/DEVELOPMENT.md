@@ -1,10 +1,10 @@
 # 开发与维护手册
 
-AnboVPN 官方博客的开发、发布和维护说明。产品介绍见 [`README.md`](../README.md)(英文,默认显示;另有 6 个语言版本,见下文「维护 README」),写作和术语规则见 [`CLAUDE.md`](../CLAUDE.md)。
+AnboVPN 官方博客的开发、发布和维护说明。产品介绍见 [`README.md`](../README.md)(英文,默认显示;另有简体中文版,见下文「维护 README」),写作和术语规则见 [`CLAUDE.md`](../CLAUDE.md)。
 
 站点是 Astro 静态站,托管在 GitHub Pages:<https://elenazitha6-rgb.github.io>。
 
-- 默认语言英文,另有 `zh` / `zh-Hant` / `ja` / `ru` / `fa`(从右到左)/ `tr`,和官网同一套语言码。
+- 默认语言英文,界面支持 `zh` / `zh-Hant` / `ja` / `ru` / `fa`(从右到左)/ `tr`,和官网同一套语言码。**目前只有英文和简体中文有文章**,其它语言没有内容时页面、语言菜单、sitemap 里都不会出现;往 `src/content/posts/<语言码>/` 放进文章就会自动出现。
 - 文章是仓库里的 Markdown 文件,推送到 `main` 后由 GitHub Actions 自动检查、构建、发布,没有后端、没有数据库。
 
 ## 本地开发
@@ -57,12 +57,12 @@ npm run check:seo      # 检查构建产物 dist/(先 npm run build):hreflang、
 4. 跑 `npm run check:content`,按提示修;再 `npm run dev` 看一眼。
 5. 提交并推送,线上自动更新。
 
-## 维护 README(7 个语言版本)
+## 维护 README(英文 + 简体中文)
 
-`README.md` 是**英文版**,GitHub 仓库首页默认显示它(GitHub 只认 `README.md`,所以默认语言要放在这个文件名上);它是面向读者的产品介绍和推广页,不写开发说明。其余语言:`README.zh.md`(简体中文)、`README.zh-Hant.md`、`README.ja.md`、`README.ru.md`、`README.fa.md`、`README.tr.md`,文件名后缀是语言码。每个文件顶部是同一行语言切换(当前语言只写字、不加链接)。
+`README.md` 是**英文版**,GitHub 仓库首页默认显示它(GitHub 只认 `README.md`,所以默认语言要放在这个文件名上);它是面向读者的产品介绍和推广页,不写开发说明。另有 `README.zh.md`(简体中文),文件名后缀是语言码。每个文件顶部是同一行语言切换(当前语言只写字、不加链接)。其它语言的 README 已随文章一起删除(2026-11-09),恢复某个语言时新增 `README.<语言码>.md`,并在每个文件顶部的语言切换行和文末的语言列表里加上它。
 
-- 和博客文章一样,各语言版本是**按当地写法各自写的,不互译**:标题、小节顺序、例子、FAQ 问题、语气都可以不同(日文结论先行加注意点,俄文是技术文档腔,繁体是循序渐进的教学文,土耳其文用「… nedir?」问答体)。必须一致的只有产品事实。
-- 改产品口径(赠送流量、四类连接方式的限制、核对时间等)时,7 个文件一起改。口径以 `CLAUDE.md`「不能做的对外承诺」和官网当前页面为准。
+- 和博客文章一样,各语言版本是**按当地写法各自写的,不互译**:标题、小节顺序、例子、FAQ 问题、语气都可以不同。必须一致的只有产品事实。
+- 改产品口径(赠送流量、四类连接方式的限制、核对时间等)时,两个文件一起改。口径以 `CLAUDE.md`「不能做的对外承诺」和官网当前页面为准。
 - 术语用 `CLAUDE.md` 术语表里各语言的叫法;四条卖点用 `src/i18n/ui/<语言>.ts` 里 `cta.features` 的原话,不自己改写。
 - 文章链接用该语言的前缀(英文无前缀:`/posts/<slug>/`,其它 `/<语言码>/posts/<slug>/`),标题取自该语言文章的 frontmatter;官网链接同样带该语言前缀(英文无前缀)和 utm 参数。改 slug 或增删文章后,逐个核对 README 里指向的文章仍然存在。
 - 波斯语版正文用 `<div dir="rtl">` 包起来,div 里的 Markdown 前后要空行,否则不渲染;语言切换行和语言列表保持从左到右。
@@ -92,7 +92,7 @@ src/
 public/brand/                        官网 Logo 和默认分享图(拷自官网 apps/web/public/brand)
 scripts/check-content.mjs            内容检查
 .github/workflows/deploy.yml         发布到 GitHub Pages
-README.md, README.<语言码>.md        面向读者的产品介绍(README.md 是英文,另 6 个语言版本,见上文「维护 README」)
+README.md, README.zh.md              面向读者的产品介绍(README.md 是英文,README.zh.md 是简体中文,见上文「维护 README」)
 docs/DEVELOPMENT.md                  本手册
 ```
 
@@ -121,7 +121,7 @@ docs/DEVELOPMENT.md                  本手册
 
 ## 已知限制
 
-- 各语言译文由 AI 起草,上线前建议请母语者通读一遍,尤其是波斯语、俄语、土耳其语。
+- 各语言文章由 AI 起草,上线前建议请母语者通读一遍;目前只有英文和简体中文有文章,其它语言恢复时同样如此。
 - 5 篇文章的封面是 AI 生成的插画(没有文字,各语言共用),新文章没配封面时退回品牌渐变图形;首页、专题页、关于页的分享图是官网的默认分享图(1200×630)。
 - 没有站内搜索、评论、订阅邮件、统计脚本;文章超过十几篇后再加分页。
 - GitHub Pages 不能设置响应头(缓存、安全头),也没有服务端重定向。

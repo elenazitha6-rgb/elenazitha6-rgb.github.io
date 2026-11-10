@@ -1,5 +1,5 @@
 <p align="center">
-<a href="./README.md">English</a> | <b>简体中文</b> | <a href="./README.zh-Hant.md">繁體中文</a> | <a href="./README.ja.md">日本語</a> | <a href="./README.ru.md">Русский</a> | <a href="./README.fa.md">فارسی</a> | <a href="./README.tr.md">Türkçe</a>
+<a href="./README.md">English</a> | <b>简体中文</b>
 </p>
 
 <p align="center">
@@ -89,15 +89,10 @@
 
 ## 多语言
 
-博客有 7 种语言版本，每种语言都是按当地写作习惯各自写的，不是互相翻译：
+博客目前有英文和简体中文两个版本，两种语言都是按当地写作习惯各自写的，不是互相翻译：
 
 [English](https://elenazitha6-rgb.github.io/) ·
-[简体中文](https://elenazitha6-rgb.github.io/zh/) ·
-[繁體中文](https://elenazitha6-rgb.github.io/zh-Hant/) ·
-[日本語](https://elenazitha6-rgb.github.io/ja/) ·
-[Русский](https://elenazitha6-rgb.github.io/ru/) ·
-[فارسی](https://elenazitha6-rgb.github.io/fa/) ·
-[Türkçe](https://elenazitha6-rgb.github.io/tr/)
+[简体中文](https://elenazitha6-rgb.github.io/zh/)
 
 ## 关于这个博客
 
