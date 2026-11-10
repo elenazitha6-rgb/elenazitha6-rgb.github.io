@@ -7,11 +7,16 @@ import type { Post } from "@/lib/posts";
 
 interface Props {
   post: Post;
-  /** featured:首页顶部的大卡(左图右文);默认是竖排小卡。 */
-  variant?: "default" | "featured";
+  /**
+   * featured:首页顶部通栏大卡(左图右文),只有一篇文章时用;
+   * lead:三列网格里跨两列的头条卡(左图右文,字号收一档);默认是竖排小卡。
+   */
+  variant?: "default" | "featured" | "lead";
   headingLevel?: 2 | 3;
+  /** 头条卡上的小标签(如「编辑推荐」)。 */
+  badge?: string;
 }
-const { post, variant = "default", headingLevel = 3 } = Astro.props;
+const { post, variant = "default", headingLevel = 3, badge } = Astro.props;
 const m = getMessages(post.locale);
 const H = `h${headingLevel}` as "h2" | "h3";
 ---
@@ -20,13 +25,14 @@ const H = `h${headingLevel}` as "h2" | "h3";
   <div class="media">
     {
       post.cover ? (
-        <img src={post.cover} width="1200" height="630" alt="" loading={variant === "featured" ? "eager" : "lazy"} decoding="async" />
+        <img src={post.cover} width="1200" height="630" alt="" loading={variant === "default" ? "lazy" : "eager"} decoding="async" />
       ) : (
-        <CoverArt category={post.category} iconSize={variant === "featured" ? 72 : 48} />
+        <CoverArt category={post.category} iconSize={variant === "default" ? 48 : 72} />
       )
     }
   </div>
   <div class="body">
+    {badge && <span class="badge">{badge}</span>}
     <p class="meta">
       <span class="cat">{m.categories[post.category].name}</span>
       <span aria-hidden="true">·</span>
@@ -137,11 +143,24 @@ const H = `h${headingLevel}` as "h2" | "h3";
     transform: translateX(-3px);
   }
 
-  .featured {
+  .badge {
+    align-self: flex-start;
+    padding: 0.15rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid var(--accent-soft-border);
+    background: var(--accent-soft);
+    color: var(--link);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .featured,
+  .lead {
     flex-direction: row;
   }
   /* 52% 宽正好接近封面 1200:630 的比例,首页大卡里封面几乎不被裁掉 */
-  .featured .media {
+  .featured .media,
+  .lead .media {
     flex: 0 0 52%;
     display: flex;
   }
@@ -152,11 +171,13 @@ const H = `h${headingLevel}` as "h2" | "h3";
     aspect-ratio: 1200 / 630;
     object-fit: cover;
   }
-  .featured .media :global(.cover) {
+  .featured .media :global(.cover),
+  .lead .media :global(.cover) {
     aspect-ratio: auto;
     min-block-size: 100%;
   }
-  .featured .media img {
+  .featured .media img,
+  .lead .media img {
     block-size: 100%;
     aspect-ratio: auto;
     min-block-size: 100%;
@@ -174,26 +195,46 @@ const H = `h${headingLevel}` as "h2" | "h3";
     font-size: 1.05rem;
     -webkit-line-clamp: 4;
   }
+  /* 跨两列的头条卡:宽度只有通栏的一半多,字号和内边距收一档,文字不挤 */
+  .lead .body {
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1.6rem;
+  }
+  .lead .title {
+    font-size: 1.45rem;
+    letter-spacing: -0.015em;
+  }
+  .lead .desc {
+    font-size: 0.98rem;
+    -webkit-line-clamp: 4;
+  }
   @media (max-width: 820px) {
-    .featured {
+    .featured,
+    .lead {
       flex-direction: column;
     }
-    .featured .media {
+    .featured .media,
+    .lead .media {
       flex: none;
     }
-    .featured .media :global(.cover) {
+    .featured .media :global(.cover),
+    .lead .media :global(.cover) {
       aspect-ratio: 16 / 9;
       min-block-size: 0;
     }
-    .featured .media img {
+    .featured .media img,
+    .lead .media img {
       block-size: auto;
       aspect-ratio: 1200 / 630;
       min-block-size: 0;
     }
-    .featured .body {
+    .featured .body,
+    .lead .body {
       padding: 1.25rem 1.35rem 1.2rem;
     }
-    .featured .title {
+    .featured .title,
+    .lead .title {
       font-size: 1.45rem;
     }
   }

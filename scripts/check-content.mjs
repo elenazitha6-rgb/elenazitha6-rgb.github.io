@@ -133,25 +133,23 @@ for (const p of posts) {
   }
 }
 
-// 译文齐全、字段和英文一致
-const en = posts.filter((p) => p.locale === "en");
-// 整个语言还没有任何文章(例如暂时只做英文和简体中文)时,只提示一次,不逐篇报缺译文
-const emptyLocales = LOCALES.slice(1).filter((l) => !posts.some((p) => p.locale === l));
-if (emptyLocales.length) console.log(`ℹ 暂无文章的语言:${emptyLocales.join(", ")}(这些语言的页面不会生成,语言菜单里也不会出现)`);
-for (const base of en) {
-  for (const locale of LOCALES.slice(1)) {
-    if (emptyLocales.includes(locale)) continue;
-    const t = posts.find((p) => p.locale === locale && p.slug === base.slug);
-    if (!t) {
-      warn(`posts/${locale}/${base.slug}.md`, "缺少这个语言的译文(该语言页面不会出现这一篇)");
-      continue;
-    }
+// 各语言写哪几篇不要求一致(有的语言只写了一两篇,选题也可以和别的语言不同),
+// 所以不再逐篇报「缺译文」,只检查「同一个 slug 的各语言版本」字段一致:category / featured / pubDate 以英文版为准,没有英文版就以第一个版本为准
+const bySlug = new Map();
+for (const p of posts) bySlug.set(p.slug, [...(bySlug.get(p.slug) ?? []), p]);
+for (const versions of bySlug.values()) {
+  const base = versions.find((p) => p.locale === "en") ?? versions[0];
+  for (const t of versions) {
+    if (t === base) continue;
+    const baseName = base.locale === "en" ? "英文" : base.locale;
     for (const key of ["category", "featured"]) {
-      if ((t.data[key] ?? false) !== (base.data[key] ?? false)) err(t.rel, `${key} 和英文不一致`);
+      if ((t.data[key] ?? false) !== (base.data[key] ?? false)) err(t.rel, `${key} 和${baseName}版不一致`);
     }
-    if (new Date(t.data.pubDate).getTime() !== new Date(base.data.pubDate).getTime()) err(t.rel, "pubDate 和英文不一致");
+    if (new Date(t.data.pubDate).getTime() !== new Date(base.data.pubDate).getTime()) err(t.rel, `pubDate 和${baseName}版不一致`);
   }
 }
+const coverage = LOCALES.map((l) => `${l}:${posts.filter((p) => p.locale === l).length}`).join("  ");
+console.log(`ℹ 各语言文章数  ${coverage}(没有文章的语言不会生成页面,也不会出现在语言菜单里)`);
 for (const locale of LOCALES) {
   const featured = posts.filter((p) => p.locale === locale && p.data.featured);
   if (featured.length > 1) err(`posts/${locale}`, `featured 每种语言至多一篇,现在 ${featured.length}`);

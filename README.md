@@ -89,10 +89,15 @@ Prices change, so this page doesn't list them. See the [official pricing page](h
 
 ## This blog in other languages
 
-English and Simplified Chinese, each written for local readers rather than translated:
+7 languages, each written for local readers rather than translated:
 
 [English](https://elenazitha6-rgb.github.io/) ·
-[简体中文](https://elenazitha6-rgb.github.io/zh/)
+[简体中文](https://elenazitha6-rgb.github.io/zh/) ·
+[繁體中文](https://elenazitha6-rgb.github.io/zh-Hant/) ·
+[日本語](https://elenazitha6-rgb.github.io/ja/) ·
+[Русский](https://elenazitha6-rgb.github.io/ru/) ·
+[فارسی](https://elenazitha6-rgb.github.io/fa/) ·
+[Türkçe](https://elenazitha6-rgb.github.io/tr/)
 
 ## About this blog
 

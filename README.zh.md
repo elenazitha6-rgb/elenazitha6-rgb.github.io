@@ -89,10 +89,15 @@
 
 ## 多语言
 
-博客目前有英文和简体中文两个版本，两种语言都是按当地写作习惯各自写的，不是互相翻译：
+博客有 7 种语言版本，每种语言都是按当地写作习惯各自写的，不是互相翻译：
 
 [English](https://elenazitha6-rgb.github.io/) ·
-[简体中文](https://elenazitha6-rgb.github.io/zh/)
+[简体中文](https://elenazitha6-rgb.github.io/zh/) ·
+[繁體中文](https://elenazitha6-rgb.github.io/zh-Hant/) ·
+[日本語](https://elenazitha6-rgb.github.io/ja/) ·
+[Русский](https://elenazitha6-rgb.github.io/ru/) ·
+[فارسی](https://elenazitha6-rgb.github.io/fa/) ·
+[Türkçe](https://elenazitha6-rgb.github.io/tr/)
 
 ## 关于这个博客
 

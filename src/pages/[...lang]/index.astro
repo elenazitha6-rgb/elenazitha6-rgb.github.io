@@ -21,10 +21,9 @@ const { locale } = Astro.props as { locale: Locale };
 const m = getMessages(locale);
 const posts = await getPosts(locale);
 const counts = countByCategory(posts);
-const featured = posts.find((p) => p.featured) ?? posts[0];
+// posts 为空时下面走「暂无文章」分支,不会用到 featured
+const featured = (posts.find((p) => p.featured) ?? posts[0])!;
 const rest = posts.filter((p) => p !== featured);
-// 避免最后一行落单一张卡:剩 2 / 4 / 8 篇时用两列,否则三列
-const cols = rest.length % 3 === 0 ? 3 : rest.length % 2 === 0 ? 2 : 3;
 const site = Astro.site!;
 ---
 
@@ -69,14 +68,23 @@ const site = Astro.site!;
     ) : (
       <>
         <section class="container section" id="latest" aria-labelledby="latest-title">
-          <h2 id="latest-title" class="section-title">{featured ? m.home.featured : m.home.latest}</h2>
-          {featured && <PostCard post={featured} variant="featured" headingLevel={3} />}
-
           {
-            rest.length > 0 && (
+            rest.length === 0 ? (
+              // 只有一篇:通栏大卡
               <>
-                <h2 class="section-title spaced">{m.home.latest}</h2>
-                <div class="grid" data-cols={cols}>{rest.map((p) => <PostCard post={p} />)}</div>
+                <h2 id="latest-title" class="section-title">{featured.featured ? m.home.featured : m.home.latest}</h2>
+                <PostCard post={featured} variant="featured" headingLevel={3} />
+              </>
+            ) : (
+              // 三列网格:头条跨两列,和旁边一张小卡凑满第一行,其余三张一行,5 篇正好排满
+              <>
+                <h2 id="latest-title" class="section-title">{m.home.latest}</h2>
+                <div class="grid">
+                  <div class="slot lead-slot">
+                    <PostCard post={featured} variant="lead" badge={featured.featured ? m.home.featured : undefined} headingLevel={3} />
+                  </div>
+                  {rest.map((p) => <PostCard post={p} />)}
+                </div>
               </>
             )
           }
@@ -215,16 +223,30 @@ const site = Astro.site!;
     font-size: 1.5rem;
     font-weight: 800;
   }
-  .section-title.spaced {
-    margin-block-start: 3rem;
-  }
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
   }
-  .grid[data-cols="2"] {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+  .lead-slot {
+    grid-column: span 2;
+    display: flex;
+  }
+  .lead-slot > :global(.card) {
+    flex: 1 1 auto;
+  }
+  @media (max-width: 64rem) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 40rem) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .lead-slot {
+      grid-column: auto;
+    }
   }
   .topics {
     display: grid;

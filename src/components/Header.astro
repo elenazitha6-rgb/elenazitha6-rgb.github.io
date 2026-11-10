@@ -4,7 +4,7 @@ import { CATEGORIES } from "@/categories";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/paths";
 import { getMessages } from "@/i18n/ui";
-import { topicPath } from "@/lib/posts";
+import { getPosts, topicPath } from "@/lib/posts";
 import { brandNameFor, officialLink } from "@/site";
 
 interface Props {
@@ -18,6 +18,9 @@ const m = getMessages(locale);
 const brand = brandNameFor(locale);
 const home = localePath(locale, "/");
 const current = languages.find((l) => l.current);
+// 专题只列这个语言真有文章的分类:没有文章的分类不会生成专题页,链接过去是 404
+const posts = await getPosts(locale);
+const topics = CATEGORIES.filter((c) => posts.some((p) => p.category === c));
 ---
 
 <header class="site-header">
@@ -36,7 +39,7 @@ const current = languages.find((l) => l.current);
           <Icon name="chevron" size={16} />
         </summary>
         <div class="panel">
-          {CATEGORIES.map((c) => (
+          {topics.map((c) => (
             <a href={topicPath(locale, c)}>
               <span class="panel-title">{m.categories[c].name}</span>
               <span class="panel-desc">{m.categories[c].description}</span>
@@ -79,7 +82,7 @@ const current = languages.find((l) => l.current);
         </summary>
         <div class="panel">
           <a href={home}>{m.nav.articles}</a>
-          {CATEGORIES.map((c) => <a class="sub" href={topicPath(locale, c)}>{m.categories[c].name}</a>)}
+          {topics.map((c) => <a class="sub" href={topicPath(locale, c)}>{m.categories[c].name}</a>)}
           <a href={localePath(locale, "/about/")}>{m.nav.about}</a>
           <a class="btn btn-primary" href={officialLink(locale, "/download", "header_menu")} rel="noopener">{m.nav.getApp}</a>
         </div>
