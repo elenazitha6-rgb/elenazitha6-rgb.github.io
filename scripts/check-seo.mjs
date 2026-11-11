@@ -63,7 +63,8 @@ const localeOf = (urlPath) => {
 };
 
 const pages = files
-  .filter((f) => f.endsWith(".html") && f !== "404.html")
+  // google<token>.html 是 Google Search Console 的站点验证文件(纯文本,没有页面结构),不是页面
+  .filter((f) => f.endsWith(".html") && f !== "404.html" && !/^google[0-9a-f]+.html$/.test(f))
   .map((file) => {
     const html = readFileSync(path.join(dist, file), "utf8");
     const url = urlOf(file);
