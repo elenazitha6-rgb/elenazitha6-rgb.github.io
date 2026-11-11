@@ -1,7 +1,7 @@
 ---
 title: "Dedicated IP or Shared IP? A Plain-English Buyer’s Guide"
 description: "A shared IP is used by many people at once; a Dedicated IP belongs to one user. Choose shared for everyday browsing, dedicated for allowlists and stable logins."
-pubDate: 2026-11-10T09:00:00+08:00
+pubDate: 2026-11-10T15:42:00+08:00
 category: ip-types
 term: "Dedicated IP"
 featured: true
