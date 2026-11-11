@@ -3,7 +3,7 @@ import type { GetStaticPaths } from "astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CtaCard from "@/components/CtaCard.astro";
 import Icon from "@/components/Icon.astro";
-import PostCard from "@/components/PostCard.astro";
+import PostRow from "@/components/PostRow.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { CATEGORIES, type Category } from "@/categories";
 import { LOCALES, LOCALE_META, type Locale } from "@/i18n/config";
@@ -75,7 +75,7 @@ const jsonLd = graph([
   </section>
 
   <section class="container list" aria-label={name}>
-    <div class="grid">{posts.map((p) => <PostCard post={p} headingLevel={2} />)}</div>
+    <div class="rows">{posts.map((p) => <PostRow post={p} headingLevel={2} />)}</div>
   </section>
 
   {
@@ -144,10 +144,8 @@ const jsonLd = graph([
   .list {
     margin-block-start: 2.5rem;
   }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
-    gap: 1.5rem;
+  .rows {
+    border-block-end: 1px solid var(--border);
   }
   .others {
     margin-block-start: 3.5rem;

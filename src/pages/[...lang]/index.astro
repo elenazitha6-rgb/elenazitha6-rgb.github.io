@@ -1,8 +1,8 @@
 ---
 import type { GetStaticPaths } from "astro";
 import CtaCard from "@/components/CtaCard.astro";
-import Icon from "@/components/Icon.astro";
 import PostCard from "@/components/PostCard.astro";
+import PostRow from "@/components/PostRow.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { CATEGORIES } from "@/categories";
 import type { Locale } from "@/i18n/config";
@@ -10,7 +10,6 @@ import { langParam } from "@/i18n/paths";
 import { getMessages } from "@/i18n/ui";
 import { countByCategory, getContentLocales, getPosts, topicPath } from "@/lib/posts";
 import { blogNode, graph, organizationNode, websiteNode } from "@/lib/schema";
-import { officialLink } from "@/site";
 
 export const getStaticPaths = (async () => {
   const locales = await getContentLocales();
@@ -23,15 +22,8 @@ const posts = await getPosts(locale);
 const counts = countByCategory(posts);
 // posts 为空时下面走「暂无文章」分支,不会用到 featured
 const featured = (posts.find((p) => p.featured) ?? posts[0])!;
+// 文章是定时发布的,首页会从 1 篇慢慢长到 N 篇:头条一篇放大,其余排成一列「标题 + 摘要 + 缩略图」的行,任何篇数都排得齐
 const rest = posts.filter((p) => p !== featured);
-// 头条通栏(左图右文)下面是 6 列网格,按剩余篇数排,任何数量都能排满、不留空格(文章是定时发布的,首页会从 1 篇慢慢长到 N 篇):
-// 每 3 篇一行(各占 2 列);余 2 篇的最后一行每篇占 3 列;余 1 篇的最后一行是通栏横版卡。
-const remainder = rest.length % 3;
-const cells = rest.map((post, i) => {
-  const inFullRows = i < rest.length - remainder;
-  if (inFullRows) return { post, span: "s2", wide: false };
-  return remainder === 1 ? { post, span: "s6", wide: true } : { post, span: "s3", wide: false };
-});
 const site = Astro.site!;
 ---
 
@@ -43,74 +35,47 @@ const site = Astro.site!;
   active="articles"
   jsonLd={[graph([organizationNode(site, locale), websiteNode(site, locale), blogNode(site, locale, posts)])]}
 >
-  <section class="hero">
-    <div class="container hero-inner">
-      <p class="eyebrow"><span class="dot"></span>{m.home.eyebrow}</p>
-      <h1>{m.home.title}</h1>
-      <p class="lead">{m.home.lead}</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#latest">
-          {m.home.readLatest}
-          <Icon name="arrow" size={18} class="arrow" />
-        </a>
-        <a class="btn btn-secondary" href={officialLink(locale, "/", "home_hero")} rel="noopener">{m.nav.getApp}</a>
-      </div>
-      <ul class="topic-chips" role="list" aria-label={m.home.topics}>
-        {
-          CATEGORIES.filter((c) => counts.has(c)).map((c) => (
-            <li>
-              <a href={topicPath(locale, c)}>
-                <Icon name={c} size={16} />
-                {m.categories[c].name}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
+  <header class="container masthead">
+    <h1>{m.home.title}</h1>
+    <p class="lead">{m.home.lead}</p>
+  </header>
 
   {
     posts.length === 0 ? (
       <p class="container empty">{m.home.empty}</p>
     ) : (
       <>
-        <section class="container section" id="latest" aria-labelledby="latest-title">
-          <h2 id="latest-title" class="section-title">{featured.featured ? m.home.featured : m.home.latest}</h2>
-          <PostCard post={featured} variant="featured" headingLevel={3} />
-          {
-            cells.length > 0 && (
-              <>
-                {featured.featured && <h2 class="section-title more-title">{m.home.latest}</h2>}
-                <div class:list={["grid", { "after-lead": !featured.featured }]}>
-                  {cells.map(({ post, span, wide }) => (
-                    <div class={`cell ${span}`}>
-                      <PostCard post={post} variant={wide ? "lead" : "default"} headingLevel={3} />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )
-          }
-        </section>
-
-        <section class="container section" aria-labelledby="topics-title">
-          <h2 id="topics-title" class="section-title">{m.home.topics}</h2>
-          <div class="topics">
+        <nav class="container tabs" aria-label={m.home.topics}>
+          <ul role="list">
             {
               CATEGORIES.filter((c) => counts.has(c)).map((c) => (
-                <a class="topic" href={topicPath(locale, c)}>
-                  <span class="topic-icon"><Icon name={c} size={26} strokeWidth={1.8} /></span>
-                  <span class="topic-name">{m.categories[c].name}</span>
-                  <span class="topic-desc">{m.categories[c].description}</span>
-                  <span class="topic-count">{m.category.count(counts.get(c) ?? 0)}</span>
-                </a>
+                <li>
+                  <a href={topicPath(locale, c)}>
+                    {m.categories[c].name}
+                    <span class="count">{counts.get(c)}</span>
+                  </a>
+                </li>
               ))
             }
-          </div>
+          </ul>
+        </nav>
+
+        <section class="container feature" id="latest" aria-label={featured.featured ? m.home.featured : m.home.latest}>
+          <PostCard post={featured} variant="featured" badge={featured.featured ? m.home.featured : undefined} headingLevel={2} />
         </section>
 
-        <div class="container">
+        {
+          rest.length > 0 && (
+            <section class="container list" aria-labelledby="list-title">
+              <h2 id="list-title" class="list-title">{m.home.latest}</h2>
+              <div class="rows">
+                {rest.map((p) => <PostRow post={p} headingLevel={3} />)}
+              </div>
+            </section>
+          )
+        }
+
+        <div class="container cta">
           <CtaCard locale={locale} placement="home_banner" />
         </div>
       </>
@@ -119,205 +84,82 @@ const site = Astro.site!;
 </BaseLayout>
 
 <style>
-  .hero {
-    position: relative;
-    overflow: hidden;
-    padding-block: clamp(3.5rem, 9vw, 6.5rem) clamp(2.5rem, 6vw, 4rem);
-    background:
-      radial-gradient(60rem 28rem at 85% -10%, rgb(6 176 252 / 0.2), transparent 60%),
-      radial-gradient(48rem 26rem at 5% 0%, rgb(5 129 250 / 0.16), transparent 62%),
-      var(--bg);
-    border-block-end: 1px solid var(--border);
-  }
-  .hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background-image: radial-gradient(var(--border-strong) 1px, transparent 1.2px);
-    background-size: 26px 26px;
-    opacity: 0.45;
-    mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-inner {
-    position: relative;
-    z-index: 1;
-    max-inline-size: 52rem;
-    margin-inline: auto;
-    text-align: center;
-    display: grid;
-    justify-items: center;
-    gap: 1.4rem;
-  }
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    padding: 0.35rem 0.9rem;
-    border-radius: 999px;
-    border: 1px solid var(--accent-soft-border);
-    background: var(--accent-soft);
-    color: var(--link);
-    font-size: 0.85rem;
-    font-weight: 700;
-  }
-  .dot {
-    inline-size: 8px;
-    block-size: 8px;
-    border-radius: 50%;
-    background: var(--gradient);
-    box-shadow: 0 0 0 4px rgb(5 129 250 / 0.18);
+  .masthead {
+    padding-block: clamp(2.5rem, 6vw, 4.25rem) 1.75rem;
   }
   h1 {
-    font-size: clamp(2.1rem, 5.4vw, 3.6rem);
-    font-weight: 850;
-    line-height: 1.12;
-    letter-spacing: -0.03em;
+    max-inline-size: 44rem;
+    text-wrap: balance;
     color: var(--text);
+    font-size: clamp(1.9rem, 4.2vw, 2.85rem);
+    font-weight: 800;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
   }
   .lead {
-    max-inline-size: 40rem;
+    max-inline-size: 38rem;
+    text-wrap: pretty;
+    margin-block-start: 1rem;
     color: var(--text-muted);
-    font-size: clamp(1.02rem, 2vw, 1.2rem);
-    line-height: 1.65;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.7;
   }
-  .actions {
+  .empty {
+    padding-block: 3rem;
+    color: var(--text-muted);
+  }
+
+  /* 主题:一排文字标签,当前所在栏目一目了然,不做成胶囊按钮 */
+  .tabs {
+    border-block-end: 1px solid var(--border);
+  }
+  .tabs ul {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-block-start: 0.4rem;
-  }
-  .topic-chips {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem;
-    margin: 1rem 0 0;
+    gap: 0 1.75rem;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
-  .topic-chips a {
+  .tabs a {
     display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.45rem 0.9rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--surface);
+    align-items: baseline;
+    gap: 0.4rem;
+    padding-block: 0.8rem;
+    border-block-end: 2px solid transparent;
+    margin-block-end: -1px;
     color: var(--text-soft);
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.95rem;
+    font-weight: 650;
     text-decoration: none;
-    box-shadow: var(--shadow-sm);
-    transition: border-color 0.15s, color 0.15s, box-shadow 0.15s;
   }
-  .topic-chips a:hover {
-    border-color: var(--accent-soft-border);
+  .tabs a:hover {
     color: var(--link);
-    box-shadow: var(--shadow-md);
+    border-block-end-color: var(--accent-soft-border);
   }
-  .section {
-    margin-block-start: 3.5rem;
-  }
-  .section-title {
-    margin-block-end: 1.25rem;
-    color: var(--text);
-    font-size: 1.5rem;
-    font-weight: 800;
-  }
-  .more-title {
-    margin-block-start: 2.5rem;
-  }
-  .after-lead {
-    margin-block-start: 1.5rem;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 1.5rem;
-  }
-  .cell {
-    display: flex;
-  }
-  .cell > :global(.card) {
-    flex: 1 1 auto;
-  }
-  .s2 {
-    grid-column: span 2;
-  }
-  .s3 {
-    grid-column: span 3;
-  }
-  .s6 {
-    grid-column: 1 / -1;
-  }
-  @media (max-width: 64rem) {
-    .grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .s2,
-    .s3 {
-      grid-column: auto;
-    }
-  }
-  @media (max-width: 40rem) {
-    .grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
-  }
-  .topics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 1.25rem;
-  }
-  .topic {
-    display: grid;
-    align-content: start;
-    gap: 0.5rem;
-    padding: 1.4rem 1.4rem 1.2rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-    box-shadow: var(--shadow-sm);
-    text-decoration: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .topic:hover {
-    border-color: var(--accent-soft-border);
-    box-shadow: var(--shadow-md);
-  }
-  .topic-icon {
-    display: grid;
-    place-items: center;
-    inline-size: 48px;
-    block-size: 48px;
-    margin-block-end: 0.4rem;
-    border-radius: 14px;
-    background: var(--accent-soft);
-    border: 1px solid var(--accent-soft-border);
-    color: var(--link);
-  }
-  .topic-name {
-    color: var(--text);
-    font-size: 1.1rem;
-    font-weight: 800;
-  }
-  .topic-desc {
+  .count {
     color: var(--text-muted);
-    font-size: 0.92rem;
-    line-height: 1.55;
+    font-size: 0.8rem;
+    font-weight: 500;
   }
-  .topic-count {
-    margin-block-start: 0.4rem;
-    color: var(--link);
-    font-size: 0.85rem;
-    font-weight: 700;
+
+  .feature {
+    padding-block-start: 2.5rem;
   }
-  .empty {
-    padding-block: 4rem;
-    text-align: center;
-    color: var(--text-muted);
+  .list {
+    padding-block-start: 3.25rem;
+  }
+  .list-title {
+    margin-block-end: 0.9rem;
+    color: var(--text);
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  .rows {
+    border-block-end: 1px solid var(--border);
+  }
+  .cta {
+    padding-block-start: 3.5rem;
   }
 </style>

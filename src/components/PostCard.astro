@@ -158,8 +158,31 @@ const H = `h${headingLevel}` as "h2" | "h3";
   .lead {
     flex-direction: row;
   }
+  /* 头条平铺在页面上(不是带边框的卡片):大图加细边,文字直接放在白底上,和下面的文章行形成层次 */
+  .featured {
+    align-items: center;
+    gap: clamp(1.5rem, 3.5vw, 3rem);
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .featured:hover {
+    border-color: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+  .featured .media {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
   /* 52% 宽正好接近封面 1200:630 的比例,首页大卡里封面几乎不被裁掉 */
-  .featured .media,
+  .featured .media {
+    flex: 0 0 56%;
+    display: flex;
+  }
   .lead .media {
     flex: 0 0 52%;
     display: flex;
@@ -183,12 +206,15 @@ const H = `h${headingLevel}` as "h2" | "h3";
     min-block-size: 100%;
   }
   .featured .body {
+    flex: 1 1 0;
     justify-content: center;
     gap: 0.9rem;
-    padding: 2rem 2.25rem;
+    padding: 0;
   }
   .featured .title {
-    font-size: 1.85rem;
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.25;
     letter-spacing: -0.02em;
   }
   .featured .desc {
@@ -229,7 +255,9 @@ const H = `h${headingLevel}` as "h2" | "h3";
       aspect-ratio: 1200 / 630;
       min-block-size: 0;
     }
-    .featured .body,
+    .featured .body {
+      padding: 1.1rem 0 0;
+    }
     .lead .body {
       padding: 1.25rem 1.35rem 1.2rem;
     }
