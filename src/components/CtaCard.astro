@@ -28,7 +28,10 @@ const features = m.cta.features.map((f, i) => ({ ...f, icon: ICONS[i] ?? "check"
   variant === "banner" ? (
     <aside class="cta banner">
       <div class="head">
-        <p class="eyebrow">{brandNameFor(locale)}</p>
+        <p class="brand ">
+          <img src="/brand/logo-64.webp" srcset="/brand/logo-64.webp 1x, /brand/logo-96.webp 2x" width="40" height="40" alt="" decoding="async" />
+          <span>{brandNameFor(locale)}</span>
+        </p>
         <h2>{m.cta.title}</h2>
       </div>
       <ul class="features" role="list">
@@ -54,7 +57,10 @@ const features = m.cta.features.map((f, i) => ({ ...f, icon: ICONS[i] ?? "check"
     </aside>
   ) : (
     <aside class="cta side">
-      <p class="eyebrow">{brandNameFor(locale)}</p>
+      <p class="brand sm">
+        <img src="/brand/logo-64.webp" srcset="/brand/logo-64.webp 1x, /brand/logo-96.webp 2x" width="32" height="32" alt="" decoding="async" />
+        <span>{brandNameFor(locale)}</span>
+      </p>
       <p class="side-title">{m.cta.sideTitle}</p>
       <ul class="side-list" role="list">
         {
@@ -87,12 +93,31 @@ const features = m.cta.features.map((f, i) => ({ ...f, icon: ICONS[i] ?? "check"
     block-size: 4px;
     background: var(--gradient);
   }
-  .eyebrow {
-    color: var(--link);
-    font-size: 0.78rem;
+  /* 品牌标识:Logo + 品牌名,卡片一眼认得出是谁家的 */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--text);
+    font-size: 1.05rem;
     font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .brand img {
+    flex: none;
+    display: block;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border-radius: 0.6rem;
+  }
+  .brand.sm {
+    gap: 0.55rem;
+    font-size: 0.98rem;
+  }
+  .brand.sm img {
+    inline-size: 2rem;
+    block-size: 2rem;
+    border-radius: 0.5rem;
   }
   .icon {
     flex: none;

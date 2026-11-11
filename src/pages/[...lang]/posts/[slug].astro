@@ -157,10 +157,9 @@ const jsonLd = graph([
   }
   .cols {
     display: grid;
-    grid-template-columns: minmax(0, 44rem) 17rem;
-    /* 正文贴着内容栏左边(和页头 Logo 对齐)、目录贴着右边(和页头按钮对齐),中间的空隙留给阅读 */
-    justify-content: space-between;
-    column-gap: 3rem;
+    /* 正文占满左边剩余宽度:左边和页头 Logo 对齐,右边的目录栏贴着内容栏右边(和页头按钮对齐),两栏之间只留一条正常的间隔 */
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    column-gap: 3.5rem;
   }
   .main {
     min-inline-size: 0;

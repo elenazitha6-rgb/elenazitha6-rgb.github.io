@@ -72,6 +72,7 @@ jobs:
 
   # 发布成功后,把新增 / 更新的页面推给 IndexNow(Bing、Yandex、Naver、Seznam)。
   # 推送记录放在 Actions 缓存里(部署目录之外),所以每次只推有变化的页面,不会全站重推。
+  # 缓存键带 v2:文章改成定时发布后 sitemap 页面数从 42 骤降到 8,旧记录(42 条)会让脚本的「页面数骤降」保护一直拦住推送,换键等于清空旧记录。
   # 不需要时在仓库 Variables 里设 INDEXNOW_DISABLED=true。
   indexnow:
     needs: deploy
@@ -94,8 +95,8 @@ jobs:
       - uses: actions/cache/restore@v4
         with:
           path: .indexnow
-          key: indexnow-state-${{ github.run_id }}
-          restore-keys: indexnow-state-
+          key: indexnow-state-v2-${{ github.run_id }}
+          restore-keys: indexnow-state-v2-
 
       - run: node scripts/indexnow.mjs --sitemap .indexnow-in/sitemap.xml --state .indexnow/state.json
         env:
@@ -105,4 +106,4 @@ jobs:
         if: ${{ success() }}
         with:
           path: .indexnow
-          key: indexnow-state-${{ github.run_id }}
+          key: indexnow-state-v2-${{ github.run_id }}
