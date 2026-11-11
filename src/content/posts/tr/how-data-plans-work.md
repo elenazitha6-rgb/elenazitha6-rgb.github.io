@@ -1,7 +1,7 @@
 ---
 title: "Veri Paketi Nedir? AnboVPN’de Sıfırlama, Ek Paket ve Bakiye"
 description: "AnboVPN veri paketi veriye göre hesaplanır, her ay sipariş gününde 12:00’de (Pekin saati) sıfırlanır. Her IP türünün bakiyesi ayrıdır; yetmezse ek paket alınır."
-pubDate: 2026-11-09T14:00:00+08:00
+pubDate: 2026-11-25T09:00:00+08:00
 category: ip-types
 term: "Veri paketi"
 featured: true

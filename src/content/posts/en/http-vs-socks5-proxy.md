@@ -1,8 +1,7 @@
 ---
 title: "HTTP vs SOCKS5 Proxy: Which One Should You Use?"
 description: "Use the protocol your software supports: HTTP proxies handle web traffic, SOCKS5 relays any TCP connection. Includes test commands and AnboVPN proxy limits."
-pubDate: 2026-11-06T11:00:00+08:00
-updatedDate: 2026-11-09T10:00:00+08:00
+pubDate: 2026-11-16T09:00:00+08:00
 category: proxies
 term: "SOCKS5 proxy"
 tags: [HTTP proxy, SOCKS5, proxy protocol, curl, browser profiles]

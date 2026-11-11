@@ -1,8 +1,7 @@
 ---
 title: "How a Network Gateway Works (and When You Need One)"
 description: "A network gateway is one always-on Linux machine that routes every device pointed at it, so TVs and consoles need no app. Learn the setup steps and limits."
-pubDate: 2026-11-06T12:00:00+08:00
-updatedDate: 2026-11-09T10:00:00+08:00
+pubDate: 2026-11-19T09:00:00+08:00
 category: gateway
 term: "Network gateway"
 tags: [network gateway, side router, transparent proxy, Linux, smart TV]

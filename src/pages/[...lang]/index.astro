@@ -24,6 +24,14 @@ const counts = countByCategory(posts);
 // posts 为空时下面走「暂无文章」分支,不会用到 featured
 const featured = (posts.find((p) => p.featured) ?? posts[0])!;
 const rest = posts.filter((p) => p !== featured);
+// 头条通栏(左图右文)下面是 6 列网格,按剩余篇数排,任何数量都能排满、不留空格(文章是定时发布的,首页会从 1 篇慢慢长到 N 篇):
+// 每 3 篇一行(各占 2 列);余 2 篇的最后一行每篇占 3 列;余 1 篇的最后一行是通栏横版卡。
+const remainder = rest.length % 3;
+const cells = rest.map((post, i) => {
+  const inFullRows = i < rest.length - remainder;
+  if (inFullRows) return { post, span: "s2", wide: false };
+  return remainder === 1 ? { post, span: "s6", wide: true } : { post, span: "s3", wide: false };
+});
 const site = Astro.site!;
 ---
 
@@ -68,22 +76,18 @@ const site = Astro.site!;
     ) : (
       <>
         <section class="container section" id="latest" aria-labelledby="latest-title">
+          <h2 id="latest-title" class="section-title">{featured.featured ? m.home.featured : m.home.latest}</h2>
+          <PostCard post={featured} variant="featured" headingLevel={3} />
           {
-            rest.length === 0 ? (
-              // 只有一篇:通栏大卡
+            cells.length > 0 && (
               <>
-                <h2 id="latest-title" class="section-title">{featured.featured ? m.home.featured : m.home.latest}</h2>
-                <PostCard post={featured} variant="featured" headingLevel={3} />
-              </>
-            ) : (
-              // 三列网格:头条跨两列,和旁边一张小卡凑满第一行,其余三张一行,5 篇正好排满
-              <>
-                <h2 id="latest-title" class="section-title">{m.home.latest}</h2>
-                <div class="grid">
-                  <div class="slot lead-slot">
-                    <PostCard post={featured} variant="lead" badge={featured.featured ? m.home.featured : undefined} headingLevel={3} />
-                  </div>
-                  {rest.map((p) => <PostCard post={p} />)}
+                {featured.featured && <h2 class="section-title more-title">{m.home.latest}</h2>}
+                <div class:list={["grid", { "after-lead": !featured.featured }]}>
+                  {cells.map(({ post, span, wide }) => (
+                    <div class={`cell ${span}`}>
+                      <PostCard post={post} variant={wide ? "lead" : "default"} headingLevel={3} />
+                    </div>
+                  ))}
                 </div>
               </>
             )
@@ -223,29 +227,44 @@ const site = Astro.site!;
     font-size: 1.5rem;
     font-weight: 800;
   }
+  .more-title {
+    margin-block-start: 2.5rem;
+  }
+  .after-lead {
+    margin-block-start: 1.5rem;
+  }
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 1.5rem;
   }
-  .lead-slot {
-    grid-column: span 2;
+  .cell {
     display: flex;
   }
-  .lead-slot > :global(.card) {
+  .cell > :global(.card) {
     flex: 1 1 auto;
+  }
+  .s2 {
+    grid-column: span 2;
+  }
+  .s3 {
+    grid-column: span 3;
+  }
+  .s6 {
+    grid-column: 1 / -1;
   }
   @media (max-width: 64rem) {
     .grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+    .s2,
+    .s3 {
+      grid-column: auto;
+    }
   }
   @media (max-width: 40rem) {
     .grid {
       grid-template-columns: minmax(0, 1fr);
-    }
-    .lead-slot {
-      grid-column: auto;
     }
   }
   .topics {

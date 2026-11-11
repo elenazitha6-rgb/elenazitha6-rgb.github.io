@@ -1,8 +1,7 @@
 ---
 title: "ISP Residential IP: What It Is and How to Check Yours"
 description: "An ISP residential IP belongs to a consumer internet provider’s network, not a data center. See how it differs, when it matters and how to check any IP."
-pubDate: 2026-11-06T10:00:00+08:00
-updatedDate: 2026-11-09T10:00:00+08:00
+pubDate: 2026-11-13T09:00:00+08:00
 category: ip-types
 term: "ISP residential IP"
 tags: [ISP residential IP, residential IP, data center IP, ASN, IP lookup]

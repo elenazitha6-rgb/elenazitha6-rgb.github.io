@@ -4,6 +4,7 @@ import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeOfficialUtm from "./src/plugins/rehype-official-utm.mjs";
+import rehypeUnpublishedLinks from "./src/plugins/rehype-unpublished-links.mjs";
 
 /**
  * 站点绝对地址:canonical、sitemap、RSS、OG 里的链接都从这里来。
@@ -35,6 +36,8 @@ export default defineConfig({
         ],
         // 指向官网的链接自动带 utm 参数(Markdown 源文件保持干净)。
         rehypeOfficialUtm,
+        // 定时发布:指向还没到发布时间的文章的站内链接先摘成纯文字,到点后下一次构建自动恢复。
+        rehypeUnpublishedLinks,
         // 外链:新窗口 + noopener;不带 nofollow(都是我们自己引用的权威来源)。
         [rehypeExternalLinks, { target: "_blank", rel: ["noopener"] }],
       ],

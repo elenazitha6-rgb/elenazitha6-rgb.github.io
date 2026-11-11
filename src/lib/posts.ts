@@ -112,9 +112,16 @@ function toPost(entry: PostEntry): Post | null {
 
 let cache: Promise<Post[]> | undefined;
 
-/** 全部已发布文章,按发布时间从新到旧。构建期只读一次。 */
+/**
+ * 全部已发布文章,按发布时间从新到旧。构建期只读一次。
+ * **定时发布(滴灌)**:`pubDate` 晚于构建时刻的文章不生成(和草稿一样不出现在首页 / 专题 / sitemap / RSS / hreflang / llms.txt),
+ * 由 `.github/workflows/deploy.yml` 里每天一次的定时构建把到点的文章放出来。本地想预览未到点的文章:`INCLUDE_SCHEDULED=1 npm run dev`。
+ * 正文里指向未发布文章的链接由 `src/plugins/rehype-unpublished-links.mjs` 摘成纯文字(用同一个判断)。
+ */
 export function getAllPosts(): Promise<Post[]> {
-  cache ??= getCollection("posts", ({ data }) => !data.draft).then((entries) =>
+  const now = Date.now();
+  const includeScheduled = process.env.INCLUDE_SCHEDULED === "1";
+  cache ??= getCollection("posts", ({ data }) => !data.draft && (includeScheduled || data.pubDate.getTime() <= now)).then((entries) =>
     entries
       .map(toPost)
       .filter((p): p is Post => p !== null)

@@ -6,6 +6,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # 定时发布(滴灌):文章的 pubDate 是北京时间 09:00,晚于构建时刻的文章不生成(见 src/lib/posts.ts)。
+  # 每天 01:17 UTC(= 北京时间 09:17,避开整点的排队高峰)重新构建一次,把到点的文章放出来;没有新文章的日子页面内容不变。
+  schedule:
+    - cron: "17 1 * * *"
 
 permissions:
   contents: read
