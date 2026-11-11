@@ -3,7 +3,7 @@
  * 官网统计里能看到「安泊 VPN 博客 → 文章内链接」带来的访问。
  * `/ip`(终端查 IP 的纯文本地址)不加参数。
  */
-const OFFICIAL_HOST = "www.anbovpn.com";
+const OFFICIAL_HOST = "www.anbolink.com";
 
 function walk(node, params) {
   if (node.type === "element" && node.tagName === "a" && typeof node.properties?.href === "string") {

@@ -3,7 +3,6 @@ title: "AI 专线优化是什么？它能做什么，不能承诺什么"
 description: "AI 专线优化不是单独的商品，而是固定 IP 与代理 IP 的一种搭配：面向 AI 服务做过线路优化，出口是住宅 IP 或家宽 IP。它不承诺能访问某个平台，也不承诺速度，各平台的访问策略由平台自行决定。下文拆解三个常见误会和适用场景。"
 pubDate: 2026-11-06T13:00:00+08:00
 category: ai
-draft: true
 term: "AI 专线优化"
 tags: [AI 专线优化, AI 专线, 住宅 IP, 家宽 IP, 固定 IP, TUN 模式, 应用级分流]
 faq:
@@ -46,7 +45,7 @@ AI 服务看到的是请求从哪个地址发来的，而不是你的设备。�
 | 整台电脑或手机都走固定出口 | 固定 IP | 安泊 VPN 客户端 |
 | 给某个浏览器环境或脚本单独一个出口 | 代理 IP | 填 HTTP / SOCKS5 代理，见 [HTTP 代理和 SOCKS5 代理有什么区别？填哪个更合适](/zh/posts/http-vs-socks5-proxy/) |
 
-装不了客户端的电视、游戏主机，可以看 [透明网关怎么用？电视、游戏主机不装 App 也能接入](/zh/posts/network-gateway-explained/)。当前的说明在 [AI 专线优化页面](https://www.anbovpn.com/zh/ai)。
+装不了客户端的电视、游戏主机，可以看 [透明网关怎么用？电视、游戏主机不装 App 也能接入](/zh/posts/network-gateway-explained/)。当前的说明在 [AI 专线优化页面](https://www.anbolink.com/zh/ai)。
 
 ## 谁适合考虑，谁没必要？
 
@@ -71,7 +70,7 @@ AI 服务看到的是请求从哪个地址发来的，而不是你的设备。�
 
 1. **选一个地区，别频繁换。** 频繁切换会让“固定出口”失去意义。
 2. **选好接入方式。** 应用级智能分流只让你指定的应用走连接；TUN 模式则能接管那些不读取系统代理设置的程序的流量。
-3. **验证出口。** 运行 `curl https://www.anbovpn.com/ip`，或者打开免费的 [IP 查询工具](https://www.anbovpn.com/zh/tools/ip-lookup)，核对地址类型和所属组织。
+3. **验证出口。** 运行 `curl https://www.anbolink.com/ip`，或者打开免费的 [IP 查询工具](https://www.anbolink.com/zh/tools/ip-lookup)，核对地址类型和所属组织。
 4. **在平台条款允许的范围内使用。** 访问政策属于平台，也会变。
 
 ## 下单前，用这张清单自查一遍
@@ -81,4 +80,4 @@ AI 服务看到的是请求从哪个地址发来的，而不是你的设备。�
 - 我明白它不保证能访问任何一个平台，也不保证速度。
 - 我需要的是长期固定的出口，而不是随用随换。
 - 我已经领了注册赠送的 10 GB 免费流量（仅一次，有效期 1 个月），先试过客户端。
-- 我已经看过 [流量套餐页面](https://www.anbovpn.com/zh/pricing)，价格以那里为准。
+- 我已经看过 [流量套餐页面](https://www.anbolink.com/zh/pricing)，价格以那里为准。

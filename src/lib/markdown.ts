@@ -54,7 +54,7 @@ export function externalCitations(markdown: string): { name: string; url: string
   const out: { name: string; url: string }[] = [];
   for (const [, name, url] of markdown.matchAll(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g)) {
     const host = new URL(url!).hostname;
-    if (host.endsWith("anbovpn.com") || seen.has(url!)) continue;
+    if (host.endsWith("anbolink.com") || seen.has(url!)) continue;
     seen.add(url!);
     out.push({ name: name!, url: url! });
   }

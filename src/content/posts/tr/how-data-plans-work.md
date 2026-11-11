@@ -3,7 +3,6 @@ title: "Veri Paketi Nedir? AnboVPN’de Sıfırlama, Ek Paket ve Bakiye"
 description: "AnboVPN veri paketi veriye göre hesaplanır, her ay sipariş gününde 12:00’de (Pekin saati) sıfırlanır. Her IP türünün bakiyesi ayrıdır; yetmezse ek paket alınır."
 pubDate: 2026-11-09T14:00:00+08:00
 category: ip-types
-draft: true
 term: "Veri paketi"
 featured: true
 tags: [veri paketi, ek paket, veri bakiyesi, paylaşımlı IP, özel IP, AnboVPN]
@@ -65,6 +64,6 @@ En iyi kullanım şekli, bu 10 GB ile kendi kullanım alışkanlığınızı gö
 - Hangi bağlantı türüne ihtiyacınız var? Türlerin bakiyeleri ayrıdır.
 - İstediğiniz bölge ve ağ türü stokta mı? Satıştaki seçenekler değişir; geçerli olan sitedeki güncel görünümdür.
 - Ayda ne kadar kullanıyorsunuz? Ücretsiz 10 GB bunu tahmin etmenize yardım eder.
-- Nihai tutar, stok ve seçilebilir süreler her zaman [fiyat sayfasında](https://www.anbovpn.com/tr/pricing) ve ödeme ekranında gösterilir.
+- Nihai tutar, stok ve seçilebilir süreler her zaman [fiyat sayfasında](https://www.anbolink.com/tr/pricing) ve ödeme ekranında gösterilir.
 
 AnboVPN hız, gecikme veya erişilebilirlik sözü vermez. Veri paketi yalnızca kullanabileceğiniz veri miktarını belirler, bağlantı kalitesini değil.

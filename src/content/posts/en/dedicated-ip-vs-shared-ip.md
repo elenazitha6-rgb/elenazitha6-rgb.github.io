@@ -4,7 +4,6 @@ description: "A shared IP is used by many people at once; a Dedicated IP belongs
 pubDate: 2026-11-06T09:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: ip-types
-draft: true
 term: "Dedicated IP"
 featured: true
 tags: [Dedicated IP, Shared IP, IP allowlist, static IP, VPN basics]
@@ -70,9 +69,9 @@ In AnboVPN, a shared IP is for everyday region switching, while a Dedicated IP i
 
 - **One account, four connection types.** Shared IP, Dedicated IP, HTTP/SOCKS5 proxy and Network gateway all live on the same account.
 - **Separate data balances.** Each IP type keeps its own data plan. Data bought for a shared IP can't be spent on a Dedicated IP, and the other way round.
-- **Buying a Dedicated IP.** You choose a network type, a region and a billing cycle of 1, 3, 6 or 12 months. Which network types and regions are on sale changes, so check the [Dedicated IP page](https://www.anbovpn.com/residential-ip) for what is available today.
+- **Buying a Dedicated IP.** You choose a network type, a region and a billing cycle of 1, 3, 6 or 12 months. Which network types and regions are on sale changes, so check the [Dedicated IP page](https://www.anbolink.com/residential-ip) for what is available today.
 - **Free data to start.** New accounts get 10 GB once, valid for 1 month.
-- **Prices.** They change, so look at the [pricing page](https://www.anbovpn.com/pricing) instead of trusting a number in an article.
+- **Prices.** They change, so look at the [pricing page](https://www.anbolink.com/pricing) instead of trusting a number in an article.
 
 ## A one-minute rule of thumb
 

@@ -3,7 +3,6 @@ title: "HTTP 代理和 SOCKS5 代理有什么区别？填哪个更合适"
 description: "结论：软件里只有 HTTP 代理框就填 HTTP，想一套设置兼容更多程序就填 SOCKS5，两者的差别在协议层级，不在速度。安泊 VPN 的代理一套账号两种协议都能用，不支持 UDP。下文附对照表、curl 测试命令和常见报错排查表。"
 pubDate: 2026-11-06T11:00:00+08:00
 category: proxies
-draft: true
 term: "SOCKS5 代理"
 tags: [HTTP 代理, SOCKS5 代理, 代理协议, 代理 IP, curl, 浏览器环境, IP 白名单]
 faq:
@@ -66,7 +65,7 @@ Proxy-Authorization: Basic ...
 - **有明确的限制。** 不支持 SOCKS5 UDP，不提供 25 端口（常用于邮件发信），也不提供内网访问。
 - **按节点开通。** 某个 IP 下没有代理卡片，说明该节点还没开通代理，这个 IP 仍可通过客户端或订阅链接使用。
 
-想了解当前在售的情况，看 [代理 IP 页面](https://www.anbovpn.com/zh/proxy-ip)。
+想了解当前在售的情况，看 [代理 IP 页面](https://www.anbolink.com/zh/proxy-ip)。
 
 ## 怎么测试代理通不通？
 
@@ -74,13 +73,13 @@ Proxy-Authorization: Basic ...
 
 ```bash
 # SOCKS5：socks5h 表示域名交给代理端解析（写成 socks5 则由本机解析）
-curl -x socks5h://用户名:密码@主机:端口 https://www.anbovpn.com/ip
+curl -x socks5h://用户名:密码@主机:端口 https://www.anbolink.com/ip
 
 # HTTP
-curl -x http://用户名:密码@主机:端口 https://www.anbovpn.com/ip
+curl -x http://用户名:密码@主机:端口 https://www.anbolink.com/ip
 ```
 
-返回的就是网站眼里的你的地址。一批代理要一起检测，可以用免费的 [HTTP 代理检测工具](https://www.anbovpn.com/zh/tools/http-proxy-test) 和 [SOCKS5 代理检测工具](https://www.anbovpn.com/zh/tools/socks5-proxy-test)。
+返回的就是网站眼里的你的地址。一批代理要一起检测，可以用免费的 [HTTP 代理检测工具](https://www.anbolink.com/zh/tools/http-proxy-test) 和 [SOCKS5 代理检测工具](https://www.anbolink.com/zh/tools/socks5-proxy-test)。
 
 ## 连不上怎么排查？
 

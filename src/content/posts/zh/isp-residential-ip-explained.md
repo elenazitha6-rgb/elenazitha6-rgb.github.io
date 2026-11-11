@@ -3,7 +3,6 @@ title: "家宽 IP 是什么？和机房 IP、住宅 IP 怎么区分"
 description: "家宽 IP 是运营商面向家庭宽带的网络里的 IP，IP 库通常按所属网络（ASN）把它标成“住宅”而不是“机房”，但它不保证能访问任何网站。本文讲清机房、住宅、家宽三种标签的区别，教你自己查 IP 类型，并说明各自适合的场景。"
 pubDate: 2026-11-06T10:00:00+08:00
 category: ip-types
-draft: true
 term: "家宽 IP"
 tags: [家宽 IP, 住宅 IP, 机房 IP, 数据中心 IP, ASN, IP 查询, 跨境电商店铺运营]
 faq:
@@ -42,10 +41,10 @@ ASN（自治系统号）可以理解成网络的“户口本”，记录这一�
 打开 IP 查询工具，看它返回的“网络类型”“ASN”和“组织名称”三项，就能做出初步判断。具体四步：
 
 1. 先连上你要检查的那个 IP。
-2. 打开免费的 [IP 查询工具](https://www.anbovpn.com/zh/tools/ip-lookup)，或者在终端运行下面这行命令：
+2. 打开免费的 [IP 查询工具](https://www.anbolink.com/zh/tools/ip-lookup)，或者在终端运行下面这行命令：
 
 ```bash
-curl https://www.anbovpn.com/ip
+curl https://www.anbolink.com/ip
 ```
 
 3. 看组织名称：名字里带云、托管、Cloud、Hosting、Data Center 之类的字样，多半是机房 IP；名字是面向个人用户的宽带运营商，多半是家宽或住宅 IP。这只是经验判断，不是定论。
@@ -74,6 +73,6 @@ curl https://www.anbovpn.com/ip
 
 在安泊 VPN 里，家宽 IP 和住宅 IP 都属于固定 IP 的网络类型：购买时先选地区，选择器会列出这个地区当前在售的类型，只在售一种的地区就只显示那一种。以下信息已于 2026 年 11 月对照官网核对，库存和类型会变，以官网当前页面为准。
 
-- 具体有哪些地区、哪些类型，看 [固定 IP 页面](https://www.anbovpn.com/zh/residential-ip)。
-- 价格和订阅周期看 [流量套餐页面](https://www.anbovpn.com/zh/pricing)，文章里不抄数字，因为它们会变。
+- 具体有哪些地区、哪些类型，看 [固定 IP 页面](https://www.anbolink.com/zh/residential-ip)。
+- 价格和订阅周期看 [流量套餐页面](https://www.anbolink.com/zh/pricing)，文章里不抄数字，因为它们会变。
 - 新注册账户赠送 10 GB 免费流量，仅一次，有效期 1 个月。

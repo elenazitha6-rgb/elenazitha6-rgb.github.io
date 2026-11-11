@@ -4,7 +4,6 @@ description: "A network gateway is one always-on Linux machine that routes every
 pubDate: 2026-11-06T12:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: gateway
-draft: true
 term: "Network gateway"
 tags: [network gateway, side router, transparent proxy, Linux, smart TV]
 faq:
@@ -49,11 +48,11 @@ You need a gateway plan and a spare Linux machine that stays switched on. AnboVP
 
 Install once, then point your devices at the machine. The whole job is five steps.
 
-1. **Choose a plan.** Pick the region and billing cycle on the [network gateway page](https://www.anbovpn.com/gateway). Billing is by data, with no separate gateway fee.
+1. **Choose a plan.** Pick the region and billing cycle on the [network gateway page](https://www.anbolink.com/gateway). Billing is by data, with no separate gateway fee.
 2. **Open your plan’s details page** and copy your own one-line install command. It already contains the connection parameters for that plan.
 3. **Run it as root** on the Debian or Ubuntu machine.
 4. **Point a device at it.** On the TV, console or computer, set the gateway and DNS to the machine’s local address. You can also set this once in your router’s DHCP settings, so devices pick it up automatically.
-5. **Check the result.** On a device behind the gateway, run `curl https://www.anbovpn.com/ip` or open the free [IP lookup tool](https://www.anbovpn.com/tools/ip-lookup) and confirm the address is the one you expect.
+5. **Check the result.** On a device behind the gateway, run `curl https://www.anbolink.com/ip` or open the free [IP lookup tool](https://www.anbolink.com/tools/ip-lookup) and confirm the address is the one you expect.
 
 ## What are the catches?
 

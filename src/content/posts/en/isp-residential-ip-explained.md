@@ -4,7 +4,6 @@ description: "An ISP residential IP belongs to a consumer internet provider’s 
 pubDate: 2026-11-06T10:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: ip-types
-draft: true
 term: "ISP residential IP"
 tags: [ISP residential IP, residential IP, data center IP, ASN, IP lookup]
 faq:
@@ -42,14 +41,14 @@ The difference is the network owner, and that decides the label other services a
 
 Not necessarily, because providers use the two names differently and there is no industry-wide definition. As a rule of thumb, “residential” points to an address that comes from a consumer connection, while “ISP” points to an address registered to an internet provider and kept as a stable assignment.
 
-Read how each provider defines its own terms before comparing prices. AnboVPN sells both as network types for Dedicated IP plans: each type has its own resources and is bought separately, and which ones are on sale depends on the region. The [Dedicated IP page](https://www.anbovpn.com/residential-ip) shows only what is available when you look.
+Read how each provider defines its own terms before comparing prices. AnboVPN sells both as network types for Dedicated IP plans: each type has its own resources and is bought separately, and which ones are on sale depends on the region. The [Dedicated IP page](https://www.anbolink.com/residential-ip) shows only what is available when you look.
 
 ## How can you check what kind of IP you have?
 
 Connect through the address, then look it up and read three fields: the organization, the ASN and the usage type. It takes about a minute.
 
 1. Connect through the IP you want to test.
-2. In a terminal, run `curl https://www.anbovpn.com/ip`, or open the free [IP lookup tool](https://www.anbovpn.com/tools/ip-lookup).
+2. In a terminal, run `curl https://www.anbolink.com/ip`, or open the free [IP lookup tool](https://www.anbolink.com/tools/ip-lookup).
 3. Read the organization. A hosting or cloud company suggests a data center IP; a consumer internet provider suggests a residential or ISP IP.
 4. Repeat in a second lookup tool if the decision matters. Databases don’t always agree.
 

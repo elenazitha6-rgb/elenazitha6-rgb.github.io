@@ -114,14 +114,14 @@ for (const p of posts) {
       const linkLocale = m[1] ?? "en";
       if (linkLocale !== locale) err(rel, `站内链接语言前缀不对:${href}(应为 ${prefix || "无前缀"})`);
       if (!posts.some((q) => q.locale === linkLocale && q.slug === m[2])) err(rel, `站内链接指向不存在的文章:${href}`);
-    } else if (href.startsWith("https://www.anbovpn.com")) {
+    } else if (href.startsWith("https://www.anbolink.com")) {
       const url = new URL(href);
       if (/^\/ip\/?$/.test(url.pathname)) continue;
       const ok = locale === "en" ? !LOCALES.slice(1).some((l) => url.pathname === `/${l}` || url.pathname.startsWith(`/${l}/`)) : url.pathname.startsWith(`${prefix}/`);
       if (!ok) err(rel, `官网链接语言前缀不对:${href}(应为 ${prefix || "无前缀"})`);
     }
   }
-  if (/https:\/\/www\.anbovpn\.com\/ip\b/.test(body) && /https:\/\/www\.anbovpn\.com\/(zh|zh-Hant|ja|ru|fa|tr)\/ip\b/.test(body)) {
+  if (/https:\/\/www.anbolink.com\/ip\b/.test(body) && /https:\/\/www.anbolink.com\/(zh|zh-Hant|ja|ru|fa|tr)\/ip\b/.test(body)) {
     err(rel, "/ip 短地址不带语言前缀");
   }
 

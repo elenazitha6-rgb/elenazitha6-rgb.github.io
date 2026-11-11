@@ -14,9 +14,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.anbovpn.com/download?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-download"><b>Download AnboVPN · 10 GB free</b></a>
+  <a href="https://www.anbolink.com/download?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-download"><b>Download AnboVPN · 10 GB free</b></a>
   &nbsp;·&nbsp;
-  <a href="https://www.anbovpn.com/pricing?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-pricing">See plans</a>
+  <a href="https://www.anbolink.com/pricing?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-pricing">See plans</a>
   &nbsp;·&nbsp;
   <a href="https://elenazitha6-rgb.github.io/">Read the blog</a>
 </p>
@@ -56,7 +56,7 @@ AnboVPN gives you four ways to connect, plus official clients that connect in on
 
 ## Get started in three steps
 
-1. **Download and sign up.** Get the official client from the [download page](https://www.anbovpn.com/download?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-steps-download). You receive 10 GB of free data once, valid for 1 month.
+1. **Download and sign up.** Get the official client from the [download page](https://www.anbolink.com/download?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-steps-download). You receive 10 GB of free data once, valid for 1 month.
 2. **Pick a connection type.** Use the table above; each linked guide covers the trade-offs.
 3. **Connect.** Click connect. If only some apps should use the exit, turn on app-level smart routing.
 
@@ -85,7 +85,7 @@ No. We don't promise speed, latency or uptime, and we don't say any platform wil
 Shared IP for everyday use. Dedicated IP if you need an allowlist or one stable login address. A proxy if only one app should use its own exit. A Network gateway if you have an always-on Linux machine and want to cover devices that can't run an app.
 
 **Where can I see prices?**
-Prices change, so this page doesn't list them. See the [official pricing page](https://www.anbovpn.com/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-faq-pricing).
+Prices change, so this page doesn't list them. See the [official pricing page](https://www.anbolink.com/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-faq-pricing).
 
 ## This blog in other languages
 
@@ -103,5 +103,5 @@ Prices change, so this page doesn't list them. See the [official pricing page](h
 
 - **This is the official AnboVPN blog.** Articles may mention and link to our own products, and we say so plainly. Comparisons are written to help you choose, including when the answer is that you don't need a paid product.
 - Every article gives the short answer first, shows when it was published and updated, and dates product facts that can change. Technical claims link to primary sources such as RFCs.
-- Product details were checked against the [official website](https://www.anbovpn.com/?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-footer-home) in **November 2026**. The live site is the source of truth.
+- Product details were checked against the [official website](https://www.anbolink.com/?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-footer-home) in **November 2026**. The live site is the source of truth.
 - AnboVPN is operated by Anbo Technology LLC, a Wyoming limited liability company. Corrections or questions: service@anbollc.com.

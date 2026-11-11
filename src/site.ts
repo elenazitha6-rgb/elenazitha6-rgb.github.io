@@ -10,7 +10,7 @@ export const SITE = {
   name: "AnboVPN",
   nameZh: "安泊 VPN",
   /** 官网。英文无前缀,其它语言带 `/<语言码>` 前缀(和本博客同一套语言码)。 */
-  officialUrl: "https://www.anbovpn.com",
+  officialUrl: "https://www.anbolink.com",
   company: {
     name: "Anbo Technology LLC",
     email: "service@anbollc.com",

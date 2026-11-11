@@ -14,9 +14,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.anbovpn.com/zh/download?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-download"><b>下载客户端 · 注册送 10 GB</b></a>
+  <a href="https://www.anbolink.com/zh/download?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-download"><b>下载客户端 · 注册送 10 GB</b></a>
   &nbsp;·&nbsp;
-  <a href="https://www.anbovpn.com/zh/pricing?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-pricing">查看流量套餐</a>
+  <a href="https://www.anbolink.com/zh/pricing?utm_source=anbovpn_blog&amp;utm_medium=blog&amp;utm_campaign=readme-top-pricing">查看流量套餐</a>
   &nbsp;·&nbsp;
   <a href="https://elenazitha6-rgb.github.io/zh/">阅读博客</a>
 </p>
@@ -56,7 +56,7 @@
 
 ## 三步开始
 
-1. **下载并注册**：到[下载页](https://www.anbovpn.com/zh/download?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-steps-download)获取官方客户端，注册即领 10 GB 免费流量（仅一次，有效期 1 个月）。
+1. **下载并注册**：到[下载页](https://www.anbolink.com/zh/download?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-steps-download)获取官方客户端，注册即领 10 GB 免费流量（仅一次，有效期 1 个月）。
 2. **选连接方式**：不确定选哪种，就先读上面的对照表和对应文章。
 3. **一键连接**：打开客户端点连接；需要时用应用级智能分流，只让指定的应用走出口。
 
@@ -85,7 +85,7 @@
 日常切换地区选共享 IP；要做 IP 白名单或长期用同一个登录地址选固定 IP；只想让某个软件单独走出口选代理 IP；想一次覆盖电视、游戏主机这类没法装 App 的设备，并且手上有一台常开的 Linux 机器，选透明网关。每种的限制都写在上面的对应文章里。
 
 **价格和套餐在哪里看？**
-价格会变，博客不写具体数字，请以[官网价格页](https://www.anbovpn.com/zh/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-faq-pricing)为准。
+价格会变，博客不写具体数字，请以[官网价格页](https://www.anbolink.com/zh/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-faq-pricing)为准。
 
 ## 多语言
 
@@ -103,7 +103,7 @@
 
 - **这是安泊 VPN 的官方博客**，文章会提到并链到我们自己的产品，我们不把它包装成中立评测；技术对比是为了帮你选，包括「你其实不需要付费产品」的情况。
 - 每篇文章先给结论再讲理由，标明发布和更新日期；会变的产品事实写明核对时间，技术性说法链到 RFC 或官方文档。
-- 产品信息核对于 **2026 年 11 月**，以[官网](https://www.anbovpn.com/zh?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-footer-home)当前页面为准。
+- 产品信息核对于 **2026 年 11 月**，以[官网](https://www.anbolink.com/zh?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-footer-home)当前页面为准。
 - 安泊 VPN 由 Anbo Technology LLC（美国怀俄明州有限责任公司）运营。文章问题或勘误请发邮件到 service@anbollc.com。
 
 ---

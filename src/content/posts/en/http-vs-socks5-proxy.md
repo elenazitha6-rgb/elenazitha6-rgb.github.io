@@ -4,7 +4,6 @@ description: "Use the protocol your software supports: HTTP proxies handle web t
 pubDate: 2026-11-06T11:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: proxies
-draft: true
 term: "SOCKS5 proxy"
 tags: [HTTP proxy, SOCKS5, proxy protocol, curl, browser profiles]
 faq:
@@ -65,7 +64,7 @@ AnboVPN’s HTTP/SOCKS5 proxy gives each browser profile, script or tool its own
 - **Enabled per node.** Proxy IPs are only assigned from nodes where the proxy service is switched on, and the stock shown is for those nodes.
 - **Data.** Usage counts against the plan’s data. When it runs out, the proxy is switched off until you renew or add a top-up pack.
 
-The [HTTP/SOCKS5 proxy page](https://www.anbovpn.com/proxy-ip) lists what is on sale right now.
+The [HTTP/SOCKS5 proxy page](https://www.anbolink.com/proxy-ip) lists what is on sale right now.
 
 ## How do you test a proxy before relying on it?
 
@@ -73,12 +72,12 @@ Send one request through the proxy to a service that echoes your address, then c
 
 ```bash
 # SOCKS5 (socks5h lets the proxy resolve the domain name)
-curl -x socks5h://USERNAME:PASSWORD@HOST:PORT https://www.anbovpn.com/ip
+curl -x socks5h://USERNAME:PASSWORD@HOST:PORT https://www.anbolink.com/ip
 
 # HTTP
-curl -x http://USERNAME:PASSWORD@HOST:PORT https://www.anbovpn.com/ip
+curl -x http://USERNAME:PASSWORD@HOST:PORT https://www.anbolink.com/ip
 ```
 
-The reply shows the address and location a website would see. To check many proxies at once, the free [HTTP proxy test](https://www.anbovpn.com/tools/http-proxy-test) and [SOCKS5 proxy test](https://www.anbovpn.com/tools/socks5-proxy-test) tools take a list.
+The reply shows the address and location a website would see. To check many proxies at once, the free [HTTP proxy test](https://www.anbolink.com/tools/http-proxy-test) and [SOCKS5 proxy test](https://www.anbolink.com/tools/socks5-proxy-test) tools take a list.
 
 Related reading: [Dedicated IP or Shared IP?](/posts/dedicated-ip-vs-shared-ip/) covers the kinds of address that can sit behind a proxy, and [AI-optimized routes](/posts/ai-optimized-routes-explained/) explains how proxies and Dedicated IPs fit together.

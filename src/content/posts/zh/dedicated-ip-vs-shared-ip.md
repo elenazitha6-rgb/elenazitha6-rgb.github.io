@@ -3,7 +3,6 @@ title: "固定 IP 和共享 IP 哪个好？一张表看懂怎么选"
 description: "结论：日常切换地区用共享 IP，要做 IP 白名单、长期用同一个登录地址就选固定 IP。固定 IP 在套餐有效期内地址不变，但不等于匿名，也不承诺更快。下文用对照表按店铺运营、远程办公、研发联调等场景对号入座，并附避坑提醒。"
 pubDate: 2026-11-06T09:00:00+08:00
 category: ip-types
-draft: true
 term: "固定 IP"
 featured: true
 tags: [固定 IP, 共享 IP, 独享 IP, 静态 IP, IP 白名单, 跨境电商店铺运营, 远程办公]
@@ -80,8 +79,8 @@ faq:
 在安泊 VPN 里，共享 IP 用来日常切换地区，固定 IP 则是固定地区、固定出口、为长期使用准备的。下面这些信息已于 2026 年 11 月对照官网核对过，套餐和库存会变，以官网当前页面为准：
 
 - 一个账户下，共享 IP、固定 IP、代理 IP、透明网关四类可以并存，**各自有独立的流量余额**。
-- 固定 IP 按地区购买；在购买页选好地区后，会看到这个地区在售的网络类型。想看当前有哪些地区，打开 [固定 IP 页面](https://www.anbovpn.com/zh/residential-ip)；价格和订阅周期请看 [流量套餐页面](https://www.anbovpn.com/zh/pricing)。
+- 固定 IP 按地区购买；在购买页选好地区后，会看到这个地区在售的网络类型。想看当前有哪些地区，打开 [固定 IP 页面](https://www.anbolink.com/zh/residential-ip)；价格和订阅周期请看 [流量套餐页面](https://www.anbolink.com/zh/pricing)。
 - 新注册账户赠送 10 GB 免费流量，仅一次，有效期 1 个月，可以先试再决定。
-- 买完怎么验证：连上后在终端运行 `curl https://www.anbovpn.com/ip`，或者打开免费的 [IP 查询工具](https://www.anbovpn.com/zh/tools/ip-lookup)，隔几天再查一次，看地址是否一致。
+- 买完怎么验证：连上后在终端运行 `curl https://www.anbolink.com/ip`，或者打开免费的 [IP 查询工具](https://www.anbolink.com/zh/tools/ip-lookup)，隔几天再查一次，看地址是否一致。
 
 如果你想给每个浏览器环境或脚本单独配一个固定出口，可以接着看 [HTTP 代理和 SOCKS5 代理有什么区别？填哪个更合适](/zh/posts/http-vs-socks5-proxy/)，固定 IP 和代理 IP 共用同一份流量和 IP。

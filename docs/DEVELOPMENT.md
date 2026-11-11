@@ -52,7 +52,7 @@ npm run check:seo      # 检查构建产物 dist/(先 npm run build):hreflang、
    ---
    ```
 
-2. 其它语言放在 `src/content/posts/<语言码>/<同一个 slug>.md`。**不要翻译英文稿**:每个语言按当地写作习惯从头写(标题、结构、例子、FAQ 问题、语气都不同),只共用同一个 slug、主题和产品事实;`pubDate`、`category`、`featured` 必须和英文一致;站内链接和官网链接要换成该语言的前缀(`/zh/posts/x/`、`https://www.anbovpn.com/zh/pricing`)。没有对应版本的语言,这一篇不会出现在该语言的页面里。
+2. 其它语言放在 `src/content/posts/<语言码>/<同一个 slug>.md`。**不要翻译英文稿**:每个语言按当地写作习惯从头写(标题、结构、例子、FAQ 问题、语气都不同),只共用同一个 slug、主题和产品事实;`pubDate`、`category`、`featured` 必须和英文一致;站内链接和官网链接要换成该语言的前缀(`/zh/posts/x/`、`https://www.anbolink.com/zh/pricing`)。没有对应版本的语言,这一篇不会出现在该语言的页面里。
 3. 封面:放一张 1200×630 的 `public/covers/<slug>.webp`(各语言共用,图里不要有文字);不放就用品牌渐变图形。换封面要换文件名并写进 frontmatter 的 `cover`(见 `CLAUDE.md`「封面图」)。
 4. 跑 `npm run check:content`,按提示修;再 `npm run dev` 看一眼。
 5. 提交并推送,线上自动更新。

@@ -4,7 +4,6 @@ description: "AI-optimized routes pair AI-tuned routes with a residential or ISP
 pubDate: 2026-11-06T13:00:00+08:00
 updatedDate: 2026-11-09T10:00:00+08:00
 category: ai
-draft: true
 term: "AI-optimized routes"
 tags: [AI-optimized routes, residential IP, Dedicated IP, TUN mode, AI tools]
 faq:
@@ -32,7 +31,7 @@ No. AI-optimized routes are not a separate plan; they are a way of packaging Ded
 | Give one browser profile or script its own address | An [HTTP/SOCKS5 proxy](/posts/http-vs-socks5-proxy/) |
 | Cover devices that can’t run a client | A [network gateway](/posts/network-gateway-explained/) |
 
-The [AI-optimized routes page](https://www.anbovpn.com/ai) has the current description.
+The [AI-optimized routes page](https://www.anbolink.com/ai) has the current description.
 
 ## Why does the exit IP matter for AI tools?
 
@@ -58,7 +57,7 @@ Use one address consistently, send only the right apps through it, then verify. 
 
 1. **Pick a region and stay in it.** Switching all the time defeats the purpose of a fixed address.
 2. **Decide what goes through.** App-level routing sends only the apps you choose. TUN mode also captures apps that ignore system proxy settings.
-3. **Verify the address.** Run `curl https://www.anbovpn.com/ip` or use the free [IP lookup tool](https://www.anbovpn.com/tools/ip-lookup), then read the organization and type.
+3. **Verify the address.** Run `curl https://www.anbolink.com/ip` or use the free [IP lookup tool](https://www.anbolink.com/tools/ip-lookup), then read the organization and type.
 4. **Use each platform within its terms.** Access policies belong to the platform and they change.
 
 ## What should you check before you buy?
