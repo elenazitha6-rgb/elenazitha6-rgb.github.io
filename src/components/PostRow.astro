@@ -86,7 +86,7 @@ const H = `h${headingLevel}` as "h2" | "h3";
     inset: 0;
     z-index: 1;
   }
-  .row:focus-within {
+  .row:has(a:focus-visible) {
     outline: 3px solid var(--focus);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
