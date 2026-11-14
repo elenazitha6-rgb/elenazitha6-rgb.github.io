@@ -1,4 +1,15 @@
 <p align="center">
+<b>Blog languages:</b>
+<a href="https://elenazitha6-rgb.github.io/">English</a> ·
+<a href="https://elenazitha6-rgb.github.io/zh/">简体中文</a> ·
+<a href="https://elenazitha6-rgb.github.io/zh-Hant/">繁體中文</a> ·
+<a href="https://elenazitha6-rgb.github.io/ja/">日本語</a> ·
+<a href="https://elenazitha6-rgb.github.io/ru/">Русский</a> ·
+<a href="https://elenazitha6-rgb.github.io/fa/">فارسی</a> ·
+<a href="https://elenazitha6-rgb.github.io/tr/">Türkçe</a>
+</p>
+
+<p align="center">
 <b>English</b> | <a href="./README.zh.md">简体中文</a>
 </p>
 
@@ -86,18 +97,6 @@ Shared IP for everyday use. Dedicated IP if you need an allowlist or one stable 
 
 **Where can I see prices?**
 Prices change, so this page doesn't list them. See the [official pricing page](https://www.anbolink.com/pricing?utm_source=anbovpn_blog&utm_medium=blog&utm_campaign=readme-faq-pricing).
-
-## This blog in other languages
-
-7 languages, each written for local readers rather than translated:
-
-[English](https://elenazitha6-rgb.github.io/) ·
-[简体中文](https://elenazitha6-rgb.github.io/zh/) ·
-[繁體中文](https://elenazitha6-rgb.github.io/zh-Hant/) ·
-[日本語](https://elenazitha6-rgb.github.io/ja/) ·
-[Русский](https://elenazitha6-rgb.github.io/ru/) ·
-[فارسی](https://elenazitha6-rgb.github.io/fa/) ·
-[Türkçe](https://elenazitha6-rgb.github.io/tr/)
 
 ## About this blog
 
