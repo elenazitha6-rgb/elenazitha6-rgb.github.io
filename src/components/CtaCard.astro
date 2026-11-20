@@ -3,7 +3,7 @@ import Icon from "./Icon.astro";
 import type { IconName } from "./Icon.astro";
 import type { Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/ui";
-import { brandNameFor, officialLink } from "@/site";
+import { INVITE_CODE, brandNameFor, officialLink } from "@/site";
 
 /**
  * 引向官网的推广卡,放在内容流里(文章末尾 / 首页 / 专题页 / 侧栏),不悬浮、不遮挡。
@@ -57,11 +57,13 @@ const features = m.cta.features.map((f, i) => ({ ...f, icon: ICONS[i] ?? "check"
     </aside>
   ) : (
     <aside class="cta side">
-      <p class="brand sm">
-        <img src="/brand/logo-64.webp" srcset="/brand/logo-64.webp 1x, /brand/logo-96.webp 2x" width="32" height="32" alt="" decoding="async" />
-        <span>{brandNameFor(locale)}</span>
-      </p>
-      <p class="side-title">{m.cta.sideTitle}</p>
+      <div class="side-head">
+        <img src="/brand/logo-64.webp" srcset="/brand/logo-64.webp 1x, /brand/logo-96.webp 2x" width="40" height="40" alt="" decoding="async" />
+        <p class="side-brand">
+          <strong>{brandNameFor(locale)}</strong>
+          <span>{m.cta.sideSubtitle}</span>
+        </p>
+      </div>
       <ul class="side-list" role="list">
         {
           features.map((f) => (
@@ -72,7 +74,17 @@ const features = m.cta.features.map((f, i) => ({ ...f, icon: ICONS[i] ?? "check"
           ))
         }
       </ul>
-      <a class="btn btn-primary" href={officialLink(locale, "/download", placement)} rel="noopener">{m.cta.primary}</a>
+      <div class="invite">
+        <Icon name="gift" size={16} strokeWidth={2} />
+        <p class="invite-copy">
+          <span>{m.cta.inviteLabel} <code dir="ltr">{INVITE_CODE}</code></span>
+          <small>{m.cta.inviteHint}</small>
+        </p>
+        <button type="button" class="copy-btn" data-copy={INVITE_CODE} data-done={m.cta.codeCopied} aria-label={m.cta.copyCode} title={m.cta.copyCode}>
+          <Icon name="copy" size={15} strokeWidth={2} />
+        </button>
+      </div>
+      <a class="btn btn-primary" href={officialLink(locale, "/register", placement, { invite: INVITE_CODE })} rel="noopener">{m.cta.primary}</a>
     </aside>
   )
 }
@@ -189,11 +201,79 @@ const features = m.cta.features.map((f, i) => ({ ...f, icon: ICONS[i] ?? "check"
     gap: 0.75rem;
     padding: 1.4rem 1.3rem 1.3rem;
   }
-  .side-title {
+  .side-head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .side-head img {
+    flex: none;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border-radius: 0.6rem;
+  }
+  .side-brand {
+    display: grid;
+    gap: 0.1rem;
+    min-inline-size: 0;
+  }
+  .side-brand strong {
     color: var(--text);
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 800;
+    line-height: 1.2;
+  }
+  .side-brand span {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
     line-height: 1.3;
+  }
+  .invite {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid var(--accent-soft-border);
+    border-radius: 0.6rem;
+    background: var(--accent-soft);
+    color: var(--link);
+  }
+  .invite-copy {
+    flex: 1;
+    display: grid;
+    gap: 0.1rem;
+    min-inline-size: 0;
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .invite-copy code {
+    color: var(--link);
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-weight: 800;
+  }
+  .invite-copy small {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .copy-btn {
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: 1.9rem;
+    block-size: 1.9rem;
+    border: 1px solid var(--accent-soft-border);
+    border-radius: 0.5rem;
+    background: var(--surface);
+    color: var(--link);
+    cursor: pointer;
+  }
+  .copy-btn:focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 2px;
   }
   .side-list {
     display: grid;
@@ -223,3 +303,17 @@ const features = m.cta.features.map((f, i) => ({ ...f, icon: ICONS[i] ?? "check"
     }
   }
 </style>
+
+<script>
+  // 复制邀请码:点按钮写入剪贴板,标题短暂变成「已复制」;不支持剪贴板时静默不处理(码本身就显示在旁边)
+  document.addEventListener("click", async (e) => {
+    const btn = (e.target as Element | null)?.closest<HTMLButtonElement>("[data-copy]");
+    if (!btn) return;
+    try {
+      await navigator.clipboard.writeText(btn.dataset.copy ?? "");
+      const old = btn.title;
+      btn.title = btn.dataset.done ?? old;
+      setTimeout(() => (btn.title = old), 2000);
+    } catch {}
+  });
+</script>

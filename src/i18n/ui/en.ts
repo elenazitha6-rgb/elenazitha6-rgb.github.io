@@ -68,7 +68,11 @@ export const en = {
     title: "Ready to try it yourself?",
     primary: "Download AnboVPN",
     secondary: "See plans",
-    sideTitle: "Try AnboVPN",
+    sideSubtitle: "Dedicated IP · ISP residential IP",
+    inviteLabel: "Invite code",
+    inviteHint: "Enter it at sign-up for 5 GB extra",
+    copyCode: "Copy invite code",
+    codeCopied: "Copied",
     /** 官网下载页的四条卖点(各语言用官网自己的说法,不要改写):赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。 */
     features: [
       { title: "10 GB free to start", text: "Get 10 GB of free data on sign-up (one time, valid 1 month), then buy only what you need." },

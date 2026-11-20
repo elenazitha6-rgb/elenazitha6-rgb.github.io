@@ -63,7 +63,11 @@ export const zhHant: Messages = {
     title: "想親自試試看嗎？",
     primary: "下載安泊 VPN",
     secondary: "查看流量方案",
-    sideTitle: "試試安泊 VPN",
+    sideSubtitle: "固定 IP · 家寬 IP",
+    inviteLabel: "邀請碼",
+    inviteHint: "註冊時填寫,再得 5 GB",
+    copyCode: "複製邀請碼",
+    codeCopied: "已複製",
     /** 官网下载页的四条卖点(各语言用官网自己的说法,不要改写):赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。 */
     features: [
       { title: "註冊即送 10 GB", text: "註冊贈送 10 GB 免費流量（僅一次，有效期 1 個月），先試再買。" },

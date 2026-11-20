@@ -135,8 +135,8 @@ const jsonLd = graph([
       </div>
 
       <aside class="side no-print">
-        <TableOfContents headings={headings} title={m.post.onThisPage} variant="desktop" />
         <CtaCard locale={locale} variant="side" placement={`post_${post.slug}_side`} />
+        <TableOfContents headings={headings} title={m.post.onThisPage} variant="desktop" />
       </aside>
     </div>
 
@@ -260,6 +260,9 @@ const jsonLd = graph([
     align-self: start;
     display: grid;
     gap: 2rem;
+    /* 脚本把高度撑到「标题区顶 → 封面底」,推广卡在上、目录贴底,右栏底边和封面底边对齐;没有脚本时就是自然高度 */
+    min-block-size: var(--side-h, 0);
+    align-content: space-between;
   }
   .neighbors {
     display: grid;
@@ -339,3 +342,19 @@ const jsonLd = graph([
     }
   }
 </style>
+
+<script>
+  // 右侧栏底边对齐封面底边:量标题区顶到封面底的高度,窄屏(侧栏隐藏)不处理
+  const side = document.querySelector<HTMLElement>(".side");
+  const head = document.querySelector<HTMLElement>(".head");
+  const cover = document.querySelector<HTMLElement>(".hero-cover");
+  if (side && head && cover) {
+    const sync = () => {
+      const h = cover.getBoundingClientRect().bottom - head.getBoundingClientRect().top;
+      side.style.setProperty("--side-h", `${Math.max(0, Math.round(h))}px`);
+    };
+    sync();
+    addEventListener("resize", sync);
+    cover.querySelector("img")?.addEventListener("load", sync);
+  }
+</script>

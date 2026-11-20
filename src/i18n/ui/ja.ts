@@ -63,7 +63,11 @@ export const ja: Messages = {
     title: "実際に試してみませんか？",
     primary: "AnboVPNをダウンロード",
     secondary: "料金プランを見る",
-    sideTitle: "AnboVPNを試す",
+    sideSubtitle: "専用IP · ISPレジデンシャルIP",
+    inviteLabel: "招待コード",
+    inviteHint: "登録時に入力すると5 GB追加",
+    copyCode: "招待コードをコピー",
+    codeCopied: "コピーしました",
     /** 官网下载页的四条卖点(各语言用官网自己的说法,不要改写):赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。 */
     features: [
       { title: "登録で 10 GB 無料", text: "登録すると 10 GB の無料データ（1 回限り・有効期間 1 か月）。試してから購入できます。" },

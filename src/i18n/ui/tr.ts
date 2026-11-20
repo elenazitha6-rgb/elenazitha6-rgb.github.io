@@ -62,7 +62,11 @@ export const tr: Messages = {
     title: "Kendiniz denemeye hazır mısınız?",
     primary: "AnboVPN’i indir",
     secondary: "Veri paketlerini gör",
-    sideTitle: "AnboVPN’i deneyin",
+    sideSubtitle: "Özel IP · ISP konut IP’si",
+    inviteLabel: "Davet kodu",
+    inviteHint: "Kayıt sırasında girin, 5 GB daha kazanın",
+    copyCode: "Davet kodunu kopyala",
+    codeCopied: "Kopyalandı",
     /** 官网下载页的四条卖点(各语言用官网自己的说法,不要改写):赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。 */
     features: [
       { title: "10 GB hediye", text: "Kayıtta 10 GB ücretsiz veri (tek seferlik, 1 ay geçerli); önce deneyin, sonra satın alın." },

@@ -33,10 +33,14 @@ export function pageTitle(locale: Locale, title: string): string {
 }
 
 /** 官网里的某一页(带语言前缀)。`placement` 写进 utm_campaign,方便在官网统计里分辨是博客的哪个位置带来的访问。 */
-export function officialLink(locale: Locale, path: string, placement: string): string {
+/** 博客推广用的邀请码(官网注册页读 ?invite=,也可在注册时手填;奖励以官网 /invite 页为准:被邀请人 5 GB)。 */
+export const INVITE_CODE = "ANBOVPN";
+
+export function officialLink(locale: Locale, path: string, placement: string, extra: Record<string, string> = {}): string {
   const prefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
   const clean = path === "/" ? "" : path;
   const url = new URL(`${prefix}${clean}`, SITE.officialUrl);
+  for (const [k, v] of Object.entries(extra)) url.searchParams.set(k, v);
   url.searchParams.set("utm_source", "anbovpn_blog");
   url.searchParams.set("utm_medium", "blog");
   url.searchParams.set("utm_campaign", placement);
