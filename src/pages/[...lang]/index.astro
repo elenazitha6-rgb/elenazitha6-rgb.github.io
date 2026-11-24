@@ -20,10 +20,12 @@ const { locale } = Astro.props as { locale: Locale };
 const m = getMessages(locale);
 const posts = await getPosts(locale);
 const counts = countByCategory(posts);
-// posts 为空时下面走「暂无文章」分支,不会用到 featured
-const featured = (posts.find((p) => p.featured) ?? posts[0])!;
+// posts 为空时下面走「暂无文章」分支,不会用到 headline
+// 头条永远是最新发布的一篇(posts 已按发布时间从新到旧排好),不看 featured 标记;
+// featured 只决定头条卡片上有没有「编辑推荐」徽标(2026-11-24 用户要求「要显示最新的」)
+const headline = posts[0]!;
 // 文章是定时发布的,首页会从 1 篇慢慢长到 N 篇:头条一篇放大,其余排成一列「标题 + 摘要 + 缩略图」的行,任何篇数都排得齐
-const rest = posts.filter((p) => p !== featured);
+const rest = posts.slice(1);
 const site = Astro.site!;
 ---
 
@@ -60,8 +62,8 @@ const site = Astro.site!;
           </ul>
         </nav>
 
-        <section class="container feature" id="latest" aria-label={featured.featured ? m.home.featured : m.home.latest}>
-          <PostCard post={featured} variant="featured" badge={featured.featured ? m.home.featured : undefined} headingLevel={2} />
+        <section class="container feature" id="latest" aria-label={headline.featured ? m.home.featured : m.home.latest}>
+          <PostCard post={headline} variant="featured" badge={headline.featured ? m.home.featured : undefined} headingLevel={2} />
         </section>
 
         {
