@@ -8,13 +8,16 @@ import { getAllPosts, getContentLocales } from "@/lib/posts";
  * 自己生成 sitemap(不用集成),为了精确控制三件事:
  * - `lastmod` 只用文章自己的更新时间,固定页面不写(写成构建时间会让搜索引擎学会忽略这个字段);
  * - hreflang 只互链真有对应版本的语言,`x-default` 指英文;
- * - 没有内容的语言不出现。
+ * - 没有内容的语言不出现;
+ * - 文章条目带封面图(Google 图片 sitemap 扩展,只用 `image:loc`;封面是各语言共用的同一张,图里没有文字)。
  */
 interface Group {
   /** 不带语言前缀的路径。 */
   path: string;
   locales: Locale[];
   lastmod?: Date;
+  /** 站内图片路径(封面)。 */
+  image?: string;
 }
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -40,7 +43,7 @@ export const GET: APIRoute = async ({ site }) => {
   for (const slug of slugs) {
     const versions = all.filter((p) => p.slug === slug);
     const locales = LOCALES.filter((l) => versions.some((p) => p.locale === l));
-    groups.push({ path: `/posts/${slug}/`, locales, lastmod: latest(versions) });
+    groups.push({ path: `/posts/${slug}/`, locales, lastmod: latest(versions), image: versions.find((p) => p.cover)?.cover });
   }
 
   const urls = groups.flatMap((g) =>
@@ -53,10 +56,11 @@ export const GET: APIRoute = async ({ site }) => {
               `    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(absoluteUrl(origin, localePath(g.locales.includes(DEFAULT_LOCALE) ? DEFAULT_LOCALE : g.locales[0]!, g.path)))}" />`,
             ].join("\n")
           : "";
-      return `  <url>\n    <loc>${esc(loc)}</loc>${g.lastmod ? `\n    <lastmod>${g.lastmod.toISOString()}</lastmod>` : ""}${alternates ? `\n${alternates}` : ""}\n  </url>`;
+      const image = g.image ? `\n    <image:image>\n      <image:loc>${esc(absoluteUrl(origin, g.image))}</image:loc>\n    </image:image>` : "";
+      return `  <url>\n    <loc>${esc(loc)}</loc>${g.lastmod ? `\n    <lastmod>${g.lastmod.toISOString()}</lastmod>` : ""}${alternates ? `\n${alternates}` : ""}${image}\n  </url>`;
     }),
   );
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls.join("\n")}\n</urlset>\n`;
   return new Response(xml, { headers: { "Content-Type": "application/xml; charset=utf-8" } });
 };

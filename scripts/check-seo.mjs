@@ -211,6 +211,12 @@ for (const p of pages) {
           if (!/^\d{4}-\d\d-\d\dT[\d:.]+(Z|[+-]\d\d:\d\d)$/.test(node[key] ?? "")) err(where, `${key} 必须是带时区的 ISO 8601,现在 ${node[key]}`);
         }
         if (!node.headline || !node.image || !node.publisher) err(where, "BlogPosting 缺少 headline / image / publisher");
+        // speakable 指向的选择器必须在页面上真有对应元素(改版时容易丢,丢了就是声明了朗读区域却没有内容)
+        for (const sel of node.speakable?.cssSelector ?? []) {
+          const attr = sel.match(/^\[([\w-]+)\]$/)?.[1];
+          const hit = attr ? new RegExp(`<[a-z0-9]+[^>]*\\s${attr}(?:[\\s=>])`, "i").test(p.html) : new RegExp(`<${sel}[\\s>]`, "i").test(p.html);
+          if (!hit) err(where, `speakable 的选择器在页面上找不到元素:${sel}`);
+        }
       }
       if (node["@type"] === "FAQPage") {
         for (const q of node.mainEntity ?? []) {
@@ -243,6 +249,12 @@ for (const loc of locs) {
   if (!loc.startsWith(origin)) err("sitemap.xml", `<loc> 不是本站地址:${loc}`);
   else if (!page) err("sitemap.xml", `<loc> 指向不存在的页面:${loc}`);
   else if (page.noindex) err("sitemap.xml", `<loc> 指向 noindex 的页面:${loc}`);
+}
+// 图片 sitemap:image:loc 必须是本站真实存在的图片
+for (const [, raw] of sitemap.matchAll(/<image:loc>([^<]+)<\/image:loc>/g)) {
+  const img = decode(raw);
+  if (!img.startsWith(origin)) err("sitemap.xml", `<image:loc> 不是本站地址:${img}`);
+  else if (!resolveUrlPath(toPath(img))) err("sitemap.xml", `<image:loc> 指向不存在的图片:${img}`);
 }
 const inSitemap = new Set(locs.map(toPath));
 for (const p of pages) if (!p.noindex && !inSitemap.has(p.url)) err(p.url, "可索引的页面没有出现在 sitemap 里");
