@@ -51,7 +51,7 @@ const pricingHref = officialLink(locale, "/pricing", placement);
             ))}
           </ul>
           <div class="actions">
-            <a class="cta-btn" href={registerHref} rel="noopener">
+            <a class="cta-btn" href={registerHref} rel="noopener" data-copy-code={INVITE_CODE}>
               <span>{m.cta.primary}</span>
               <Icon name="arrow" size={18} strokeWidth={2.4} class="arrow" />
             </a>
@@ -75,7 +75,7 @@ const pricingHref = officialLink(locale, "/pricing", placement);
           ))}
         </ul>
         <InviteCoupon locale={locale} />
-        <a class="cta-btn" href={registerHref} rel="noopener">
+        <a class="cta-btn" href={registerHref} rel="noopener" data-copy-code={INVITE_CODE}>
           <span>{m.cta.primary}</span>
           <Icon name="arrow" size={18} strokeWidth={2.4} class="arrow" />
         </a>
@@ -279,3 +279,22 @@ const pricingHref = officialLink(locale, "/pricing", placement);
     }
   }
 </style>
+
+<script>
+  // 点主按钮时顺手把邀请码写进剪贴板:链接里的 ?invite= 在官网注册页会自动填,但读者可能转去客户端 / App 里注册,
+  // 那时 URL 上下文丢了,剪贴板里的码就是兜底(粘贴即可)。
+  // 普通左键点击:等剪贴板写完(最多 400ms,权限弹窗卡住也不拦跳转)再跳;Ctrl / Cmd / Shift / 中键等保持浏览器默认行为,只尽力复制。
+  document.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>("a[data-copy-code]");
+    if (!link) return;
+    let copied: Promise<unknown> | undefined;
+    try {
+      copied = navigator.clipboard?.writeText(link.dataset.copyCode ?? "").catch(() => {});
+    } catch {}
+    const plain = e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+    if (!copied || !plain || e.defaultPrevented) return;
+    e.preventDefault();
+    const href = link.href;
+    Promise.race([copied, new Promise((r) => setTimeout(r, 400))]).then(() => location.assign(href));
+  });
+</script>
