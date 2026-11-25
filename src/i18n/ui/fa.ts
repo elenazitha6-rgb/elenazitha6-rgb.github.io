@@ -59,7 +59,7 @@ export const fa: Messages = {
   },
   cta: {
     title: "آماده‌اید خودتان امتحان کنید؟",
-    primary: "دانلود AnboVPN",
+    primary: "ثبت‌نام با کد دعوت، ۵ گیگابایت بیشتر",
     secondary: "مشاهده بسته‌های حجمی",
     sideSubtitle: "آی‌پی اختصاصی · آی‌پی مسکونی ISP",
     inviteLabel: "کد دعوت",

@@ -61,7 +61,7 @@ export const zhHant: Messages = {
   },
   cta: {
     title: "想親自試試看嗎？",
-    primary: "下載安泊 VPN",
+    primary: "用邀請碼註冊，再領 5 GB",
     secondary: "查看流量方案",
     sideSubtitle: "固定 IP · 家寬 IP",
     inviteLabel: "邀請碼",

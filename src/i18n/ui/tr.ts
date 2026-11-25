@@ -60,7 +60,7 @@ export const tr: Messages = {
   },
   cta: {
     title: "Kendiniz denemeye hazır mısınız?",
-    primary: "AnboVPN’i indir",
+    primary: "Kodla kaydol, 5 GB daha kazan",
     secondary: "Veri paketlerini gör",
     sideSubtitle: "Özel IP · ISP konut IP’si",
     inviteLabel: "Davet kodu",

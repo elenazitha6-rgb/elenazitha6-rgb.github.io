@@ -61,7 +61,7 @@ export const ja: Messages = {
   },
   cta: {
     title: "実際に試してみませんか？",
-    primary: "AnboVPNをダウンロード",
+    primary: "招待コードで登録、5 GB追加",
     secondary: "料金プランを見る",
     sideSubtitle: "専用IP · ISPレジデンシャルIP",
     inviteLabel: "招待コード",

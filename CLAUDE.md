@@ -82,6 +82,7 @@ AnboVPN 官方博客,Astro 6 静态站,托管 GitHub Pages(<https://elenazitha6-
 ## 推广卡
 
 `CtaCard` 的四条卖点直接用官网下载页(`apps/web/messages/<语言>/download.json` 的 `download.intro.features`)里各语言自己的说法:赠送 10 GB / AI 专线优化 / 打开即用(一键连接、应用级智能分流)/ 四类连接方式(一个账户不限设备)。改卖点前先改官网口径,再同步这里的 `cta.features`(7 种语言),不要自己改写。
+版式参考 sulian-video 的站内推广卡(2026-11-25 用户:「推广的卡片参考 sulian-video 的!好看,有效」):品牌头 → 对勾卖点(第一条赠送流量加重)→ 邀请码优惠券(`InviteCoupon.astro`,虚线框、大号邀请码、一键复制)→ 通栏渐变主按钮,侧栏竖版和文末 / 首页 / 专题页的横版共用同一套样式。主按钮 `cta.primary` 直达官网注册页(链接已带 `?invite=`),文案是「邀请码注册,再领 5 GB」这类动作句,**不再是「下载」**;5 GB 以官网 `/invite` 页为准,不要沿用 sulian-video 的 20 GB 合计。主按钮渐变两端压在第 7 / 8 档蓝上(白字 ≥ 4.9:1),别换成 `#0581fa` 起头的亮渐变。
 
 ## SEO 约定(参照 monorepo 官网 / 技术博客记录过的坑)
 

@@ -69,7 +69,7 @@ export const ru: Messages = {
   },
   cta: {
     title: "Хотите попробовать сами?",
-    primary: "Скачать AnboVPN",
+    primary: "Регистрация по коду: +5 ГБ",
     secondary: "Смотреть тарифы",
     sideSubtitle: "Выделенный IP · Резидентный IP от провайдера (ISP)",
     inviteLabel: "Код приглашения",

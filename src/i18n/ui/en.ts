@@ -66,7 +66,7 @@ export const en = {
   },
   cta: {
     title: "Ready to try it yourself?",
-    primary: "Download AnboVPN",
+    primary: "Sign up with the code, +5 GB",
     secondary: "See plans",
     sideSubtitle: "Dedicated IP · ISP residential IP",
     inviteLabel: "Invite code",
