@@ -63,7 +63,6 @@ export const ja: Messages = {
     title: "実際に試してみませんか？",
     primary: "招待コードで登録、10 GB追加",
     secondary: "料金プランを見る",
-    sideSubtitle: "AI向け最適化回線 · 地域を固定して継続利用",
     /** 製品の強み4項目,説明は en.ts。官網トップの表記(レジデンシャルIP / ISPレジデンシャルIP)に合わせる。 */
     productsLabel: "利用できるもの",
     products: [

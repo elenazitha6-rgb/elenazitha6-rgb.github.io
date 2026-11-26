@@ -84,7 +84,6 @@ const stackProducts = !gridProducts;
         <div class="head">
           <img src="/brand/logo-64.webp" srcset="/brand/logo-64.webp 1x, /brand/logo-96.webp 2x" width="44" height="44" alt="" decoding="async" />
           <p class="name">{brandNameFor(locale)}</p>
-          <p class="tagline">{m.cta.sideSubtitle}</p>
         </div>
         <ul class:list={["products", { stack: stackProducts }]} role="list" aria-label={m.cta.productsLabel}>
           {products.map((p) => (
@@ -94,8 +93,9 @@ const stackProducts = !gridProducts;
             </li>
           ))}
         </ul>
+        {/* 侧栏只留前两条福利:第三条「用邀请码注册,再得 10 GB」和下面的邀请码券、主按钮是同一句话,侧栏里不重复(横版卡里保留并加重) */}
         <ul class="perks" role="list">
-          {m.cta.features.map((f) => (
+          {m.cta.features.slice(0, 2).map((f) => (
             <li>
               <span class="check"><Icon name="check" size={13} strokeWidth={3} /></span>
               <span class="pc"><strong>{f.title}</strong></span>
@@ -251,7 +251,7 @@ const stackProducts = !gridProducts;
     font-size: 0.92rem;
     font-weight: 650;
   }
-  .perks li:last-child .pc strong {
+  .banner .perks li:last-child .pc strong {
     color: var(--link);
     font-weight: 800;
   }
@@ -308,8 +308,12 @@ const stackProducts = !gridProducts;
 
   /* 侧栏竖版(约 17rem 宽):右栏是 sticky 的,卡片太高会把下面的目录挤出一屏,所以产品优势只留名称,排成 2×2,说明放在文末横版卡里 */
   .side {
-    gap: 0.95rem;
-    padding: 1.35rem 1.15rem 1.15rem;
+    gap: 0.8rem;
+    padding: 1.15rem 1.15rem 1.1rem;
+  }
+  /* 邀请码券里的奖励说明在侧栏省掉:主按钮已经写了「再领 10 GB」,少一行(英文折成两行) */
+  .side :global(.reward) {
+    display: none;
   }
   .side .products {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -318,7 +322,8 @@ const stackProducts = !gridProducts;
   }
   .side .products.stack {
     grid-template-columns: minmax(0, 1fr);
-    gap: 0.5rem;
+    gap: 0.4rem;
+    padding-block: 0.6rem;
   }
   .side .products li {
     align-items: center;

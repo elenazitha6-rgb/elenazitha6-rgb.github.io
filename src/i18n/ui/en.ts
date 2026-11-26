@@ -68,7 +68,6 @@ export const en = {
     title: "Ready to try it yourself?",
     primary: "Sign up with the code, +10 GB",
     secondary: "See plans",
-    sideSubtitle: "Routes optimized for AI services · a fixed exit for long-term use",
     /**
      * 产品优势四项(顺序固定:住宅 / 家宽 / 代理 / 网关,图标按下标对应)。名称和说明取官网首页与 /residential-ip 现行文案(2026-11-26 核对):
      * 住宅 IP 与家宽 IP 是出口属性,固定 IP、代理 IP、透明网关都可选;只写官网写了的事实,不写速度、可用率、不点名平台。

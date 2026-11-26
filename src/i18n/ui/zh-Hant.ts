@@ -63,7 +63,6 @@ export const zhHant: Messages = {
     title: "想親自試試看嗎？",
     primary: "用邀請碼註冊，再領 10 GB",
     secondary: "查看流量方案",
-    sideSubtitle: "面向 AI 服務做了專線優化 · 長期固定出口",
     /** 產品優勢四項,說明見 en.ts。取官網首頁的說法。 */
     productsLabel: "產品能給你什麼",
     products: [

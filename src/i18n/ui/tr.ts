@@ -62,7 +62,6 @@ export const tr: Messages = {
     title: "Kendiniz denemeye hazır mısınız?",
     primary: "Kodla kaydol, 10 GB daha kazan",
     secondary: "Veri paketlerini gör",
-    sideSubtitle: "AI için optimize rotalar · sabit bölge, sürekli kullanım",
     /** Ürünün dört avantajı, açıklama en.ts içinde. Adlar sitenin ana sayfasındaki gibi. */
     productsLabel: "Neler sunuyoruz",
     products: [

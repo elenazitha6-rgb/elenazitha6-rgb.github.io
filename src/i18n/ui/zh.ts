@@ -61,7 +61,6 @@ export const zh: Messages = {
     title: "想亲自试试？",
     primary: "邀请码注册，再领 10 GB",
     secondary: "查看流量套餐",
-    sideSubtitle: "面向 AI 服务做了专线优化 · 长期固定出口",
     /** 产品优势四项,说明见 en.ts。取官网首页与 /residential-ip 的说法。 */
     productsLabel: "产品能给你什么",
     products: [
