@@ -63,7 +63,15 @@ export const zhHant: Messages = {
     title: "想親自試試看嗎？",
     primary: "用邀請碼註冊，再領 10 GB",
     secondary: "查看流量方案",
-    sideSubtitle: "固定 IP · 家寬 IP",
+    sideSubtitle: "面向 AI 服務做了專線優化 · 長期固定出口",
+    /** 產品優勢四項,說明見 en.ts。取官網首頁的說法。 */
+    productsLabel: "產品能給你什麼",
+    products: [
+      { name: "住宅 IP", text: "住宅網路屬性，地區固定" },
+      { name: "家寬 IP", text: "來自 ISP 家庭寬頻網路" },
+      { name: "代理 IP", text: "為指定軟體設定固定出口" },
+      { name: "透明閘道", text: "多裝置統一一個網路出口" },
+    ],
     inviteLabel: "邀請碼",
     inviteHint: "註冊時填寫,再得 10 GB",
     copyCode: "複製邀請碼",

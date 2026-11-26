@@ -63,7 +63,15 @@ export const ja: Messages = {
     title: "実際に試してみませんか？",
     primary: "招待コードで登録、10 GB追加",
     secondary: "料金プランを見る",
-    sideSubtitle: "専用IP · ISPレジデンシャルIP",
+    sideSubtitle: "AI向け最適化回線 · 地域を固定して継続利用",
+    /** 製品の強み4項目,説明は en.ts。官網トップの表記(レジデンシャルIP / ISPレジデンシャルIP)に合わせる。 */
+    productsLabel: "利用できるもの",
+    products: [
+      { name: "レジデンシャルIP", text: "住宅ネットワーク、地域を固定" },
+      { name: "ISPレジデンシャルIP", text: "ISPの家庭用回線から" },
+      { name: "HTTP/SOCKS5プロキシ", text: "特定のソフトに固定の出口" },
+      { name: "ネットワークゲートウェイ", text: "複数デバイスの出口をひとつに" },
+    ],
     inviteLabel: "招待コード",
     inviteHint: "登録時に入力すると10 GB追加",
     copyCode: "招待コードをコピー",

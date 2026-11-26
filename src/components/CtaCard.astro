@@ -7,7 +7,8 @@ import { INVITE_CODE, brandNameFor, officialLink } from "@/site";
 
 /**
  * 引向官网的推广卡,放在内容流里(文章末尾 / 首页 / 专题页 / 侧栏),不悬浮、不遮挡。
- * 版式参考 sulian-video 的站内推广卡:品牌头 → 卖点(对勾)→ 邀请码优惠券(可一键复制)→ 一个主按钮直达注册页。
+ * 版式参考 sulian-video 的站内推广卡:品牌头 → 产品优势(住宅 IP / 家宽 IP / 代理 IP / 透明网关,见 `cta.products`)→ 卖点(对勾)→ 邀请码优惠券(可一键复制)→ 一个主按钮直达注册页。
+ * 产品优势是「卖什么」,三条福利是「为什么现在试」,两块都要有:只有福利会让读者不知道这个产品到底是什么(2026-11-26 用户指出)。
  * 卖点是三条福利(各语言用官网自己的说法,见 i18n/ui 的 `cta.features`):注册赠送 / 邀请好友双方各得 / 用邀请码注册再得。
  * 最后一条(用邀请码注册)加重,和下面的邀请码券、主按钮是同一件事。
  * 这是官方博客,推广的就是我们自己的产品,所以不做「广告」标注;关于页有利益说明。
@@ -24,6 +25,14 @@ const m = getMessages(locale);
 const isBanner = variant === "banner";
 const registerHref = officialLink(locale, "/register", placement, { invite: INVITE_CODE });
 const pricingHref = officialLink(locale, "/pricing", placement);
+// 产品优势四项的图标,顺序和 i18n 的 `cta.products` 一一对应:住宅 IP / 家宽 IP / 代理 IP / 透明网关
+const PRODUCT_ICONS = ["home", "broadband", "proxies", "gateway"] as const;
+const products = m.cta.products.map((p, i) => ({ ...p, icon: PRODUCT_ICONS[i] ?? "home" }));
+// 侧栏里产品名排成 2×2,每格只有约 6rem 宽;俄文的「Резидентный IP」「HTTP/SOCKS5-прокси」是长单词,日文的「ネットワークゲートウェイ」
+// 「HTTP/SOCKS5プロキシ」是长词组,波斯文的「پروکسی HTTP/SOCKS5」会折成三行,英文的「ISP residential IP」也折三行,放不下会很难看。
+// 实测(2026-11-26,1440 宽)只有中文 / 繁体(每项一行)和土耳其文(最多两行)适合 2×2,其它语言排成一列,高度反而不比折行的 2×2 高
+const gridProducts = locale === "zh" || locale === "zh-Hant" || locale === "tr";
+const stackProducts = !gridProducts;
 ---
 
 <aside class:list={["cta", variant]}>
@@ -36,7 +45,17 @@ const pricingHref = officialLink(locale, "/pricing", placement);
             <p class="name">{brandNameFor(locale)}</p>
             <h2 class="tagline">{m.cta.title}</h2>
           </div>
-          <InviteCoupon locale={locale} />
+          <ul class="products" role="list" aria-label={m.cta.productsLabel}>
+            {products.map((p) => (
+              <li>
+                <span class="pi"><Icon name={p.icon} size={17} /></span>
+                <span class="pn">
+                  <strong>{p.name}</strong>
+                  <span>{p.text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
         <div class="body">
           <ul class="perks" role="list">
@@ -50,6 +69,7 @@ const pricingHref = officialLink(locale, "/pricing", placement);
               </li>
             ))}
           </ul>
+          <InviteCoupon locale={locale} />
           <div class="actions">
             <a class="cta-btn" href={registerHref} rel="noopener" data-copy-code={INVITE_CODE}>
               <span>{m.cta.primary}</span>
@@ -66,6 +86,14 @@ const pricingHref = officialLink(locale, "/pricing", placement);
           <p class="name">{brandNameFor(locale)}</p>
           <p class="tagline">{m.cta.sideSubtitle}</p>
         </div>
+        <ul class:list={["products", { stack: stackProducts }]} role="list" aria-label={m.cta.productsLabel}>
+          {products.map((p) => (
+            <li>
+              <span class="pi"><Icon name={p.icon} size={16} /></span>
+              <span class="pn"><strong>{p.name}</strong></span>
+            </li>
+          ))}
+        </ul>
         <ul class="perks" role="list">
           {m.cta.features.map((f) => (
             <li>
@@ -142,6 +170,50 @@ const pricingHref = officialLink(locale, "/pricing", placement);
     font-weight: 600;
     line-height: 1.45;
     text-wrap: balance;
+  }
+
+  /* 产品优势:住宅 IP / 家宽 IP / 代理 IP / 透明网关四行,浅蓝底板 + 方形图标,和下面的对勾福利区分开 */
+  .products {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.8rem 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+    list-style: none;
+  }
+  .products li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    min-inline-size: 0;
+  }
+  .pi {
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: 1.9rem;
+    block-size: 1.9rem;
+    border-radius: 0.55rem;
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--link);
+  }
+  .pn {
+    display: grid;
+    gap: 0.05rem;
+    min-inline-size: 0;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  .pn strong {
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 750;
+  }
+  .pn span {
+    color: var(--text-muted);
+    font-size: 0.8rem;
   }
 
   /* 卖点:对勾放进浅蓝圆底,最后一条(用邀请码注册)加重 */
@@ -234,10 +306,32 @@ const pricingHref = officialLink(locale, "/pricing", placement);
     color: #04111f;
   }
 
-  /* 侧栏竖版(约 17rem 宽) */
+  /* 侧栏竖版(约 17rem 宽):右栏是 sticky 的,卡片太高会把下面的目录挤出一屏,所以产品优势只留名称,排成 2×2,说明放在文末横版卡里 */
   .side {
-    gap: 1rem;
+    gap: 0.95rem;
     padding: 1.35rem 1.15rem 1.15rem;
+  }
+  .side .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem 0.5rem;
+    padding: 0.65rem 0.7rem;
+  }
+  .side .products.stack {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+  .side .products li {
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .side .pi {
+    inline-size: 1.65rem;
+    block-size: 1.65rem;
+    border-radius: 0.5rem;
+  }
+  .side .pn strong {
+    font-size: 0.8rem;
+    line-height: 1.25;
   }
 
   /* 文末 / 首页 / 专题页横版:左边品牌 + 邀请码,右边卖点 + 按钮;窄屏叠成竖版 */

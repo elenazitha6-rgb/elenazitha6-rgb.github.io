@@ -61,7 +61,15 @@ export const zh: Messages = {
     title: "想亲自试试？",
     primary: "邀请码注册，再领 10 GB",
     secondary: "查看流量套餐",
-    sideSubtitle: "固定 IP · 家宽 IP",
+    sideSubtitle: "面向 AI 服务做了专线优化 · 长期固定出口",
+    /** 产品优势四项,说明见 en.ts。取官网首页与 /residential-ip 的说法。 */
+    productsLabel: "产品能给你什么",
+    products: [
+      { name: "住宅 IP", text: "住宅网络属性，地区固定" },
+      { name: "家宽 IP", text: "来自 ISP 家庭宽带网络" },
+      { name: "代理 IP", text: "为指定软件设置固定出口" },
+      { name: "透明网关", text: "多设备统一一个网络出口" },
+    ],
     inviteLabel: "邀请码",
     inviteHint: "注册时填写,再得 10 GB",
     copyCode: "复制邀请码",

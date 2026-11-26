@@ -62,7 +62,15 @@ export const tr: Messages = {
     title: "Kendiniz denemeye hazır mısınız?",
     primary: "Kodla kaydol, 10 GB daha kazan",
     secondary: "Veri paketlerini gör",
-    sideSubtitle: "Özel IP · ISP konut IP’si",
+    sideSubtitle: "AI için optimize rotalar · sabit bölge, sürekli kullanım",
+    /** Ürünün dört avantajı, açıklama en.ts içinde. Adlar sitenin ana sayfasındaki gibi. */
+    productsLabel: "Neler sunuyoruz",
+    products: [
+      { name: "Konut IP’si", text: "Konut ağı, sabit bölge" },
+      { name: "ISP konut IP’si", text: "ISP ev genişbant ağından" },
+      { name: "HTTP/SOCKS5 proxy", text: "Belirli yazılım için sabit çıkış" },
+      { name: "Ağ geçidi", text: "Çok cihaz, tek ağ çıkışı" },
+    ],
     inviteLabel: "Davet kodu",
     inviteHint: "Kayıt sırasında girin, 10 GB daha kazanın",
     copyCode: "Davet kodunu kopyala",

@@ -66,6 +66,11 @@ const site = Astro.site!;
           <PostCard post={headline} variant="featured" badge={headline.featured ? m.home.featured : undefined} headingLevel={2} />
         </section>
 
+        {/* 推广卡放在头条下面、文章列表上面:第二屏就能看到,不用滚到页尾;列表会从 1 篇长到 6 篇,放页尾会越埋越深。仍在内容流里,不悬浮、不遮挡。 */}
+        <div class="container cta">
+          <CtaCard locale={locale} placement="home_banner" />
+        </div>
+
         {
           rest.length > 0 && (
             <section class="container list" aria-labelledby="list-title">
@@ -76,10 +81,6 @@ const site = Astro.site!;
             </section>
           )
         }
-
-        <div class="container cta">
-          <CtaCard locale={locale} placement="home_banner" />
-        </div>
       </>
     )
   }
@@ -161,7 +162,8 @@ const site = Astro.site!;
   .rows {
     border-block-end: 1px solid var(--border);
   }
+  /* 推广卡自己有 3rem 的上外边距,和头条卡之间的间距由它负责 */
   .cta {
-    padding-block-start: 3.5rem;
+    padding-block-start: 0;
   }
 </style>
