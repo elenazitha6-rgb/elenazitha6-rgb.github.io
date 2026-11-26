@@ -33,7 +33,7 @@ export function pageTitle(locale: Locale, title: string): string {
 }
 
 /** 官网里的某一页(带语言前缀)。`placement` 写进 utm_campaign,方便在官网统计里分辨是博客的哪个位置带来的访问。 */
-/** 博客推广用的邀请码(官网注册页读 ?invite=,也可在注册时手填;奖励以官网 /invite 页为准:被邀请人 5 GB)。 */
+/** 博客推广用的邀请码(官网注册页读 ?invite=,也可在注册时手填;奖励以官网 /invite 页为准:2026-11-25 核对为双方各 10 GB;数字写在 i18n 的 `cta.primary` / `cta.inviteHint` / `cta.features`)。 */
 export const INVITE_CODE = "ANBOVPN";
 
 export function officialLink(locale: Locale, path: string, placement: string, extra: Record<string, string> = {}): string {

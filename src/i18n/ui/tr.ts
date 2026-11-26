@@ -60,19 +60,18 @@ export const tr: Messages = {
   },
   cta: {
     title: "Kendiniz denemeye hazır mısınız?",
-    primary: "Kodla kaydol, 5 GB daha kazan",
+    primary: "Kodla kaydol, 10 GB daha kazan",
     secondary: "Veri paketlerini gör",
     sideSubtitle: "Özel IP · ISP konut IP’si",
     inviteLabel: "Davet kodu",
-    inviteHint: "Kayıt sırasında girin, 5 GB daha kazanın",
+    inviteHint: "Kayıt sırasında girin, 10 GB daha kazanın",
     copyCode: "Davet kodunu kopyala",
     codeCopied: "Kopyalandı",
-    /** 官网下载页的四条卖点(各语言用官网自己的说法,不要改写):赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。 */
+    /** 三条福利(顺序固定):注册赠送 / 邀请好友双方各得 / 用邀请码注册再得。标题取官网顶栏的说法;数字和不写合计的原因见 en.ts。 */
     features: [
       { title: "10 GB hediye", text: "Kayıtta 10 GB ücretsiz veri (tek seferlik, 1 ay geçerli); önce deneyin, sonra satın alın." },
-      { title: "AI için optimize rotalar", text: "AI hizmetleri için optimize edilmiş rotalar; çıkış olarak konut IP’si veya ISP konut IP’si." },
-      { title: "Açın ve bağlanın", text: "Resmî istemcilerle tek tıkla bağlantı ve uygulama bazlı akıllı yönlendirme." },
-      { title: "Dört bağlantı yöntemi", text: "Paylaşımlı IP, özel IP, HTTP/SOCKS5 proxy ve ağ geçidi — tek hesap, sınırsız cihaz." },
+      { title: "Arkadaşını davet et: ikinize de 10 GB, sınır yok", text: "Arkadaşınız davet kodunuzla ya da davet bağlantınızla kaydolunca ikiniz de 10 GB kazanırsınız." },
+      { title: "Kodla kaydol, 10 GB daha kazan", text: "Kodu kayıt sırasında girin. Ödül veri bakiyenizde birikir ve bu ayın verisine eklenir (etkin bir veri paketi gerekir). Kurallar için resmî davet sayfasına bakın." },
     ],
   },
   about: {

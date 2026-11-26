@@ -8,8 +8,8 @@ import { INVITE_CODE, brandNameFor, officialLink } from "@/site";
 /**
  * 引向官网的推广卡,放在内容流里(文章末尾 / 首页 / 专题页 / 侧栏),不悬浮、不遮挡。
  * 版式参考 sulian-video 的站内推广卡:品牌头 → 卖点(对勾)→ 邀请码优惠券(可一键复制)→ 一个主按钮直达注册页。
- * 卖点是官网下载页的四条(各语言用官网自己的说法,见 i18n/ui 的 `cta.features`):
- * 赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。
+ * 卖点是三条福利(各语言用官网自己的说法,见 i18n/ui 的 `cta.features`):注册赠送 / 邀请好友双方各得 / 用邀请码注册再得。
+ * 最后一条(用邀请码注册)加重,和下面的邀请码券、主按钮是同一件事。
  * 这是官方博客,推广的就是我们自己的产品,所以不做「广告」标注;关于页有利益说明。
  * `placement` 写进 utm_campaign,官网统计里能分辨是博客的哪个位置。
  * 主按钮是渐变底,但两端都压在第 7 / 8 档蓝上(白字 ≥ 4.9:1),不用 #0581fa 以上的亮蓝放文字。
@@ -144,7 +144,7 @@ const pricingHref = officialLink(locale, "/pricing", placement);
     text-wrap: balance;
   }
 
-  /* 卖点:对勾放进浅蓝圆底,第一条(赠送流量)加重 */
+  /* 卖点:对勾放进浅蓝圆底,最后一条(用邀请码注册)加重 */
   .perks {
     display: grid;
     gap: 0.7rem;
@@ -179,7 +179,7 @@ const pricingHref = officialLink(locale, "/pricing", placement);
     font-size: 0.92rem;
     font-weight: 650;
   }
-  .perks li:first-child .pc strong {
+  .perks li:last-child .pc strong {
     color: var(--link);
     font-weight: 800;
   }

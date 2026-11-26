@@ -66,19 +66,23 @@ export const en = {
   },
   cta: {
     title: "Ready to try it yourself?",
-    primary: "Sign up with the code, +5 GB",
+    primary: "Sign up with the code, +10 GB",
     secondary: "See plans",
     sideSubtitle: "Dedicated IP · ISP residential IP",
     inviteLabel: "Invite code",
-    inviteHint: "Enter it at sign-up for 5 GB extra",
+    inviteHint: "Enter it at sign-up for 10 GB extra",
     copyCode: "Copy invite code",
     codeCopied: "Copied",
-    /** 官网下载页的四条卖点(各语言用官网自己的说法,不要改写):赠送流量 / AI 专线优化 / 打开即用 / 四类连接方式。 */
+    /**
+     * 三条福利(顺序固定):① 注册赠送 ② 邀请好友双方各得 ③ 用邀请码注册再得。
+     * 标题取官网顶栏(shell.json)的说法,各语言用官网自己的话,不要改写;`text` 只在文末横版卡里显示。
+     * 数字以官网 /invite 页为准(2026-11-25 核对:10 GB + 10 GB),改数字时连同 `primary` / `inviteHint` 一起改。
+     * 不写「共得 20 GB」这种合计:邀请奖励要并入当月流量(需有生效中的套餐)才能用,合计会让读者误以为全部立即可用。
+     */
     features: [
-      { title: "10 GB free to start", text: "Get 10 GB of free data on sign-up (one time, valid 1 month), then buy only what you need." },
-      { title: "AI-optimized routes", text: "Routes optimized for AI services, with a residential or ISP residential IP exit." },
-      { title: "Open and connect", text: "Official clients with one-click connect and app-level smart routing." },
-      { title: "Four ways to connect", text: "Shared IP, dedicated IP, proxy and network gateway — one account, unlimited devices." },
+      { title: "10 GB free on sign-up", text: "One-time free data, valid for 1 month. Try first, then buy only what you need." },
+      { title: "Invite friends: 10 GB each, no limit", text: "When a friend signs up with your invite code or link, you both get 10 GB." },
+      { title: "Sign up with the code, +10 GB", text: "Enter the code at sign-up. The bonus builds up in your data balance and is added to this month's data (an active plan is required). Rules follow the official invite page." },
     ],
   },
   about: {

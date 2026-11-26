@@ -63,7 +63,7 @@ npm run check:seo      # 检查构建产物 dist/(先 npm run build):hreflang、
 
 - 和博客文章一样,各语言版本是**按当地写法各自写的,不互译**:标题、小节顺序、例子、FAQ 问题、语气都可以不同。必须一致的只有产品事实。
 - 改产品口径(赠送流量、四类连接方式的限制、核对时间等)时,两个文件一起改。口径以 `CLAUDE.md`「不能做的对外承诺」和官网当前页面为准。
-- 术语用 `CLAUDE.md` 术语表里各语言的叫法;四条卖点用 `src/i18n/ui/<语言>.ts` 里 `cta.features` 的原话,不自己改写。
+- 术语用 `CLAUDE.md` 术语表里各语言的叫法;推广卡的三条福利用 `src/i18n/ui/<语言>.ts` 里 `cta.features` 的原话,不自己改写;奖励数字同时在 `cta.primary` / `cta.inviteHint` 里,以官网 `/invite` 页为准,改的时候一起改。
 - 文章链接用该语言的前缀(英文无前缀:`/posts/<slug>/`,其它 `/<语言码>/posts/<slug>/`),标题取自该语言文章的 frontmatter;官网链接同样带该语言前缀(英文无前缀)和 utm 参数。改 slug 或增删文章后,逐个核对 README 里指向的文章仍然存在。
 - 波斯语版正文用 `<div dir="rtl">` 包起来,div 里的 Markdown 前后要空行,否则不渲染;语言切换行和语言列表保持从左到右。
 - 这些 README 不在 `npm run check:content` 的检查范围内,链接和术语要自己核对。
