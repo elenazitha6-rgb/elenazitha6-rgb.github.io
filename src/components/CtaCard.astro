@@ -266,6 +266,10 @@ const pricingHref = officialLink(locale, "/pricing", placement);
     flex-wrap: wrap;
     gap: 0.75rem;
   }
+  /* 两个按钮都可伸展:右列够宽就并排填满一行,不够宽换行时各自撑满整行(次按钮不能缩在左边) */
+  .actions .btn {
+    flex: 1 1 auto;
+  }
   .actions .cta-btn {
     flex: 1 1 14rem;
   }
