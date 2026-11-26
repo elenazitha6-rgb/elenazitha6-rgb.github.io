@@ -37,36 +37,56 @@ const site = Astro.site!;
   active="articles"
   jsonLd={[graph([organizationNode(site, locale), websiteNode(site, locale), blogNode(site, locale, posts)])]}
 >
-  <header class="container masthead">
-    <h1>{m.home.title}</h1>
-    <p class="lead">{m.home.lead}</p>
-  </header>
+  {/* 宽屏(≥1160px)时首页是两栏:左边 标题 / 主题 / 头条,右边是竖版推广卡,和文章页的右栏同一套结构,
+      页头右侧那块空白就不浪费了,推广卡第一屏就能看到;窄屏退回单栏,横版推广卡放在头条下面。 */}
+  <div class:list={["container", "top", { "has-side": posts.length > 0 }]}>
+    <div class="top-main">
+      <header class="masthead">
+        <h1>{m.home.title}</h1>
+        <p class="lead">{m.home.lead}</p>
+      </header>
+
+      {
+        posts.length === 0 ? (
+          <p class="empty">{m.home.empty}</p>
+        ) : (
+          <>
+            <nav class="tabs" aria-label={m.home.topics}>
+              <ul role="list">
+                {
+                  CATEGORIES.filter((c) => counts.has(c)).map((c) => (
+                    <li>
+                      <a href={topicPath(locale, c)}>
+                        {m.categories[c].name}
+                        <span class="count">{counts.get(c)}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </nav>
+
+            <section class="feature" id="latest" aria-label={headline.featured ? m.home.featured : m.home.latest}>
+              <PostCard post={headline} variant="featured" badge={headline.featured ? m.home.featured : undefined} headingLevel={2} />
+            </section>
+          </>
+        )
+      }
+    </div>
+
+    {
+      posts.length > 0 && (
+        <div class="top-side">
+          <CtaCard locale={locale} variant="side" placement="home_side" />
+        </div>
+      )
+    }
+  </div>
 
   {
-    posts.length === 0 ? (
-      <p class="container empty">{m.home.empty}</p>
-    ) : (
+    posts.length > 0 && (
       <>
-        <nav class="container tabs" aria-label={m.home.topics}>
-          <ul role="list">
-            {
-              CATEGORIES.filter((c) => counts.has(c)).map((c) => (
-                <li>
-                  <a href={topicPath(locale, c)}>
-                    {m.categories[c].name}
-                    <span class="count">{counts.get(c)}</span>
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
-
-        <section class="container feature" id="latest" aria-label={headline.featured ? m.home.featured : m.home.latest}>
-          <PostCard post={headline} variant="featured" badge={headline.featured ? m.home.featured : undefined} headingLevel={2} />
-        </section>
-
-        {/* 推广卡放在头条下面、文章列表上面:第二屏就能看到,不用滚到页尾;列表会从 1 篇长到 6 篇,放页尾会越埋越深。仍在内容流里,不悬浮、不遮挡。 */}
+        {/* 窄屏的推广卡:放在头条下面、文章列表上面,第二屏就能看到,不用滚到页尾。仍在内容流里,不悬浮、不遮挡。宽屏有右栏那张,这张不显示。 */}
         <div class="container cta">
           <CtaCard locale={locale} placement="home_banner" />
         </div>
@@ -87,6 +107,29 @@ const site = Astro.site!;
 </BaseLayout>
 
 <style>
+  .top-main {
+    min-inline-size: 0;
+  }
+  /* 右栏默认不显示(窄屏用下面的横版卡);≥1160px 时容器已是满宽 1120px,左栏 776px、右栏 18rem(和文章页右栏同宽) */
+  .top-side {
+    display: none;
+  }
+  @media (min-width: 1160px) {
+    .top.has-side {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 18rem;
+      column-gap: 3.5rem;
+    }
+    .top-side {
+      display: block;
+      align-self: start;
+      /* 卡片顶边和标题顶边对齐:等于 .masthead 的上内边距 */
+      padding-block-start: clamp(2.5rem, 6vw, 4.25rem);
+    }
+    .cta {
+      display: none;
+    }
+  }
   .masthead {
     padding-block: clamp(2.5rem, 6vw, 4.25rem) 1.75rem;
   }

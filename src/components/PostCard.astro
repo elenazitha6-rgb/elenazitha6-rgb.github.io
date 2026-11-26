@@ -211,8 +211,9 @@ const H = `h${headingLevel}` as "h2" | "h3";
     gap: 0.9rem;
     padding: 0;
   }
+  /* 宽屏首页头条和右栏推广卡并排,头条这一栏只有约 776px,字号比通栏时收一档,长标题(波斯文 / 俄文)不折成五六行 */
   .featured .title {
-    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-size: clamp(1.5rem, 2.2vw, 1.85rem);
     font-weight: 800;
     line-height: 1.25;
     letter-spacing: -0.02em;
